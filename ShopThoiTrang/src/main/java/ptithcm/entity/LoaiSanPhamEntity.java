@@ -19,8 +19,8 @@ public class LoaiSanPhamEntity{
 	@Column(name="TENLOAI")
 	private String tenLoai;
 	
-	@OneToMany(mappedBy = "loaiSanPham", fetch = FetchType.LAZY )
-	private Collection<SanPhamEntity> sanPhams;
+	@OneToMany(mappedBy = "loai", fetch = FetchType.LAZY )
+	private Collection<KieuSanPhamEntity> kieus;
 
 	public String getMaLoai() {
 		return maLoai;
@@ -38,13 +38,14 @@ public class LoaiSanPhamEntity{
 		this.tenLoai = tenLoai;
 	}
 
-	public Collection<SanPhamEntity> getSanPhams() {
-		return sanPhams;
+	public Collection<KieuSanPhamEntity> getKieus() {
+		return kieus;
 	}
 
-	public void setSanPhams(Collection<SanPhamEntity> sanPhams) {
-		this.sanPhams = sanPhams;
+	public void setKieus(Collection<KieuSanPhamEntity> kieus) {
+		this.kieus = kieus;
 	}
-	
+
+
 	
 }
