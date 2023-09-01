@@ -62,6 +62,11 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
+	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
+		return sanPhamDAO.laySanPhamCungLoai(maSp);
+	}
+	
+	@Override
 	public List<SanPhamEntity> laySanPhamNgauNhien() {
 		return sanPhamDAO.laySanPhamNgauNhien();
 	}

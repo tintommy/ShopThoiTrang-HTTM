@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ptithcm.entity.KieuSanPhamEntity;
 import ptithcm.entity.LoaiSanPhamEntity;
 import ptithcm.entity.SanPhamEntity;
 
@@ -63,6 +64,21 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		query.setMaxResults(6);
 		List<SanPhamEntity> list = query.list();
 		return list;
+	}
+	
+	@Override
+	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
+		
+		  Session session = sessionFactory.getCurrentSession(); 
+		  SanPhamEntity sp =(SanPhamEntity) session.get(SanPhamEntity.class, maSp); 
+		  KieuSanPhamEntity  kieu = sp.getMaKieu(); 
+		  String hql = "FROM SanPhamEntity WHERE maKieu = :kieu AND maSP != :maSp and trangThai=True" ; 
+		  Query query = session.createQuery(hql); 
+		  query.setParameter("kieu", kieu);
+		  query.setParameter("maSp", maSp); 
+//		  query.setMaxResults(3);
+		  List<SanPhamEntity>spCungKieu=query.list();
+		  return spCungKieu;
 	}
 
 	@Override
