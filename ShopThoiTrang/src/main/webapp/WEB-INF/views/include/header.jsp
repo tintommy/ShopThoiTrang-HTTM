@@ -15,12 +15,12 @@
 						<!-- / header top left -->
 						<div class="aa-header-top-right">
 							<ul class="aa-head-top-nav-right">
-								<li><a href="account.html">My Account</a></li>
-								<li class="hidden-xs"><a href="wishlist.html">Wishlist</a></li>
-								<li class="hidden-xs"><a href="cart.html">My Cart</a></li>
-								<li class="hidden-xs"><a href="checkout.html">Checkout</a></li>
+								<li><a href="account.html">Tài khoản của tôi</a></li>
+								
+								<li class="hidden-xs"><a href="cart.html">Giỏ hàng</a></li>
+								<!-- <li class="hidden-xs"><a href="checkout.html">Checkout</a></li> -->
 								<li><a href="" data-toggle="modal"
-									data-target="#login-modal">Login</a></li>
+									data-target="#login-modal">Đăng nhập</a></li>
 							</ul>
 						</div>
 					</div>
@@ -53,34 +53,9 @@
 							<a class="aa-cart-link" href="#"> <span
 								class="fa fa-shopping-basket"></span> <span
 								class="aa-cart-title">SHOPPING CART</span> <span
-								class="aa-cart-notify">2</span>
+								class="aa-cart-notify">N</span>
 							</a>
-							<div class="aa-cartbox-summary">
-								<ul>
-									<li><a class="aa-cartbox-img" href="#"><img
-											src="assets/img/woman-small-2.jpg" alt="img"></a>
-										<div class="aa-cartbox-info">
-											<h4>
-												<a href="#">Product Name</a>
-											</h4>
-											<p>1 x $250</p>
-										</div> <a class="aa-remove-product" href="#"><span
-											class="fa fa-times"></span></a></li>
-									<li><a class="aa-cartbox-img" href="#"><img
-											src="assets/img/woman-small-1.jpg" alt="img"></a>
-										<div class="aa-cartbox-info">
-											<h4>
-												<a href="#">Product Name</a>
-											</h4>
-											<p>1 x $250</p>
-										</div> <a class="aa-remove-product" href="#"><span
-											class="fa fa-times"></span></a></li>
-									<li><span class="aa-cartbox-total-title"> Total </span> <span
-										class="aa-cartbox-total-price"> $500 </span></li>
-								</ul>
-								<a class="aa-cartbox-checkout aa-primary-btn"
-									href="checkout.html">Checkout</a>
-							</div>
+						
 						</div>
 						<!-- / cart box -->
 						<!-- search box -->

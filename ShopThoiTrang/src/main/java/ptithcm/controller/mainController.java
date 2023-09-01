@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.LoaiSanPhamEntity;
 import ptithcm.service.loaiSanPhamService;
 
@@ -34,6 +35,7 @@ public class mainController {
 		model.addAttribute("loaiSPNam", loaiSPNam);
 		List<LoaiSanPhamEntity> loaiSPNu = loaiSanPhamService.layLoaiTheoGioiTinh("nữ");
 		model.addAttribute("loaiSPNu", loaiSPNu);
+		model.addAttribute("user", new NguoiDungEntity());
 		return "main";
 	}
 

@@ -1346,19 +1346,19 @@
       <div class="modal-content">                      
         <div class="modal-body">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4>Login or Register</h4>
-          <form class="aa-login-form" action="">
-            <label for="">Username or Email address<span>*</span></label>
-            <input type="text" placeholder="Username or email">
-            <label for="">Password<span>*</span></label>
-            <input type="password" placeholder="Password">
-            <button class="aa-browse-btn" type="submit">Login</button>
+          <h4>Đăng Nhập</h4>
+          <f:form class="aa-login-form" action="form/login.htm" modelAttribute="user" method="post">
+            <label for="">Username hoặc Email <span>*</span></label>
+            <f:input type="text" path="userName" placeholder="Username/email"/>
+            <label for="">Mật khẩu <span>*</span></label>
+            <f:input type="password" path="passWord" placeholder="Mật khẩu"/>
+            <button class="aa-browse-btn" type="submit" name="login">Đăng nhập</button>
             <label for="rememberme" class="rememberme"><input type="checkbox" id="rememberme"> Remember me </label>
-            <p class="aa-lost-password"><a href="#">Lost your password?</a></p>
+            <p class="aa-lost-password"><a href="forgotpass.htm">Quên mật khẩu?</a></p>
             <div class="aa-register-now">
-              Don't have an account?<a href="account.html">Register now!</a>
+             Chưa có tài khoản?<a href="signup.htm">Đăng kí ngay!</a>
             </div>
-          </form>
+          </f:form>
         </div>                        
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
