@@ -32,4 +32,13 @@ public class loaiSanPhamDAOIml implements loaiSanPhamDAO{
 	    return listLoai;
 	}
 
+	@Override
+	public List<LoaiSanPhamEntity> layLoaiTheoGioiTinh(String gioiTinh) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM LoaiSanPhamEntity where tenLoai LIKE :gioiTinh ";
+		Query query = session.createQuery(hql).setParameter("gioiTinh", "%" +gioiTinh+"%");
+	    List<LoaiSanPhamEntity> listLoai = query.list();
+	    return listLoai;
+	}
+
 }

@@ -27,4 +27,9 @@ public class loaiSanPhamServiceImpl implements loaiSanPhamService{
 		return loaiDao.layLoai();
 	}
 
+	@Override
+	public List<LoaiSanPhamEntity> layLoaiTheoGioiTinh(String gioiTinh) {
+		return loaiDao.layLoaiTheoGioiTinh(gioiTinh);
+	}
+
 }
