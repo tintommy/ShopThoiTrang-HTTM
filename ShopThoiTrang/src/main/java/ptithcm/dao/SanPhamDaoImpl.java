@@ -100,7 +100,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM SanPhamEntity where trangThai=True ORDER BY NEWID()";
 		Query query = session.createQuery(hql);
-		query.setMaxResults(6);
+		query.setMaxResults(8);
 		List<SanPhamEntity> listNgauNhien = query.list();
 		return listNgauNhien;
 	}

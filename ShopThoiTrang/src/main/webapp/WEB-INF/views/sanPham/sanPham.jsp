@@ -18,28 +18,9 @@
 	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
 	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
 	crossorigin="anonymous">
-	<%-- <link rel="stylesheet" href='<c:url value="/assets/css/product.css"/>' /> --%>
+	<link rel="stylesheet" href='<c:url value="/assets/css/product.css"/>' />
 	
-	<!-- <link href="assets/css/font-awesome.css" rel="stylesheet">
-    Bootstrap
-    <link href="assets/css/bootstrap.css" rel="stylesheet">   
-    SmartMenus jQuery Bootstrap Addon CSS
-    <link href="assets/css/jquery.smartmenus.bootstrap.css" rel="stylesheet">
-    Product view slider
-    <link rel="stylesheet" type="text/css" href="assets/css/jquery.simpleLens.css">    
-    slick slider
-    <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
-    price picker slider
-    <link rel="stylesheet" type="text/css" href="assets/css/nouislider.css">
-    Theme color
-    <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">
-    <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet">
-    Top Slider CSS
-    <link href="assets/css/sequence-theme.modern-slide-in.css" rel="stylesheet" media="all">
-
-    Main style sheet
-    <link href="assets/css/style.css" rel="stylesheet">  -->   
-    
+    <link href="assets/css/style.css" rel="stylesheet">  -->     
     <link rel="stylesheet" href='<c:url value="/assets/css/font-awesome.css"/>' />
     <!-- Bootstrap -->
     <link rel="stylesheet" href='<c:url value="/assets/css/bootstrap.css"/>' />   
@@ -84,17 +65,6 @@
   </section> -->
   <!-- / catg header banner section -->
   
-<%-- <div class="container">
-      <div>
-        <ol class="breadcrumb">
-          <li><a href="#">Home</a></li>         
-          <li><a href="#">Product</a></li>
-          <li class="active">${sanPham.tenSanPham}</li>
-        </ol>
-      </div>
-     </div> --%>
-  <!-- product category -->
-  
   <section id="aa-product-details">
     <div class="container">
       <div class="row">
@@ -102,12 +72,25 @@
           <div class="aa-product-details-area">
             <div class="aa-product-details-content">
               <div class="row">
+              
+              <!-- Tieu de -->
+              <div class="container">
+			      <div>
+			        <ol class="breadcrumb">
+			          <li><a href="${pageContext.servletContext.contextPath}/">Trang chủ</a></li>         
+			          <li><a href="${pageContext.servletContext.contextPath}/product.htm">Sản phẩm</a></li>
+			          <li class="active">${sanPham.maKieu.loai.tenLoai}</li>
+			          <li class="active">${sanPham.maKieu.tenKieu}</li>
+			        </ol>
+			      </div>
+			     </div>
+     
                 <!-- Modal view slider -->
                 <div class="col-md-5 col-sm-5 col-xs-12">                              
                   <div class="aa-product-view-slider">                                
                     <div id="demo-1" class="simpleLens-gallery-container">
                       <div class="simpleLens-container">
-                        <div class="simpleLens-big-image-container"><a data-lens-image="img/view-slider/large/polo-shirt-1.png" class="simpleLens-lens-image"><img src="${sanPham.hinhAnh.link}" class="simpleLens-big-image"></a></div>
+                        <div class="simpleLens-big-image-container"><a data-lens-image="${sanPham.hinhAnh.link}" class="simpleLens-lens-image"><img src="${sanPham.hinhAnh.link}" class="simpleLens-big-image"></a></div>
                       </div>
                       <!-- <div class="simpleLens-thumbnails-container">
                           <a data-big-image="img/view-slider/medium/polo-shirt-1.png" data-lens-image="img/view-slider/large/polo-shirt-1.png" class="simpleLens-thumbnail-wrapper" href="#">
@@ -170,7 +153,7 @@
 									<!-- <button class="btn btn-outline-dark btn-sm me-3" type="button"
 										id="increaseBtn">
 										<i class="bi bi-plus">+</i>
-									</button> -->	
+									</button>	 -->
 									
 									<br>					
 									<button name="them" class="btn btn-danger">Thêm vào giỏ</button>
@@ -228,8 +211,8 @@
             
             <div class="aa-product-details-bottom">
               <ul class="nav nav-tabs" id="myTab2">
-                <li><a href="#description" data-toggle="tab">MÔ TẢ SẢN PHẨM</a></li>
-                <!-- <li><a href="#review" data-toggle="tab">Reviews</a></li> -->                
+                <li><a href="#description" data-toggle="tab">Mô tả</a></li>
+                <li><a href="#review" data-toggle="tab">Đánh giá</a></li>                
               </ul>
 
               <!-- Tab panes -->
@@ -237,147 +220,11 @@
                 <div class="tab-pane fade in active" id="description">
                   <p>${sanPham.moTa}</p>
                 </div>
-                <%-- <div class="tab-pane fade " id="review">
-                 <div class="aa-product-review-area">
-                   <h4>2 Reviews for T-Shirt</h4> 
-                   <ul class="aa-review-nav">
-                     <li>
-                        <div class="media">
-                          <div class="media-left">
-                            <a href="#">
-                              <img class="media-object" src="img/testimonial-img-3.jpg" alt="girl image">
-                            </a>
-                          </div>
-                          <div class="media-body">
-                            <h4 class="media-heading"><strong>Marla Jobs</strong> - <span>March 26, 2016</span></h4>
-                            <div class="aa-product-rating">
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star-o"></span>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="media">
-                          <div class="media-left">
-                            <a href="#">
-                              <img class="media-object" src="img/testimonial-img-3.jpg" alt="girl image">
-                            </a>
-                          </div>
-                          <div class="media-body">
-                            <h4 class="media-heading"><strong>Marla Jobs</strong> - <span>March 26, 2016</span></h4>
-                            <div class="aa-product-rating">
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star"></span>
-                              <span class="fa fa-star-o"></span>
-                            </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                          </div>
-                        </div>
-                      </li>
-                   </ul>
-                   <h4>Add a review</h4>
-                   <div class="aa-your-rating">
-                     <p>Your Rating</p>
-                     <a href="#"><span class="fa fa-star-o"></span></a>
-                     <a href="#"><span class="fa fa-star-o"></span></a>
-                     <a href="#"><span class="fa fa-star-o"></span></a>
-                     <a href="#"><span class="fa fa-star-o"></span></a>
-                     <a href="#"><span class="fa fa-star-o"></span></a>
-                   </div>
-                   <!-- review form -->
-                   <form action="" class="aa-review-form">
-                      <div class="form-group">
-                        <label for="message">Your Review</label>
-                        <textarea class="form-control" rows="3" id="message"></textarea>
-                      </div>
-                      <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name">
-                      </div>  
-                      <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
-                      </div>
-
-                      <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
-                   </form>
-                 </div>
-                </div>    --%>         
-              </div>
-            </div>
-            
-<%--             <!--Danh gia san pham-->
-		<div class="product-comment-list">
-			<h3 class="inDam">ĐÁNH GIÁ SẢN PHẨM</h3>
-			<div class="product-rating">
-				<div class="product-rating-stars">
-					<c:if test="${sanPham.soSaoTB == 0}">
-						<span class="soSaotb"><i>Chưa có đánh giá<i></span>
-					</c:if>
-					<c:if test="${sanPham.soSaoTB > 0}">
-						<span class="rating-count">Có ${count} đánh giá</span>
-						<br>
-						<span class="soSaotb"><i>Đánh giá trung bình:
-								${sanPham.soSaoTB}/5 <i class="fas fa-star"></i><i></span>
-					</c:if>
-				</div>
-			</div>
-
-			<br>
-			<c:forEach items="${danhGiaList}" var="danhGia">
-				<div class="product-comment mb-4">
-					<div class="info-user">
-						<div id="hinh" class="commenter-image"></div>
-						<div id="ten" class="commenter-name fs-md c-primary">${danhGia.nguoiDung.hoTen}</div>
-
-						<div class="danhGia">
-							<div class="commenter-info">
-								<div class="comment-rank c-support">
-									<c:if test="${danhGia.soSao == 1}">
-										<i class="fas fa-star"></i>
-									</c:if>
-									<c:if test="${danhGia.soSao == 2}">
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-									</c:if>
-									<c:if test="${danhGia.soSao == 3}">
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-									</c:if>
-									<c:if test="${danhGia.soSao == 4}">
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-									</c:if>
-									<c:if test="${danhGia.soSao == 5}">
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-										<i class="fas fa-star"></i>
-									</c:if>
-								</div>
-								<div class="commenter-date">${danhGia.ngay}</div>
-							</div>
-
-						</div>
-
-					</div>
-					<div id="cmt" class="commenter-comment bgc-bright p-2-2">${danhGia.noiDung}</div>
-				</div>
-			</c:forEach>
-		</div> --%>
-		
-		<h4 class="inDam">ĐÁNH GIÁ SẢN PHẨM</h4>
+                <div class="tab-pane fade " id="review">
+                
+                
+                 
+         <h4 class="inDam">ĐÁNH GIÁ SẢN PHẨM</h4>
 		<div class="aa-product-review-area">
 				<div class="product-rating-stars">
 					<c:if test="${sanPham.soSaoTB == 0}">
@@ -390,7 +237,7 @@
 								${sanPham.soSaoTB}/5 <i class="fas fa-star"></i><i></span>
 					</c:if>
 				</div>
-<%-- 		<h4>${count} Reviews for T-Shirt</h4>  --%>
+				
                    <ul class="aa-review-nav">
                    <c:forEach items="${danhGiaList}" var="danhGia">
                      <li>
@@ -436,21 +283,52 @@
                       </li>
                       </c:forEach>
                    </ul>
+                   
+                   <%-- <h4>Thêm đánh giá</h4>
+                   <div class="aa-your-rating">
+                     <p>Chọn số sao</p>
+                     <a href="#"><span class="fa fa-star-o"></span></a>
+                     <a href="#"><span class="fa fa-star-o"></span></a>
+                     <a href="#"><span class="fa fa-star-o"></span></a>
+                     <a href="#"><span class="fa fa-star-o"></span></a>
+                     <a href="#"><span class="fa fa-star-o"></span></a>
                    </div>
-  <!-- / product category -->
-  
+                   <!-- review form -->
+                   <form action="" class="aa-review-form">
+                      <div class="form-group">
+                        <label for="message">Đánh giá của bạn</label>
+                        <textarea class="form-control" rows="3" id="message"></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="name">Tên</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name">
+                      </div>  
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
+                      </div>
+
+                      <button type="submit" class="btn btn-default aa-review-submit">Gửi</button>
+                   </form> --%>
+                   
+                   </div>
+                 
+                </div>            
+              </div>
+            </div>
+            
+
   
 		<!-- Related product -->
             <div class="aa-product-related-item">
               <h3>SẢN PHẨM KHÁC</h3>
               <ul class="aa-product-catg aa-related-item-slider">
-              <!-- <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">Previous</button> -->
-                <!-- start single product item -->
+              
                 <c:forEach items="${sanPhamNgauNhien}" var="sp">
-                <li>
                 
+                <li>               
                   <figure>
-                    <a class="aa-product-img" href="product/${sp.maSP}.htm"><img src="${sp.hinhAnh.link}" alt="polo shirt img"></a>
+                    <a class="aa-product-img" href="product/${sp.maSP}.htm"><img style="width:250px; height:300px;" src="${sp.hinhAnh.link}" alt="product img"></a>
                     <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                      <figcaption>
                       <h4 class="aa-product-title"><a href="#">${sp.tenSanPham}</a></h4>
@@ -463,17 +341,16 @@
                     <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
                     <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
                   </div>
-                  product badge
-                  <span class="aa-badge aa-sale" href="#">SALE!</span>
-                 
-                 <!-- <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">Next</button>  -->	
+                  <!-- <span class="aa-badge aa-sale" href="#">SALE!</span>  -->                
                 </li>
+                
                 </c:forEach>
                                                                                  
               </ul>
               
               
-              <!-- quick view modal -->                  
+              <!-- quick view modal --> 
+              <c:forEach items="${sanPhamNgauNhien}" var="sp">                 
               <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">                      
@@ -481,17 +358,18 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                       <div class="row">
                         <!-- Modal view slider -->
+                        
                         <div class="col-md-6 col-sm-6 col-xs-12">                              
-                          <div class="aa-product-view-slider">                                
+                          <div class="aa-product-view-slider">                               
                             <div class="simpleLens-gallery-container" id="demo-1">
                               <div class="simpleLens-container">
                                   <div class="simpleLens-big-image-container">
-                                      <a class="simpleLens-lens-image" data-lens-image="img/view-slider/large/polo-shirt-1.png">
-                                          <img src="img/view-slider/medium/polo-shirt-1.png" class="simpleLens-big-image">
+                                      <a class="simpleLens-lens-image" data-lens-image="${sp.hinhAnh.link}">
+                                          <img src="${sp.hinhAnh.link}" class="simpleLens-big-image">
                                       </a>
                                   </div>
                               </div>
-                              <div class="simpleLens-thumbnails-container">
+                              <!-- <div class="simpleLens-thumbnails-container">
                                   <a href="#" class="simpleLens-thumbnail-wrapper"
                                      data-lens-image="img/view-slider/large/polo-shirt-1.png"
                                      data-big-image="img/view-slider/medium/polo-shirt-1.png">
@@ -508,19 +386,25 @@
                                      data-big-image="img/view-slider/medium/polo-shirt-4.png">
                                       <img src="img/view-slider/thumbnail/polo-shirt-4.png">
                                   </a>
-                              </div>
+                              </div> -->
                             </div>
-                          </div>
+                          </div>                          
                         </div>
+                        
+                        
                         <!-- Modal view content -->
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                        
                           <div class="aa-product-view-content">
-                            <h3>T-Shirt</h3>
+                          
+                            <h3>${sp.tenSanPham}</h3>
+                            
                             <div class="aa-price-block">
-                              <span class="aa-product-view-price">$34.99</span>
-                              <p class="aa-product-avilability">Avilability: <span>In stock</span></p>
+                              <span style="font-size: 1.875rem; font-weight: bold; color: #ee4d2d; font-style: normal;"><fmt:formatNumber
+									value="${sanPham.donGia}" pattern="#,##0" />đ</span>
+										<!-- <p class="aa-product-avilability">Avilability: <span>In stock</span></p> -->
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis animi, veritatis quae repudiandae quod nulla porro quidem, itaque quis quaerat!</p>
+                            <%-- <p>${sp.moTa}</p> --%>
                             <h4>Size</h4>
                             <div class="aa-prod-view-size">
                               <a href="#">S</a>
@@ -529,7 +413,7 @@
                               <a href="#">XL</a>
                             </div>
                             <div class="aa-prod-quantity">
-                              <form action="">
+                              <%-- <form action="">
                                 <select name="" id="">
                                   <option value="0" selected="1">1</option>
                                   <option value="1">2</option>
@@ -538,25 +422,32 @@
                                   <option value="4">5</option>
                                   <option value="5">6</option>
                                 </select>
-                              </form>
+                              </form> --%>
+                              
                               <p class="aa-prod-category">
-                                Category: <a href="#">Polo T-Shirt</a>
+                                Loai: <a href="#">${sp.maKieu.loai.tenLoai}</a>
+                              </p>
+                              <p class="aa-prod-category">
+                                Kiểu: <a href="#">${sp.maKieu.tenKieu}</a>
                               </p>
                             </div>
                             <div class="aa-prod-view-bottom">
-                              <a href="#" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
-                              <a href="#" class="aa-add-to-cart-btn">View Details</a>
+                              <!-- <a href="#" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a> -->
+                              <a href="product/${sp.maSP}.htm" class="aa-add-to-cart-btn">Xem chi tiết</a>
                             </div>
+                            
                           </div>
+                         
                         </div>
                       </div>
                     </div>                        
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
               </div>
+              </c:forEach>	
               <!-- / quick view modal -->   
                         
-            </div> 
+            </div>         
             
              
           </div>
