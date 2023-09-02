@@ -20,62 +20,81 @@
 	crossorigin="anonymous">
 	<%-- <link rel="stylesheet" href='<c:url value="/assets/css/product.css"/>' /> --%>
 	
-	<link href="assets/css/font-awesome.css" rel="stylesheet">
-    <!-- Bootstrap -->
+	<!-- <link href="assets/css/font-awesome.css" rel="stylesheet">
+    Bootstrap
     <link href="assets/css/bootstrap.css" rel="stylesheet">   
-    <!-- SmartMenus jQuery Bootstrap Addon CSS -->
+    SmartMenus jQuery Bootstrap Addon CSS
     <link href="assets/css/jquery.smartmenus.bootstrap.css" rel="stylesheet">
-    <!-- Product view slider -->
+    Product view slider
     <link rel="stylesheet" type="text/css" href="assets/css/jquery.simpleLens.css">    
-    <!-- slick slider -->
+    slick slider
     <link rel="stylesheet" type="text/css" href="assets/css/slick.css">
-    <!-- price picker slider -->
+    price picker slider
     <link rel="stylesheet" type="text/css" href="assets/css/nouislider.css">
-    <!-- Theme color -->
+    Theme color
     <link id="switcher" href="assets/css/theme-color/default-theme.css" rel="stylesheet">
-    <!-- <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet"> -->
-    <!-- Top Slider CSS -->
+    <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet">
+    Top Slider CSS
     <link href="assets/css/sequence-theme.modern-slide-in.css" rel="stylesheet" media="all">
 
+    Main style sheet
+    <link href="assets/css/style.css" rel="stylesheet">  -->   
+    
+    <link rel="stylesheet" href='<c:url value="/assets/css/font-awesome.css"/>' />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href='<c:url value="/assets/css/bootstrap.css"/>' />   
+    <!-- SmartMenus jQuery Bootstrap Addon CSS -->
+    <link rel="stylesheet" href='<c:url value="/assets/css/jquery.smartmenus.bootstrap.css"/>' />   
+    <!-- Product view slider -->
+    <link rel="stylesheet" href='<c:url value="/assets/css/jquery.simpleLens.css"/>' />   
+    <!-- slick slider -->
+    <link rel="stylesheet" type="text/css" href='<c:url value="/assets/css/slick.css"/>' />   
+    <!-- price picker slider -->
+    <link rel="stylesheet" type="text/css" href='<c:url value="/assets/css/nouislider.css"/>' />   
+    <!-- Theme color -->
+    <link id="switcher" rel="stylesheet" href='<c:url value="/assets/css/theme-color/default-theme.css"/>' />   
+    <!-- <link id="switcher" href="css/theme-color/bridge-theme.css" rel="stylesheet"> -->
+    <!-- Top Slider CSS -->
+    <link  media="all" rel="stylesheet" href='<c:url value="/assets/css/sequence-theme.modern-slide-in.css"/>' />   
+
     <!-- Main style sheet -->
-    <link href="assets/css/style.css" rel="stylesheet">    
+    <link rel="stylesheet" href='<c:url value="/assets/css/style.css"/>' />   
 
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
 </head>
 <body>
+	<!-- SCROLL TOP BUTTON -->
+    <a class="scrollToTop" href="#"><i class="fa fa-chevron-up"></i></a>
+    <!-- END SCROLL TOP BUTTON -->
 	<!-- HEADER -->
+	
 	<%@ include file="../include/header.jsp" %>
 
 	<!-- catg header banner section -->
-<%--   <section id="aa-catg-head-banner">
+<!--   <section id="aa-catg-head-banner">
    <img src="assets/img/fashion/fashion-header-bg-8.jpg" alt="fashion img">
    <div class="aa-catg-head-banner-area">
      <div class="container">
       <div class="aa-catg-head-banner-content">
-        <h2>T-Shirt</h2>
-        <ol class="breadcrumb">
-          <li><a href="#">Home</a></li>         
-          <li><a href="#">Product</a></li>
-          <li class="active">${sanPham.tenSanPham}</li>
-        </ol>
       </div>
      </div>
    </div>
-  </section> --%>
+  </section> -->
   <!-- / catg header banner section -->
-<div class="container">
+  
+<%-- <div class="container">
       <div>
-        <h2>T-Shirt</h2>
         <ol class="breadcrumb">
           <li><a href="#">Home</a></li>         
           <li><a href="#">Product</a></li>
           <li class="active">${sanPham.tenSanPham}</li>
         </ol>
       </div>
-     </div>
+     </div> --%>
   <!-- product category -->
+  
   <section id="aa-product-details">
     <div class="container">
       <div class="row">
@@ -209,8 +228,8 @@
             
             <div class="aa-product-details-bottom">
               <ul class="nav nav-tabs" id="myTab2">
-                <li><a href="#description" data-toggle="tab">Description</a></li>
-                <li><a href="#review" data-toggle="tab">Reviews</a></li>                
+                <li><a href="#description" data-toggle="tab">MÔ TẢ SẢN PHẨM</a></li>
+                <!-- <li><a href="#review" data-toggle="tab">Reviews</a></li> -->                
               </ul>
 
               <!-- Tab panes -->
@@ -218,7 +237,7 @@
                 <div class="tab-pane fade in active" id="description">
                   <p>${sanPham.moTa}</p>
                 </div>
-                <div class="tab-pane fade " id="review">
+                <%-- <div class="tab-pane fade " id="review">
                  <div class="aa-product-review-area">
                    <h4>2 Reviews for T-Shirt</h4> 
                    <ul class="aa-review-nav">
@@ -290,7 +309,7 @@
                       <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
                    </form>
                  </div>
-                </div>            
+                </div>    --%>         
               </div>
             </div>
             
@@ -358,7 +377,7 @@
 			</c:forEach>
 		</div> --%>
 		
-		<h3 class="inDam">ĐÁNH GIÁ SẢN PHẨM</h3>
+		<h4 class="inDam">ĐÁNH GIÁ SẢN PHẨM</h4>
 		<div class="aa-product-review-area">
 				<div class="product-rating-stars">
 					<c:if test="${sanPham.soSaoTB == 0}">
@@ -423,28 +442,31 @@
   
 		<!-- Related product -->
             <div class="aa-product-related-item">
-              <h3>Related Products</h3>
+              <h3>SẢN PHẨM KHÁC</h3>
               <ul class="aa-product-catg aa-related-item-slider">
+              <!-- <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;">Previous</button> -->
                 <!-- start single product item -->
                 <c:forEach items="${sanPhamNgauNhien}" var="sp">
                 <li>
                 
                   <figure>
-                    <a class="aa-product-img" href="#"><img src="${sp.hinhAnh.link}" alt="polo shirt img"></a>
+                    <a class="aa-product-img" href="product/${sp.maSP}.htm"><img src="${sp.hinhAnh.link}" alt="polo shirt img"></a>
                     <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                      <figcaption>
                       <h4 class="aa-product-title"><a href="#">${sp.tenSanPham}</a></h4>
                       <span class="aa-product-price">${sp.donGia}</span><span class="aa-product-price"><!-- <del>$65.50</del> --></span>
                     </figcaption>
-                  </figure>                     
+                  </figure>
+                                       
                   <div class="aa-product-hvr-content">
                     <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
                     <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a>
                     <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
                   </div>
-                  <!-- product badge -->
+                  product badge
                   <span class="aa-badge aa-sale" href="#">SALE!</span>
-                  	
+                 
+                 <!-- <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;">Next</button>  -->	
                 </li>
                 </c:forEach>
                                                                                  
@@ -552,22 +574,22 @@
 	<!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.js"></script>  
+  <script src="<c:url value='assets/js/bootstrap.js'/>"></script>
   <!-- SmartMenus jQuery plugin -->
-  <script type="text/javascript" src="js/jquery.smartmenus.js"></script>
+  <script type="text/javascript" src="<c:url value='assets/js/jquery.smartmenus.js'/>"></script>
   <!-- SmartMenus jQuery Bootstrap Addon -->
-  <script type="text/javascript" src="js/jquery.smartmenus.bootstrap.js"></script>  
+  <script type="text/javascript" src="<c:url value='assets/js/jquery.smartmenus.bootstrap.js'/>"></script>  
   <!-- To Slider JS -->
-  <script src="js/sequence.js"></script>
-  <script src="js/sequence-theme.modern-slide-in.js"></script>  
+  <script src="<c:url value='assets/js/sequence.js'/>"></script>
+  <script src="<c:url value='assets/js/sequence-theme.modern-slide-in.js'/>"></script>  
   <!-- Product view slider -->
-  <script type="text/javascript" src="js/jquery.simpleGallery.js"></script>
-  <script type="text/javascript" src="js/jquery.simpleLens.js"></script>
+  <script type="text/javascript" src="<c:url value='assets/js/jquery.simpleGallery.js'/>"></script>
+  <script type="text/javascript" src="<c:url value='assets/js/jquery.simpleLens.js'/>"></script>
   <!-- slick slider -->
-  <script type="text/javascript" src="js/slick.js"></script>
+  <script type="text/javascript" src="<c:url value='assets/js/slick.js'/>"></script>
   <!-- Price picker slider -->
-  <script type="text/javascript" src="js/nouislider.js"></script>
+  <script type="text/javascript" src="<c:url value='assets/js/nouislider.js'/>"></script>
   <!-- Custom js -->
-  <script src="js/custom.js"></script> 
+  <script src="<c:url value='assets/js/custom.js'/>"></script>
 </body>
 </html>
