@@ -16,11 +16,14 @@
 						<div class="aa-header-top-right">
 							<ul class="aa-head-top-nav-right">
 								<li><a href="account.html">Tài khoản của tôi</a></li>
-								
+
 								<li class="hidden-xs"><a href="cart.html">Giỏ hàng</a></li>
 								<!-- <li class="hidden-xs"><a href="checkout.html">Checkout</a></li> -->
-								<li><a href="" data-toggle="modal"
-									data-target="#login-modal">Đăng nhập</a></li>
+
+								<c:if test="${empty sessionScope.USER}">
+
+									<li><a href="user/login.htm" >Đăng nhập</a></li>
+								</c:if>
 							</ul>
 						</div>
 					</div>
@@ -55,7 +58,7 @@
 								class="aa-cart-title">SHOPPING CART</span> <span
 								class="aa-cart-notify">N</span>
 							</a>
-						
+
 						</div>
 						<!-- / cart box -->
 						<!-- search box -->
@@ -112,7 +115,7 @@
 								</c:forEach>
 
 							</ul></li>
-					
+
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
