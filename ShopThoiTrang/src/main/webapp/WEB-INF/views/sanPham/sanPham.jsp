@@ -20,7 +20,7 @@
 	crossorigin="anonymous">
 	<link rel="stylesheet" href='<c:url value="/assets/css/product.css"/>' />
 	
-    <link href="assets/css/style.css" rel="stylesheet">  -->     
+    <link href="assets/css/style.css" rel="stylesheet">   
     <link rel="stylesheet" href='<c:url value="/assets/css/font-awesome.css"/>' />
     <!-- Bootstrap -->
     <link rel="stylesheet" href='<c:url value="/assets/css/bootstrap.css"/>' />   
@@ -331,8 +331,10 @@
                     <a class="aa-product-img" href="product/${sp.maSP}.htm"><img style="width:250px; height:300px;" src="${sp.hinhAnh.link}" alt="product img"></a>
                     <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Add To Cart</a>
                      <figcaption>
-                      <h4 class="aa-product-title"><a href="#">${sp.tenSanPham}</a></h4>
-                      <span class="aa-product-price">${sp.donGia}</span><span class="aa-product-price"><!-- <del>$65.50</del> --></span>
+                      <h4 class="aa-product-title"><a href="product/${sp.maSP}.htm" style="font-weight: bold; color: #3D71B6;">${sp.tenSanPham}</a></h4>                     
+                      <%-- <span class="aa-product-price">${sp.donGia}đ</span><span class="aa-product-price"><!-- <del>$65.50</del> --></span> --%>
+                      <span style="font-size: 1.875rem; font-weight: bold; color: #ee4d2d; font-style: normal;"><fmt:formatNumber
+									value="${sanPham.donGia}" pattern="#,##0" />đ</span>
                     </figcaption>
                   </figure>
                                        
