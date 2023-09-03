@@ -75,6 +75,14 @@ public class SanPhamEntity {
 		this.tenSanPham = tenSanPham;
 	}
 
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	public String getMoTa() {
 		return moTa;
 	}
@@ -91,12 +99,52 @@ public class SanPhamEntity {
 		this.soLuong = soLuong;
 	}
 
+	public int getDonGia() {
+		return donGia;
+	}
+
+	public void setDonGia(int donGia) {
+		this.donGia = donGia;
+	}
+
 	public float getSoSaoTB() {
 		return soSaoTB;
 	}
 
 	public void setSoSaoTB(float soSaoTB) {
 		this.soSaoTB = soSaoTB;
+	}
+
+	public boolean isTrangThai() {
+		return trangThai;
+	}
+
+	public void setTrangThai(boolean trangThai) {
+		this.trangThai = trangThai;
+	}
+
+	public KieuSanPhamEntity getMaKieu() {
+		return maKieu;
+	}
+
+	public void setMaKieu(KieuSanPhamEntity maKieu) {
+		this.maKieu = maKieu;
+	}
+
+	public Date getNgayThem() {
+		return ngayThem;
+	}
+
+	public void setNgayThem(Date ngayThem) {
+		this.ngayThem = ngayThem;
+	}
+
+	public HinhAnhEntity getHinhAnh() {
+		return hinhAnh;
+	}
+
+	public void setHinhAnh(HinhAnhEntity hinhAnh) {
+		this.hinhAnh = hinhAnh;
 	}
 
 	public List<GioHangEntity> getGioHangs() {
@@ -115,52 +163,6 @@ public class SanPhamEntity {
 		this.danhGiaList = danhGiaList;
 	}
 
-	public int getDonGia() {
-		return donGia;
-	}
-
-	public void setDonGia(int donGia) {
-		this.donGia = donGia;
-	}
-
-	public boolean isTrangThai() {
-		return trangThai;
-	}
-
-	public void setTrangThai(boolean trangThai) {
-		this.trangThai = trangThai;
-	}
-
-	public Date getNgayThem() {
-		return ngayThem;
-	}
-
-	public void setNgayThem(Date ngayThem) {
-		this.ngayThem = ngayThem;
-	}
-
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
-	public HinhAnhEntity getHinhAnh() {
-		return hinhAnh;
-	}
-
-	public void setHinhAnh(HinhAnhEntity hinhAnh) {
-		this.hinhAnh = hinhAnh;
-	}
-
-	public KieuSanPhamEntity getMaKieu() {
-		return maKieu;
-	}
-
-	public void setMaKieu(KieuSanPhamEntity maKieu) {
-		this.maKieu = maKieu;
-	}
+	
 
 }

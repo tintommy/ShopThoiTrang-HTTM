@@ -12,6 +12,7 @@ public interface SanPhamDAO {
 	public List<SanPhamEntity> layAllSanPhamDaNgungBan();
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai);
 	public List<SanPhamEntity> layAllSanPhamTheoLoai(String loai);
+	public List<SanPhamEntity> laySanPhamCungKieu(String maSp);
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp);
 	public List<SanPhamEntity> laySanPhamNgauNhien();
 	public List<SanPhamEntity> laySanPhamMoi();
@@ -20,5 +21,6 @@ public interface SanPhamDAO {
 	public void themSanPham(SanPhamEntity sanPham);
 	public void updateSanPham(SanPhamEntity sanPham);
 	public void xoaSanPham(SanPhamEntity sanPham);
+	
 	
 }
