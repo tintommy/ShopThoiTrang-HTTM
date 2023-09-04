@@ -126,9 +126,10 @@
 							<h5 style="padding-top: 3px;">
 								Còn lại: <i>${sanPham.soLuong}</i>
 							</h5>
-							<%-- <h5>Size: ${sanPham.size}</h5> --%>
+							<h5>Đang xem: Size ${sanPham.size}</h4>
+							
 							<div class="fs-5 my-3 gia">
-								<span
+							<span
 									style="font-size: 1.875rem; font-weight: bold; color: #ee4d2d; font-style: normal;"><fmt:formatNumber
 										value="${sanPham.donGia}" pattern="#,##0" />đ</span>
 							</div>
@@ -139,24 +140,12 @@
 			                    <div class="aa-prod-view-size">
 			                        <div class="size-buttons">
 								        <c:forEach items="${sizes}" var="size">
-    <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" />
-    <c:set var="trimmedSize" value="${fn:trim(size)}" />
-    <c:set var="lastChar" value="${fn:substring(trimmedMaSP, fn:length(trimmedMaSP) - 1, fn:length(trimmedMaSP))}" />
-    
-    <c:choose>
-        <c:when test="${trimmedSize.endsWith(lastChar)}">
-            <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm" class="highlight">
-                ${size}
-            </a>
-        </c:when>
-        <c:otherwise>
-            <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm">
-                ${size}
-            </a>
-        </c:otherwise>
-    </c:choose>
-</c:forEach>
-
+										    <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" />
+										    <c:set var="trimmedSize" value="${fn:trim(size)}" />
+										    <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm">
+										        ${size}
+										    </a>
+										</c:forEach>
 
 								    </div>					            								    
 			                    </div>
@@ -167,7 +156,7 @@
 										max="${sanPham.soLuong}" style="width: 90px" />
 									
 									<br>					
-									<button name="them" class="btn btn-danger">Thêm vào giỏ</button>
+									<button name="them" class="btn btn-warning">Thêm vào giỏ</button>
 									
 								</div>
 							</f:form>
@@ -183,7 +172,7 @@
 							</div>
 						</c:if>
 						<br>
-						<button name="them" class="btn btn-danger">Thêm vào yêu thích</button>
+						<button name="fav" class="btn btn-danger">Thêm vào yêu thích</button>
                   </div>
                 </div>
               </div>
