@@ -87,7 +87,7 @@
 										<label for="">Họ Tên :</label>
 										<f:input class="value" type="text" path="hoTen" name="hoTen"
 											autocomplete="off" />
-										<span class="loi" style="color: red;">${loiHoTen}</span>
+										<span class="loi" style="color: red;font-size: 13px;">${loiHoTen}</span>
 										<br>
 										<label for="">Email : </label>
 										<b> <span> ${user.email} </span></b>
@@ -104,12 +104,12 @@
 										<label class="tittle">Ngày Sinh: </label>
 										<input class="value" type="date" name="ngaySinh"
 											value="${user.ngaySinh}" />
-										<span class="loi" style="color: red;">${loiNgaySinh}</span>
+										<span class="loi" style="color: red;font-size: 13px;">${loiNgaySinh}</span>
 										<br>
 										<label for="">Địa Chỉ : </label>
 										<f:input class="value" type="text" path="diaChi" name="diaChi"
 											autocomplete="off" />
-										<span class="loi"  style="color: red;">${loiDiaChi}</span>
+										<span class="loi"  style="color: red;font-size: 13px;">${loiDiaChi}</span>
 										<br>
 
 										<button id="btn-save" name="save" class="aa-browse-btn">Cập
@@ -122,7 +122,34 @@
 									
 								</div>
 							</div>
-
+<div class="col-md-6">
+                <div class="aa-myaccount-register">                 
+                 <h4>Đổi mật khẩu</h4>
+                 <form  class="aa-login-form" action="form/changePass.htm" id="info-form" 
+				method="post">
+                    <label for="">Mật khẩu cũ<span>*</span></label>
+                   	<input type="password" name="password" >
+                   	<br>
+                   	<span class="loi" style="color: red;font-size: 13px;">${loiPassword}</span>	<br>
+                    <label for="">Mật khẩu mới (tối thiểu 8 kí tự)<span>*</span></label>
+                  	 <input type="password" name="newPassword">
+                  	 	<br>
+					 <span class="loi" style="color: red;font-size: 13px;">${loiNewPassword}</span>	<br>
+                     <label for="">Nhập lại mật khẩu mới<span>*</span></label>
+                    <input type="password" name="reNewPassword" >
+                    	<br>
+					<span class="loi" style="color: red;font-size: 13px;">${loiRePassword}</span>	<br>
+				
+                   <button id="btn-save" name="save" class="aa-browse-btn">Xác nhận</button>   
+                   <br><br><br>    
+                   	<c:if test="${not empty thanhCong}">
+					    <div class="alert alert-success">${thanhCong}</div>
+					</c:if>
+                  </form>
+                  
+		
+                </div>
+              </div>
 						</div>
 					</div>
 				</div>
