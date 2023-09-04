@@ -18,7 +18,7 @@ import ptithcm.service.SanPhamService;
 
 @Transactional
 @Controller
-@RequestMapping("/product")
+@RequestMapping()
 public class sanPhamController {
 	
 	@Autowired
@@ -26,24 +26,23 @@ public class sanPhamController {
 	@Autowired
 	DanhGiaService danhGiaService;
 	
-	@RequestMapping("/{maSp}")
+	@RequestMapping("/product/{maSp}")
 	public String sanPham(@PathVariable("maSp") String maSp, ModelMap model,HttpServletRequest request) {
 		SanPhamEntity sanPham=sanPhamService.laySanPham(maSp);
 		
-		List<SanPhamEntity> sanPhamNgauNhien = sanPhamService.laySanPhamNgauNhien();
+		List<String> sizes = sanPhamService.laySizeTheoTenSanPham(maSp);
+		model.addAttribute("sizes", sizes);
+		
+		List<SanPhamEntity> sanPhamCungKieu = sanPhamService.laySanPhamCungKieu(maSp);
+		model.addAttribute("sanPhamCungKieu", sanPhamCungKieu);
+		
 		List<DanhGiaEntity> listDanhGia = danhGiaService.layDanhGiaSanPham(maSp);
 		int count = listDanhGia.size();
 		
-//		float soSaoTB = sanPhamService.tinhSoSaoTB(sanPham);
-//	    sanPham.setSoSaoTB(soSaoTB);
-//	    sanPhamService.updateSanPham(sanPham);
-//		List<SanPhamEntity> sanPhamCungKieu = sanPhamService.laySanPhamCungKieu(maSp);
-//		model.addAttribute("sanPhamCungKieu", sanPhamCungKieu);
-		
 		model.addAttribute("sanPham", sanPham);
-		model.addAttribute("sanPhamNgauNhien", sanPhamNgauNhien);
 		model.addAttribute("count",count);
 		model.addAttribute("danhGiaList",listDanhGia);
+
 		return "/sanPham/sanPham";
 	}
 	
