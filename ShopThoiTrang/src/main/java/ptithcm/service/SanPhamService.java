@@ -14,6 +14,7 @@ public interface SanPhamService {
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai);
 	public List<SanPhamEntity> layAllSanPhamTheoLoai(String loai);
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp);
+	public List<SanPhamEntity> laySanPhamCungKieu(String maSp);
 	public List<SanPhamEntity> laySanPhamNgauNhien();
 	public List<SanPhamEntity> laySanPhamMoi();
 	public List<SanPhamEntity> locSanPhamTheoThuongHieuVaGia(String loai, List<String> brandsList, int minPrice, int maxPrice);
