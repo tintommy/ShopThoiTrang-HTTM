@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,41 +123,41 @@
                     
                     <c:if test="${sanPham.trangThai==true }">
 
-							<h6 style="padding-top: 3px;">
+							<h5 style="padding-top: 3px;">
 								Còn lại: <i>${sanPham.soLuong}</i>
-							</h6>
+							</h5>
+							<h5>Đang xem: Size ${sanPham.size}</h4>
+							
 							<div class="fs-5 my-3 gia">
-								<span
+							<span
 									style="font-size: 1.875rem; font-weight: bold; color: #ee4d2d; font-style: normal;"><fmt:formatNumber
 										value="${sanPham.donGia}" pattern="#,##0" />đ</span>
 							</div>
 							<f:form action="themVaoGio/${sanPham.maSP}.htm" method="post">
 								<div class="d-flex align-items-center">
 								
-								<h4>Size</h4>
+								<h4>Bảng Size</h4>
 			                    <div class="aa-prod-view-size">
-			                      <a href="#">S</a>
-			                      <a href="#">M</a>
-			                      <a href="#">L</a>
-			                      <a href="#">XL</a>
+			                        <div class="size-buttons">
+								        <c:forEach items="${sizes}" var="size">
+										    <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" />
+										    <c:set var="trimmedSize" value="${fn:trim(size)}" />
+										    <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm">
+										        ${size}
+										    </a>
+										</c:forEach>
+
+								    </div>					            								    
 			                    </div>
-									<!-- <button class="btn btn-outline-dark btn-sm me-3" type="button"
-										id="decreaseBtn">
-										<i class="bi bi-dash">-</i>
-									</button> -->
 									
 									<h4>Số lượng</h4>
 									<input class="form-control text-center me-3" id="inputQuantity"
 										type="number" name="soLuong" value="1" min="1" inputmode="numeric" autocomplete="off"
-										max="${sanPham.soLuong }" style="width: 90px" />
-
-									<!-- <button class="btn btn-outline-dark btn-sm me-3" type="button"
-										id="increaseBtn">
-										<i class="bi bi-plus">+</i>
-									</button>	 -->
+										max="${sanPham.soLuong}" style="width: 90px" />
 									
 									<br>					
-									<button name="them" class="btn btn-danger">Thêm vào giỏ</button>
+									<button name="them" class="btn btn-warning">Thêm vào giỏ</button>
+									
 								</div>
 							</f:form>
 							<span id="thongBao"
@@ -170,40 +171,8 @@
 									KINH DOANH</span>
 							</div>
 						</c:if>
-						
-						
-                    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis animi, veritatis quae repudiandae quod nulla porro quidem, itaque quis quaerat!</p> -->
-                    
-                    
-                    <!-- <h4>Color</h4>
-                    <div class="aa-color-tag">
-                      <a href="#" class="aa-color-green"></a>
-                      <a href="#" class="aa-color-yellow"></a>
-                      <a href="#" class="aa-color-pink"></a>                      
-                      <a href="#" class="aa-color-black"></a>
-                      <a href="#" class="aa-color-white"></a>                      
-                    </div> -->
-                    
-                    <%-- <div class="aa-prod-quantity">
-                      <form action="">
-                        <select id="" name="">
-                          <option selected="1" value="0">1</option>
-                          <option value="1">2</option>
-                          <option value="2">3</option>
-                          <option value="3">4</option>
-                          <option value="4">5</option>
-                          <option value="5">6</option>
-                        </select>
-                      </form>
-                      <p class="aa-prod-category">
-                        Category: <a href="#">Polo T-Shirt</a>
-                      </p>
-                    </div>
-                    <div class="aa-prod-view-bottom">
-                      <a class="aa-add-to-cart-btn" href="#">Add To Cart</a>
-                      <a class="aa-add-to-cart-btn" href="#">Wishlist</a>
-                      <a class="aa-add-to-cart-btn" href="#">Compare</a>
-                    </div> --%>
+						<br>
+						<button name="fav" class="btn btn-danger">Thêm vào yêu thích</button>
                   </div>
                 </div>
               </div>
@@ -321,10 +290,10 @@
   
 		<!-- Related product -->
             <div class="aa-product-related-item">
-              <h3>SẢN PHẨM KHÁC</h3>
+              <h4>SẢN PHẨM KHÁC</h4>
               <ul class="aa-product-catg aa-related-item-slider">
               
-                <c:forEach items="${sanPhamNgauNhien}" var="sp">
+                <c:forEach items="${sanPhamCungKieu}" var="sp">
                 
                 <li>               
                   <figure>
@@ -352,7 +321,7 @@
               
               
               <!-- quick view modal --> 
-              <c:forEach items="${sanPhamNgauNhien}" var="sp">                 
+              <c:forEach items="${sanPhamCungKieu}" var="sp">                 
               <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">                      

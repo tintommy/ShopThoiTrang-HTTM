@@ -1,5 +1,6 @@
 package ptithcm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -47,6 +48,18 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
+	public List<String> laySizeTheoTenSanPham(String maSp){
+		List<String> sizes = new ArrayList<>();
+		List<SanPhamEntity> listSP = sanPhamDAO.laySanPhamCungTen(maSp);
+		for (SanPhamEntity sp: listSP) {
+            String productSizes = sp.getSize();
+            sizes.add(productSizes);
+        }
+		return sizes;
+		
+	}
+	
+	@Override
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai) {
 		return sanPhamDAO.laySanPhamTheoLoai(loai);
 	}
@@ -63,7 +76,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 	
 	@Override
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
-		return sanPhamDAO.laySanPhamCungLoai(maSp);
+		return sanPhamDAO.laySanPhamCungKieu(maSp);
 	}
 	
 	@Override

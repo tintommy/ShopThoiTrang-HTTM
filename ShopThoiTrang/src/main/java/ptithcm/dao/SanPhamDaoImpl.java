@@ -43,6 +43,29 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		return query.list();
 
 	}
+	
+	@Override
+	public List<SanPhamEntity> laySanPhamCungTen(String maSp){
+		Session session = sessionFactory.getCurrentSession();
+	    SanPhamEntity sp = (SanPhamEntity) session.get(SanPhamEntity.class, maSp);
+	    String ten = sp.getTenSanPham();
+	    String hql = "FROM SanPhamEntity WHERE tenSanPham = :ten AND trangThai = true";
+	    Query query = session.createQuery(hql);
+	    query.setParameter("ten", ten);
+	    List<SanPhamEntity> spCungKieu = query.list();	    
+	    return spCungKieu;
+	}
+	
+	@Override
+	public SanPhamEntity laySanPhamTheoMaVaSize(String maSp, String size){
+		Session session = sessionFactory.getCurrentSession();
+        String hql = "FROM SanPhamEntity sp WHERE sp.maSP = :maSP AND sp.size = :size";
+        return (SanPhamEntity) session.createQuery(hql)
+                .setParameter("maSP", maSp)
+                .setParameter("size", size)
+                .uniqueResult();
+    }
+	
 
 	@Override
 	public List<SanPhamEntity> LaySanPhamMotTrang(String loai, int page, int pageSize) {
@@ -68,18 +91,20 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	
 	@Override
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
-		
-		  Session session = sessionFactory.getCurrentSession(); 
-		  SanPhamEntity sp =(SanPhamEntity) session.get(SanPhamEntity.class, maSp); 
-		  KieuSanPhamEntity  kieu = sp.getMaKieu(); 
-		  String hql = "FROM SanPhamEntity WHERE maKieu = :kieu AND maSP != :maSp and trangThai=True" ; 
-		  Query query = session.createQuery(hql); 
-		  query.setParameter("kieu", kieu);
-		  query.setParameter("maSp", maSp); 
-//		  query.setMaxResults(3);
-		  List<SanPhamEntity>spCungKieu=query.list();
-		  return spCungKieu;
+	    Session session = sessionFactory.getCurrentSession();
+	    SanPhamEntity sp = (SanPhamEntity) session.get(SanPhamEntity.class, maSp);
+	    KieuSanPhamEntity kieu = sp.getMaKieu();
+	    String ten = sp.getTenSanPham();
+	    String hql = "FROM SanPhamEntity WHERE maKieu = :kieu AND tenSanPham != :ten AND trangThai = true";
+	    Query query = session.createQuery(hql);
+	    query.setParameter("kieu", kieu);
+	    query.setParameter("ten", ten);
+//	    query.setMaxResults(8);
+	    List<SanPhamEntity> spCungKieu = query.list();
+	    
+	    return spCungKieu;
 	}
+
 
 	@Override
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp) {
