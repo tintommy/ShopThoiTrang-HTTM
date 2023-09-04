@@ -10,3 +10,8 @@
 .soSaotb{
 	color:#ff6a00;
 }
+
+.highlight {
+    color: red; /* Thay đổi màu sắc theo ý muốn */
+    /* Các thuộc tính khác nếu cần */
+}

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -122,9 +123,10 @@
                     
                     <c:if test="${sanPham.trangThai==true }">
 
-							<h6 style="padding-top: 3px;">
+							<h5 style="padding-top: 3px;">
 								Còn lại: <i>${sanPham.soLuong}</i>
-							</h6>
+							</h5>
+							<%-- <h5>Size: ${sanPham.size}</h5> --%>
 							<div class="fs-5 my-3 gia">
 								<span
 									style="font-size: 1.875rem; font-weight: bold; color: #ee4d2d; font-style: normal;"><fmt:formatNumber
@@ -133,12 +135,29 @@
 							<f:form action="themVaoGio/${sanPham.maSP}.htm" method="post">
 								<div class="d-flex align-items-center">
 								
-								<h4>Size</h4>
+								<h4>Bảng Size</h4>
 			                    <div class="aa-prod-view-size">
 			                        <div class="size-buttons">
 								        <c:forEach items="${sizes}" var="size">
-								            <button type="button" class="size-button" data-size="${size}">${size}</button>
-								        </c:forEach>
+    <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" />
+    <c:set var="trimmedSize" value="${fn:trim(size)}" />
+    <c:set var="lastChar" value="${fn:substring(trimmedMaSP, fn:length(trimmedMaSP) - 1, fn:length(trimmedMaSP))}" />
+    
+    <c:choose>
+        <c:when test="${trimmedSize.endsWith(lastChar)}">
+            <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm" class="highlight">
+                ${size}
+            </a>
+        </c:when>
+        <c:otherwise>
+            <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm">
+                ${size}
+            </a>
+        </c:otherwise>
+    </c:choose>
+</c:forEach>
+
+
 								    </div>					            								    
 			                    </div>
 									
@@ -149,6 +168,7 @@
 									
 									<br>					
 									<button name="them" class="btn btn-danger">Thêm vào giỏ</button>
+									
 								</div>
 							</f:form>
 							<span id="thongBao"
@@ -162,7 +182,8 @@
 									KINH DOANH</span>
 							</div>
 						</c:if>
-						
+						<br>
+						<button name="them" class="btn btn-danger">Thêm vào yêu thích</button>
                   </div>
                 </div>
               </div>
