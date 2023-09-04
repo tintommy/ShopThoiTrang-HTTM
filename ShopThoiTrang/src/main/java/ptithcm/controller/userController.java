@@ -244,7 +244,7 @@ public class userController {
 		session.setAttribute("USERSIGNUP", user);
 		String otp = taoOTP();
 		session.setAttribute("OTP", otp);
-		mailer.sendMailAsync("THEGIOIDIENMAY", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp); 
+		mailer.sendMailAsync("SHOPTHOITRANG", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp); 
 		return "/user/verify";
 	}
 
@@ -379,7 +379,7 @@ public class userController {
 		return "/user/newpass";
 	}
 
-	@RequestMapping(value = "user", params = "info")
+	@RequestMapping("user/info")
 	public String info(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");

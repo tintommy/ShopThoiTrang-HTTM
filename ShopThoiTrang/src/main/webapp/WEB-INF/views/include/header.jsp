@@ -15,14 +15,15 @@
 						<!-- / header top left -->
 						<div class="aa-header-top-right">
 							<ul class="aa-head-top-nav-right">
-								<li><a href="account.html">Tài khoản của tôi</a></li>
 
-								<li class="hidden-xs"><a href="cart.html">Giỏ hàng</a></li>
 								<!-- <li class="hidden-xs"><a href="checkout.html">Checkout</a></li> -->
 
-								<c:if test="${empty sessionScope.USER}">
 
-									<li><a href="user/login.htm" >Đăng nhập</a></li>
+								<c:if test="${not empty sessionScope.USER}">
+									<li><a href="userInfo.htm">Tài khoản của tôi</a></li>
+
+								
+									<li><a href="user/logout.htm">Đăng xuất</a></li>
 								</c:if>
 							</ul>
 						</div>
@@ -42,7 +43,7 @@
 						<!-- logo  -->
 						<div class="aa-logo">
 							<!-- Text based logo -->
-							<a href="index.html"> <span class="fa fa-shopping-cart"></span>
+							<a href=".htm"> <span class="fa fa-shopping-cart"></span>
 								<p>
 									daily<strong>Shop</strong> <span>Your Shopping Partner</span>
 								</p>
@@ -53,11 +54,23 @@
 						<!-- / logo  -->
 						<!-- cart box -->
 						<div class="aa-cartbox">
-							<a class="aa-cart-link" href="#"> <span
-								class="fa fa-shopping-basket"></span> <span
-								class="aa-cart-title">SHOPPING CART</span> <span
-								class="aa-cart-notify">N</span>
-							</a>
+							<c:if test="${empty sessionScope.USER}">
+
+
+								<a class="aa-cart-link" href="user/login.htm"> <span
+									class="fa fa-user"></span> <span class="aa-cart-title">ĐĂNG
+										NHẬP</span>
+								</a>
+							</c:if>
+
+							<c:if test="${not empty sessionScope.USER}">
+
+								<a class="aa-cart-link" href="#"> <span
+									class="fa fa-shopping-basket"></span> <span
+									class="aa-cart-title">SHOPPING CART</span>
+
+								</a>
+							</c:if>
 
 						</div>
 						<!-- / cart box -->
