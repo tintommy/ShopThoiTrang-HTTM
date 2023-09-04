@@ -461,7 +461,7 @@ public class userController {
 
 		} else if (!userService.kiemTraMatKhau(pass,user.getPassWord())) {
 			model.addAttribute("loiPassword", "Mật khẩu cũ không đúng !!!");
-			return "/user/changePass";
+			return "/user/user-info";
 		}
 
 		if (newPass.isEmpty()) {
@@ -488,8 +488,12 @@ public class userController {
 			model.addAttribute("thanhCong", "Đổi mật khẩu thành công !!!");
 
 		}
+		
+	
 
-		return "/user/changePass";
+		model.addAttribute("user", user);
+
+		return "/user/user-info";
 	}
 
 	@RequestMapping(value = "user/logout")
