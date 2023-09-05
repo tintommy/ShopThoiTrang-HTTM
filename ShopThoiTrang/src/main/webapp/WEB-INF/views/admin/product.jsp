@@ -216,7 +216,7 @@
                     <!-- <th scope="row"><input type="checkbox" /></th> -->
                     <td><a href="admin/product/edit/${sanPham.maSP}.htm">
                     	<img class="card-img-top"
-							src="${sanPham.hinhAnhDaiDien}" alt="Ảnh đại diện sản phẩm"
+							src="${sanPham.hinhAnh.link}" alt="Ảnh đại diện sản phẩm"
 							id="product-image" 
 							style="height:40px; width:50px;"/>
 						</a>
