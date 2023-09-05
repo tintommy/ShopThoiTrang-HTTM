@@ -244,7 +244,7 @@ public class userController {
 		session.setAttribute("USERSIGNUP", user);
 		String otp = taoOTP();
 		session.setAttribute("OTP", otp);
-		mailer.sendMailAsync("THEGIOIDIENMAY", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp); 
+		mailer.sendMailAsync("SHOPTHOITRANG", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp); 
 		return "/user/verify";
 	}
 
@@ -379,7 +379,7 @@ public class userController {
 		return "/user/newpass";
 	}
 
-	@RequestMapping(value = "user", params = "info")
+	@RequestMapping("user/info")
 	public String info(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
@@ -461,7 +461,7 @@ public class userController {
 
 		} else if (!userService.kiemTraMatKhau(pass,user.getPassWord())) {
 			model.addAttribute("loiPassword", "Mật khẩu cũ không đúng !!!");
-			return "/user/changePass";
+			return "/user/user-info";
 		}
 
 		if (newPass.isEmpty()) {
@@ -488,8 +488,12 @@ public class userController {
 			model.addAttribute("thanhCong", "Đổi mật khẩu thành công !!!");
 
 		}
+		
+	
 
-		return "/user/changePass";
+		model.addAttribute("user", user);
+
+		return "/user/user-info";
 	}
 
 	@RequestMapping(value = "user/logout")
