@@ -1,5 +1,6 @@
 package ptithcm.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -42,8 +43,23 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrang(String loai, int page, int pageSize){
-		return sanPhamDAO.LaySanPhamMotTrang(loai, page, pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize){
+		return sanPhamDAO.LaySanPhamMotTrang(page, pageSize);
+	}
+	@Override
+	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize){
+		return sanPhamDAO.LaySanPhamMotTrangTheoLoai(loai, page, pageSize);
+	}
+	@Override
+	public List<String> laySizeTheoTenSanPham(String maSp){
+		List<String> sizes = new ArrayList<>();
+		List<SanPhamEntity> listSP = sanPhamDAO.laySanPhamCungTen(maSp);
+		for (SanPhamEntity sp: listSP) {
+            String productSizes = sp.getSize();
+            sizes.add(productSizes);
+        }
+		return sizes;
+		
 	}
 	
 	@Override
@@ -62,6 +78,11 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
+	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
+		return sanPhamDAO.laySanPhamCungKieu(maSp);
+	}
+	
+	@Override
 	public List<SanPhamEntity> laySanPhamNgauNhien() {
 		return sanPhamDAO.laySanPhamNgauNhien();
 	}
@@ -72,8 +93,8 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
-	public List<SanPhamEntity> locSanPhamTheoThuongHieuVaGia(String loai, List<String> brandsList, int minPrice, int maxPrice){
-		return sanPhamDAO.locSanPhamTheoThuongHieuVaGia(loai, brandsList, minPrice, maxPrice);
+	public List<SanPhamEntity> locSanPham( List<String> stylesList, int minPrice, int maxPrice){
+		return sanPhamDAO.locSanPham(stylesList , minPrice, maxPrice);
 	}
 	
 	@Override

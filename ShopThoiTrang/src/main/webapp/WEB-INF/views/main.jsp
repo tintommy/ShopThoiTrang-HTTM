@@ -289,7 +289,7 @@
                            <span class="aa-badge aa-sold-out" href="#">Sold Out!</span>
                         </li>                        
                       </ul>
-                      <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                      <a class="aa-browse-btn" href="shop.htm">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
                     </div>
                     <!-- / men product category -->
                     <!-- start women product category -->
@@ -435,7 +435,7 @@
                            <span class="aa-badge aa-sold-out" href="#">Sold Out!</span>
                         </li>                        
                       </ul>
-                      <a class="aa-browse-btn" href="#">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
+                      <a class="aa-browse-btn" href="shop.htm">Browse all Product <span class="fa fa-long-arrow-right"></span></a>
                     </div>
                     <!-- / women product category -->
                     <!-- start sports product category -->
