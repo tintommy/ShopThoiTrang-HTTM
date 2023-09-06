@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,14 +23,14 @@ public class KieuSanPhamDAOImpl implements KieuSanPhamDAO{
 	@Override
 	public List<KieuSanPhamEntity> layKieu() {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM KieuSanPhamEntity";
+		String hql = "FROM KieuSanPhamEntity ORDER BY tenKieu ASC";
 		Query query = session.createQuery(hql);
 	    List<KieuSanPhamEntity> listKieu = query.list();
 	    return listKieu;
 	}
 
 	@Override
-	public KieuSanPhamEntity layKieuTheoMa(String maKieu) {
+	public KieuSanPhamEntity layKieuTheoMa(int maKieu) {
 		Session session = sessionFactory.getCurrentSession();
 	    KieuSanPhamEntity Kieu = (KieuSanPhamEntity) session.get(KieuSanPhamEntity.class, maKieu);
 	    return Kieu;
@@ -37,12 +38,36 @@ public class KieuSanPhamDAOImpl implements KieuSanPhamDAO{
 
 	@Override
 	public void themKieu(KieuSanPhamEntity kieu) {
-		sessionFactory.getCurrentSession().save(kieu);
+		Session session=sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(kieu);
+			t.commit();
+
+		} catch (Exception ex) {
+			t.rollback();
+			System.out.print("loi");
+
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
 	public void updateKieu(KieuSanPhamEntity kieu) {
-		sessionFactory.getCurrentSession().update(kieu);		
+		Session session=sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.update(kieu);
+			t.commit();
+
+		} catch (Exception ex) {
+			t.rollback();
+			System.out.print("loi");
+
+		} finally {
+			session.close();
+		}		
 	}
 
 	@Override
