@@ -76,10 +76,10 @@
 						<!-- / cart box -->
 						<!-- search box -->
 						<div class="aa-search-box">
-							<form action="">
-								<input type="text" name="" id=""
-									placeholder="Search here ex. 'man' ">
-								<button type="submit">
+							<form action="shop.htm" method="post">
+								<input type="text" name="key" id="search-barr"
+									placeholder="Bạn tìm gì ">
+								<button type="submit" name="btnSearch">
 									<span class="fa fa-search"></span>
 								</button>
 							</form>
@@ -110,7 +110,7 @@
 				<div class="navbar-collapse collapse">
 					<!-- Left nav -->
 					<ul class="nav navbar-nav">
-						<li><a href="index.html">Home</a></li>
+						<li><a href="ShopThoiTrang.htm">Home</a></li>
 						<li><a href="#">Nam <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 
