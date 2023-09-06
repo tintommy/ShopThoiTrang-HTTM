@@ -24,10 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ptithcm.entity.HinhAnhEntity;
 import ptithcm.entity.KieuSanPhamEntity;
+import ptithcm.entity.LoaiSanPhamEntity;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.service.KieuSanPhamService;
 import ptithcm.service.SanPhamService;
+import ptithcm.service.loaiSanPhamService;
 
 @Transactional
 @Controller
@@ -37,6 +39,8 @@ public class quanLiSanPhamController {
 	SanPhamService sanPhamService;
 	@Autowired
 	KieuSanPhamService kieuService;
+	@Autowired
+	loaiSanPhamService loaiService;
 	
 //	@Autowired
 //	ServletContext context;
@@ -56,6 +60,9 @@ public class quanLiSanPhamController {
 		
 		List<KieuSanPhamEntity> listkieu=kieuService.layKieu();
 		model.addAttribute("listkieu", listkieu);
+		
+		List<LoaiSanPhamEntity> listLoai = loaiService.layLoai();
+		model.addAttribute("listLoai", listLoai);
 		
 		return "admin/product";
 	}
@@ -303,17 +310,33 @@ public class quanLiSanPhamController {
 
 	
 	@RequestMapping(value = "admin/product", params = "deleteKieu", method = RequestMethod.POST)
-	public String deletekieu(HttpServletRequest request, ModelMap model) {
-	    String maKieu = request.getParameter("maKieuXoa");
+	public String deleteKieu(HttpServletRequest request, ModelMap model) {
+	    int maKieu = Integer.parseInt(request.getParameter("maKieuXoa"));
 	    KieuSanPhamEntity kieu = kieuService.layKieuTheoMa(maKieu);
 	    
 	    boolean coSanPhamLienKet = kieuService.kiemTraSanPhamTheoKieu(maKieu);
 	    
 	    if (coSanPhamLienKet) {
-	        model.addAttribute("errorMessageTH", "Không thể xóa thương hiệu vì có sản phẩm đang liên kết!");
+	        model.addAttribute("errorMessageKieu", "Không thể xóa kiểu vì có sản phẩm đang liên kết!");
 	        return "admin/product";
 	    } else 
 	        kieuService.xoaKieu(kieu);
+	    
+	    return "redirect:/admin/product.htm";
+	}
+	
+	@RequestMapping(value = "admin/product", params = "deleteLoai", method = RequestMethod.POST)
+	public String deleteLoai(HttpServletRequest request, ModelMap model) {
+	    String maLoai = request.getParameter("maLoaiXoa");
+	    LoaiSanPhamEntity loai = loaiService.layLoaiTheoMa(maLoai);
+	    
+	    boolean coKieuLienKet = loaiService.kiemTraLoai(maLoai);
+	    
+	    if (coKieuLienKet) {
+	        model.addAttribute("errorMessageLoai", "Không thể xóa loại vì có kiểu đang liên kết!");
+	        return "admin/product";
+	    } else 
+	        loaiService.xoaLoai(loai);
 	    
 	    return "redirect:/admin/product.htm";
 	}

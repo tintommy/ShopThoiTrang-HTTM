@@ -25,22 +25,26 @@ public class KieuSanPhamServiceImpl implements KieuSanPhamService{
 	}
 
 	@Override
-	public KieuSanPhamEntity layKieuTheoMa(String maKieu) {
+	public KieuSanPhamEntity layKieuTheoMa(int maKieu) {
 		return kieuSanPhamDAO.layKieuTheoMa(maKieu);
 	}
 	
 	@Override
-	public boolean kiemTraSanPhamTheoKieu(String maKieu) {
+	public boolean kiemTraSanPhamTheoKieu(int maKieu) {
 	    List<SanPhamEntity> danhSachSanPham = sanPhamService.layAllSanPham();
 	    
 	    for (SanPhamEntity sanPham : danhSachSanPham) {
-	        if (sanPham.getMaKieu().equals(maKieu)) {
-	            return true; // Có sản phẩm liên kết
+	        KieuSanPhamEntity kieuSanPham = sanPham.getMaKieu();
+	        
+	        if (kieuSanPham != null && kieuSanPham.getMaKieu() == maKieu) {
+	            return true; // Có sản phẩm liên kết với mã kiểu đã cho
 	        }
 	    }
 	    
-	    return false; // Không có sản phẩm liên kết
+	    return false; // Không có sản phẩm liên kết với mã kiểu đã cho
 	}
+
+	
 
 	@Override
 	public void themKieu(KieuSanPhamEntity kieu) {
@@ -56,4 +60,6 @@ public class KieuSanPhamServiceImpl implements KieuSanPhamService{
 	public void xoaKieu(KieuSanPhamEntity kieu) {
 		kieuSanPhamDAO.xoaKieu(kieu);
 	}
+
+	
 }

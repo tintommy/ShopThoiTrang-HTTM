@@ -82,14 +82,14 @@
 						<f:form method="post">
 						  <input type="hidden" name="maSPSuaTT" value="${sanPham.maSP}">
 						  <input type="hidden" name="trangThaiSp" value="${sanPham.trangThai}">
-						  <button class="btn-primary" title="Chuyển sang ngừng bán" type="submit"
+						  <button style="/* font-size: 10.25px; padding: 5px 9px; */height:25px; width:75px" class="btn-info" title="Chuyển sang ngừng bán" type="submit"
 						  name="changeStatus">Đang bán</button>
 						</f:form>					
                     </td>                                       
                     
                     <td>
                       <a href="admin/product/edit/${sanPham.maSP}.htm" class="tm-product-delete-link">
-                    	 <i class="fas fa-pencil-alt tm-product-edit-icon"></i>
+                    	 <i class="fas fa-pencil-alt tm-product-edit-icon" title="Sửa sản phẩm này"></i>
                       </a>                      
                       
                     </td>                                      
@@ -144,8 +144,8 @@
                     <td class="tm-product-name">${kieu.tenKieu}</td>
                     
                     <td>
-                      <a href="admin/brands/edit/${kieu.maKieu}.htm" class="tm-product-delete-link">
-                    	 <i class="fas fa-pencil-alt tm-product-edit-icon"></i>
+                      <a href="admin/brands/editKieu/${kieu.maKieu}.htm" class="tm-product-delete-link">
+                    	 <i class="fas fa-pencil-alt tm-product-edit-icon" title="Sửa kiểu này"></i>
                       </a>
                     </td>
                     
@@ -155,7 +155,7 @@
                       </a> -->
                       <form method="post">
 					    <input type="hidden" name="maKieuXoa" value="${kieu.maKieu}" />
-					    <button name="delete" class="btn-danger" title="Xóa kiểu này" type="submit" 
+					    <button name="deleteKieu" class="btn-danger" title="Xóa kiểu này" type="submit" 
 						    onclick="return confirm('Bạn có chắc chắn muốn xóa kiểu này?')">
 						    <i class="far fa-trash-alt tm-product-delete-icon"></i>
 					    </button>
@@ -173,13 +173,13 @@
               Thêm kiểu khác
             </button> -->
             <a
-              href="admin/brands/add.htm"
+              href="admin/brands/addKieu.htm"
               class="btn btn-primary btn-block text-uppercase mb-3">Thêm kiểu</a>
           </div>
 
-		 <c:if test="${not empty errorMessageTH}">
+		 <c:if test="${not empty errorMessageKieu}">
 		  <script type="text/javascript">
-		    alert("${errorMessageTH}");
+		    alert("${errorMessageKieu}");
 		    window.location.href = "${pageContext.request.contextPath}/admin/product.htm";
 		  </script>
 		</c:if>		 
@@ -238,7 +238,7 @@
                     
                     <td>
                       <a href="admin/product/edit/${sanPham.maSP}.htm" class="tm-product-delete-link">
-                    	 <i class="fas fa-pencil-alt tm-product-edit-icon"></i>
+                    	 <i class="fas fa-pencil-alt tm-product-edit-icon" title="Sửa sản phẩm này"></i>
                       </a>
                     </td>
                     	                                       
@@ -260,6 +260,61 @@
           </div>
         </div>
         
+        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products">
+            <h2 class="tm-block-title">Các loại sản phẩm</h2>
+            <div class="tm-product-table-container">
+              <table class="table tm-table-small tm-product-table">
+              	<thead>
+                  <tr>
+                    <th scope="col">Tên Loại</th>
+                    <!-- <th scope="col">Trạng thái</th> -->
+                    <th scope="col">Sửa</th>
+                    <th scope="col">Xóa</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${listLoai}" var="loai">
+                  <tr>
+                    <td class="tm-product-name">${loai.tenLoai}</td>
+                    
+                    <td>
+                      <a href="admin/brands/editLoai/${loai.maLoai}.htm" class="tm-product-delete-link">
+                    	 <i class="fas fa-pencil-alt tm-product-edit-icon" title="Sửa loại này"></i>
+                      </a>
+                    </td>
+                    
+                    <td>
+                      <!-- <a class="tm-product-delete-link">
+                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                      </a> -->
+                      <form method="post">
+					    <input type="hidden" name="maLoaiXoa" value="${loai.maLoai}" />
+					    <button name="deleteLoai" class="btn-danger" title="Xóa loại này" type="submit" 
+						    onclick="return confirm('Bạn có chắc chắn muốn xóa loại này?')">
+						    <i class="far fa-trash-alt tm-product-delete-icon"></i>
+					    </button>
+					 </form>		
+                    </td>
+                          
+                  </tr>
+                  </c:forEach>                 
+                  
+                </tbody>
+              </table>
+            </div>
+            <a
+              href="admin/brands/addLoai.htm"
+              class="btn btn-primary btn-block text-uppercase mb-3">Thêm loại</a>
+          </div>
+
+		 <c:if test="${not empty errorMessageLoai}">
+		  <script type="text/javascript">
+		    alert("${errorMessageLoai}");
+		    window.location.href = "${pageContext.request.contextPath}/admin/product.htm";
+		  </script>
+		</c:if>		 
+        </div>
         
        </div>
       </div>

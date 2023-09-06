@@ -128,7 +128,8 @@ button:focus {
 }
 .navbar-nav .active > .nav-link,
 .navbar-nav .nav-link.active {
-  background-color: #007bff;
+  /* background-color: #007bff; */
+  background-color: #ff6666;
   color: #fff;
 }
 .navbar-nav .nav-link.active i {
