@@ -110,7 +110,7 @@
 				<div class="navbar-collapse collapse">
 					<!-- Left nav -->
 					<ul class="nav navbar-nav">
-						<li><a href="index.html">Home</a></li>
+						<li><a href=".html">Home</a></li>
 						<li><a href="#">Nam <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 
