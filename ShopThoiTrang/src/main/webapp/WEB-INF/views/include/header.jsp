@@ -65,7 +65,7 @@
 
 							<c:if test="${not empty sessionScope.USER}">
 
-								<a class="aa-cart-link" href="#"> <span
+								<a class="aa-cart-link" href="gioHang.htm"> <span
 									class="fa fa-shopping-basket"></span> <span
 									class="aa-cart-title">SHOPPING CART</span>
 
@@ -76,10 +76,10 @@
 						<!-- / cart box -->
 						<!-- search box -->
 						<div class="aa-search-box">
-							<form action="shop.htm" method="post">
-								<input type="text" name="key" id="search-barr"
-									placeholder="Bạn tìm gì ">
-								<button type="submit" name="btnSearch">
+							<form action="">
+								<input type="text" name="" id=""
+									placeholder="Search here ex. 'man' ">
+								<button type="submit">
 									<span class="fa fa-search"></span>
 								</button>
 							</form>
@@ -110,7 +110,7 @@
 				<div class="navbar-collapse collapse">
 					<!-- Left nav -->
 					<ul class="nav navbar-nav">
-						<li><a href="ShopThoiTrang.htm">Home</a></li>
+						<li><a href="index.html">Home</a></li>
 						<li><a href="#">Nam <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 
