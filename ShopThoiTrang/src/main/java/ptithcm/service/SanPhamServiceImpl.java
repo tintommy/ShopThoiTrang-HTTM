@@ -43,10 +43,13 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrang(String loai, int page, int pageSize){
-		return sanPhamDAO.LaySanPhamMotTrang(loai, page, pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize){
+		return sanPhamDAO.LaySanPhamMotTrang(page, pageSize);
 	}
-	
+	@Override
+	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize){
+		return sanPhamDAO.LaySanPhamMotTrangTheoLoai(loai, page, pageSize);
+	}
 	@Override
 	public List<String> laySizeTheoTenSanPham(String maSp){
 		List<String> sizes = new ArrayList<>();
@@ -90,8 +93,8 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
-	public List<SanPhamEntity> locSanPhamTheoThuongHieuVaGia(String loai, List<String> brandsList, int minPrice, int maxPrice){
-		return sanPhamDAO.locSanPhamTheoThuongHieuVaGia(loai, brandsList, minPrice, maxPrice);
+	public List<SanPhamEntity> locSanPham( List<String> stylesList, int minPrice, int maxPrice){
+		return sanPhamDAO.locSanPham(stylesList , minPrice, maxPrice);
 	}
 	
 	@Override
@@ -151,26 +154,24 @@ public class SanPhamServiceImpl implements SanPhamService {
 		sanPhamDAO.xoaSanPham(sanPham);
 	}
 
-//	@Override
-//	public void themHinhAnhSanPham(HinhAnhEntity hinhAnh) {
-//		hinhAnhDAO.themHinhAnhSanPham(hinhAnh);
-//		
-//	}
-	
 	@Override
-	public void themHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-		hinhAnhDAO.themHinhAnhSanPham(hinhAnhs);
-	}
-	
-	@Override
-	public void suaHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-		hinhAnhDAO.suaHinhAnhSanPham(hinhAnhs);
+	public void themHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		hinhAnhDAO.themHinhAnhSanPham(hinhAnh);
+		
 	}
 
 	@Override
-	public void xoaHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-		hinhAnhDAO.xoaHinhAnhSanPham(hinhAnhs);
+	public void suaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		hinhAnhDAO.suaHinhAnhSanPham(hinhAnh);
+		
 	}
+
+	@Override
+	public void xoaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		hinhAnhDAO.xoaHinhAnhSanPham(hinhAnh);
+		
+	}
+	
 
 	
 }

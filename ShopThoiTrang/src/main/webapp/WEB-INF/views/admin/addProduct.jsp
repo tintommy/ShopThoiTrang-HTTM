@@ -84,63 +84,28 @@
 					    <input type="file" name="avatar" id="avatar" class="form-control-file" style="display:none;" onchange="previewAvatar(event);">
 					    <input type="button" class="btn btn-primary btn-block mx-auto" value="Chọn ảnh" onclick="document.getElementById('avatar').click();" required="true">
 					    <div id="avatar-error" style="color: red; display: none;">Vui lòng chọn hình đại diện.</div>
-					  </div>
-			  		
-			  		<div class="form-group mb-3">
-			      		<label for="images">Hình ảnh khác(tối đa 4 hình)</label>
-			      		<input type="file" name="images" id="images" class="form-control-file" multiple>
-			      		<div id="images-error" style="color: red; display: none;">Hãy chọn thêm hình khác của sản phẩm.</div>
-			  		</div>
-			  		
-			  		<%-- <c:if test="${count >= 4}">
-					    <p class="text-danger">Tối đa chỉ được chọn 4 hình ảnh</p>
-					</c:if> --%>
-					
-
-					<div id="maximgsMessage" class="alert alert-danger d-none">Vui lòng chọn tối đa 4 hình ảnh.</div>
-					<script>
-					// Giới hạn 4 hình ảnh khác
-					const inputImages = document.getElementById("images");
-					const maxImages = 4;
-					inputImages.addEventListener("change", function() {
-					  const selectedImagesCount = this.files.length;
-					  if (selectedImagesCount > maxImages) {
-					    // hiện lỗi nếu chọn hơn 4 hình
-					    document.getElementById("maximgsMessage").classList.remove("d-none");
-					    // reset lại 
-					    this.value = "";
-					  } else {
-					    // ẩn lỗi nếu chọn ko quá 4 hình
-					    document.getElementById("maximgsMessage").classList.add("d-none");
-					  }
-					});
-					</script>
-					
-			  		<div class="form-group mb-3">
-			      		<label for="images">Ảnh thông số kĩ thuật</label>
-			      		<input type="file" name="thongSo" id="thongSo" class="form-control-file">
-			      		<div id="thongSo-error" style="color: red; display: none;">Hãy chọn thêm file thông số sản phẩm.</div>
-			  		</div> 
-			  		                
+					  </div>		                
               </div>
            
 	           <div class="col-12">
 	    			<div class="row">
 	    				<div class="form-group mb-3 col-xs-12 col-sm-6">
-	    				    <label for="category">Loại sản phẩm</label>
-	    				    <f:select class="custom-select tm-select-accounts" id="category" path="loaiSanPham.maLoai">
-	    				        <c:forEach items="${listLoai}" var="l">
-	    							<option value="${l.maLoai}">${l.tenLoai}</option>
+	    				    <label for="kieuSP">Kiểu sản phẩm</label>
+	    				    <f:select class="custom-select tm-select-accounts" id="kieuSP" path="maKieu.maKieu">
+	    				        <c:forEach items="${listkieu}" var="k">
+	    							<option value="${k.maKieu}">${k.tenKieu}</option>
 	  					  		</c:forEach>
 	    				    </f:select>
 	    				</div>
 	    				
 	    				<div class="form-group mb-3 col-xs-12 col-sm-6">   				    
-	    				    <label for="th">Thương hiệu</label>
-	    				    <f:select class="custom-select tm-select-accounts" id="thuongHieu" path="thuongHieu.maTh">
-	    				        <c:forEach items="${listThuongHieu}" var="th">
-	    							<option value="${th.maTh}">${th.tenThuongHieu}</option>
-	  					  		</c:forEach>
+	    				    <label for="th">Size</label>
+	    				    <f:select class="custom-select tm-select-accounts" id="size" path="size">
+	    							<option>S</option>
+	    							<option>M</option>
+	    							<option>L</option>
+	    							<option>XL</option>
+	    							<option>XXL</option>
 	    				    </f:select>   				    
 	    				</div>
 	    			</div>
@@ -202,17 +167,7 @@
 		        // Nếu chưa chọn hình đại diện, hiển thị thông báo lỗi
 		        document.getElementById("avatar-error").style.display = "block";
 		        return false;
-		    }
-		    
-		    if (images.value == "") {
-		        document.getElementById("images-error").style.display = "block";
-		        return false;
-		    }
-		    
-		    if (thongSo.value == "") {
-		        document.getElementById("thongSo-error").style.display = "block";
-		        return false;
-		    }
+		    }		   
 		    return true;
 		}
 	    

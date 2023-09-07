@@ -45,7 +45,7 @@ public class quanLiSanPhamController {
 //	@Autowired
 //	ServletContext context;
 	String filePath = "C:\\Users\\vanlu\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
-	String imgXoaPath="C:\\Users\\vanlu\\Documents\\wshopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
+	String imgXoaPath="C:\\Users\\vanlu\\Documents\\shopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
 	
 	@RequestMapping(value="admin/product", method = RequestMethod.GET)
 	public String product(ModelMap model, HttpServletRequest request) {
@@ -80,97 +80,105 @@ public class quanLiSanPhamController {
 	}
 	
 	
-//	@RequestMapping(value = "/admin/product/add", method = RequestMethod.GET)
-//	public String viewAddProduct(ModelMap model, HttpServletRequest request) {
-//		HttpSession session0 = request.getSession();
-//		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-//	    List<KieuSanPhamEntity> listkieu = kieuService.layKieu();
-//	    model.addAttribute("listkieu", listkieu);
-//	    List<LoaiSanPhamEntity> listLoai = loaiService.layLoai();
-//	    model.addAttribute("listLoai", listLoai);
-//	    model.addAttribute("productForm", new SanPhamEntity());
-//	    return "admin/addProduct";
-//	}
-//	
-//	
-//	@RequestMapping(value = "/admin/product/add", params = "add", method = RequestMethod.POST)
-//	public String addProduct(@ModelAttribute("productForm") SanPhamEntity product, 
-//	        @RequestParam("avatar") MultipartFile avatar, 
-//	        @RequestParam("images") MultipartFile[] images,
-//	        @RequestParam("thongSo") MultipartFile thongSo,
-//	        ModelMap model) throws IOException {
-//
-//	    //Lấy ngày tháng cộng vào tên file để khỏi bị trùng file
-//		Date today = new Date();
-//		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-//		String now = formatter.format(today);
-//		
-//	    String avatarFileName = now +"-"+ avatar.getOriginalFilename();
-////	    String avatarFilePath = context.getRealPath("/assets/img/sanPham/" + avatarFileName);
-//	    String avatarFilePath = filePath + avatarFileName;
-//	    File avatarFile = new File(avatarFilePath);
-//	    avatar.transferTo(avatarFile);
-//	    product.setHinhAnhDaiDien("assets/img/sanPham/"+avatarFileName);
-//	    
-//	    
-//	    List<HinhAnhEntity> hinhAnhKhacs = new ArrayList<>();
-//	    int count = 0;
-//	    for (MultipartFile file : images) {
-//	    	
-//	        String fileName = now + "-" + file.getOriginalFilename();
-////	        String filePath = context.getRealPath("/assets/img/sanPham/" + fileName);
-//	        String otherImagefilePath = filePath + fileName;
-//	        File dest = new File(otherImagefilePath);
-//	        file.transferTo(dest);
-//
-//	        HinhAnhEntity hinhAnhKhac = new HinhAnhEntity();
-//	        hinhAnhKhac.setLink("assets/img/sanPham/"+fileName);
-//	        hinhAnhKhac.setSanPham(product);
-//	        hinhAnhKhacs.add(hinhAnhKhac);
-//	    }
-//	    model.addAttribute("count", count);
-//	    	    
-//	    product.setHinhAnhs(hinhAnhKhacs);
-//	    
-//	    String thongSoFileName = now +"-"+ thongSo.getOriginalFilename();
-////	    String avatarFilePath = context.getRealPath("/assets/img/sanPham/" + thongSoFileName);
-//	    String thongSoFilePath = filePath + thongSoFileName;
-//	    File thongSoFile = new File(thongSoFilePath);
-//	    thongSo.transferTo(thongSoFile);
-//	    product.setThongSoKt("assets/img/sanPham/"+thongSoFileName);
-//	    
-//	    
-//		product.setNgayThem(today);
-//		
-//		try {
-//	        sanPhamService.themSanPham(product);
-//	        sanPhamService.themHinhAnhSanPham(hinhAnhKhacs);
-//	        model.addAttribute("successMessage", "Thêm sản phẩm thành công.");
-//	    } catch (Exception e) {
-//	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi thêm sản phẩm. " + e.getMessage());
-//	        return "/admin/addProduct";
-//	    }
-//		
-//	    return "admin/addProduct";
-//	}
-//	
-//	
-//	@RequestMapping(value = "/admin/product/edit/{masp}", method = RequestMethod.GET)
-//	public String viewEditProduct(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request) {
-//		HttpSession session0 = request.getSession();
-//		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-//		
-//	    SanPhamEntity sanPham = sanPhamService.laySanPham(masp);
-//	    Hibernate.initialize(sanPham.getHinhAnhs());
-//	    List<KieuSanPhamEntity> listkieu = kieuService.laykieu();
-//	    List<LoaiSanPhamEntity> listLoai = loaiService.layLoai();
-//	    model.addAttribute("sanPham", sanPham);
-//	    model.addAttribute("listkieu", listkieu);
-//	    model.addAttribute("listLoai", listLoai);
-//	    model.addAttribute("product", sanPham);
-//	    return "admin/editProduct";
-//	}
-//
+	@RequestMapping(value = "/admin/product/add", method = RequestMethod.GET)
+	public String viewAddProduct(ModelMap model, HttpServletRequest request) {
+		List<KieuSanPhamEntity> listkieu=kieuService.layKieu();
+		model.addAttribute("listkieu", listkieu);
+	    model.addAttribute("productForm", new SanPhamEntity());
+	    return "admin/addProduct";
+	}
+	
+	@RequestMapping(value = "/admin/product/add", params = "add", method = RequestMethod.POST)
+	public String addProduct(@ModelAttribute("productForm") SanPhamEntity product, 
+	        @RequestParam("avatar") MultipartFile avatar, 
+	        ModelMap model) throws IOException {
+
+	    //Lấy ngày tháng cộng vào tên file để khỏi bị trùng file
+		Date today = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		String now = formatter.format(today);
+		
+		HinhAnhEntity hinhAnh = new HinhAnhEntity();
+		
+	    String avatarFileName = now +"-"+ avatar.getOriginalFilename();
+//	    String avatarFilePath = context.getRealPath("/assets/img/sanPham/" + avatarFileName);
+	    String avatarFilePath = filePath + avatarFileName;
+	    File avatarFile = new File(avatarFilePath);
+	    avatar.transferTo(avatarFile);
+	    hinhAnh.setLink("assets/img/product/"+avatarFileName);
+	    
+        sanPhamService.themHinhAnhSanPham(hinhAnh);
+	    product.setHinhAnh(hinhAnh);
+		product.setNgayThem(today);
+		
+		try {
+	        sanPhamService.themSanPham(product);
+	        model.addAttribute("successMessage", "Thêm sản phẩm thành công.");
+	    } catch (Exception e) {
+	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi thêm sản phẩm. " + e.getMessage());
+	        return "/admin/addProduct";
+	    }
+		
+	    return "admin/addProduct";
+	}
+	
+	@RequestMapping(value = "/admin/product/edit/{masp}", method = RequestMethod.GET)
+	public String viewEditProduct(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request) {		
+	    SanPhamEntity sanPham = sanPhamService.laySanPham(masp);
+	    List<KieuSanPhamEntity> listkieu = kieuService.layKieu();
+	    model.addAttribute("sanPham", sanPham);
+	    model.addAttribute("listkieu", listkieu);
+	    model.addAttribute("product", sanPham);
+	    return "admin/editProduct";
+	}
+	
+	
+	@RequestMapping(value = "/admin/product/edit/{masp}", params = "update", method = RequestMethod.POST)
+	public String editProduct(@PathVariable("masp") String masp,
+	                           @ModelAttribute("product") SanPhamEntity product,
+	                           @RequestParam("avatar") MultipartFile avatar,
+	                           ModelMap model) throws IOException {
+		SanPhamEntity sp= sanPhamService.laySanPham(masp);
+		
+	    //Lấy ngày tháng cộng vào tên file để khỏi bị trùng file
+	    Date today = new Date();
+	    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+	    String now = formatter.format(today);
+	    
+	    if (!avatar.isEmpty()) {
+	        
+	        
+	        // Xóa hình đại diện cũ
+	        HinhAnhEntity hinhAnhCu = sp.getHinhAnh();
+	        if (hinhAnhCu != null) {
+	            xoaTepTinHinhAnh(hinhAnhCu.getLink());
+	        }
+	        
+	        
+	        String avatarFileName = now + "-" + avatar.getOriginalFilename();
+	        String avatarFilePath = filePath + avatarFileName;
+	        File avatarFile = new File(avatarFilePath);
+	        avatar.transferTo(avatarFile);
+	        HinhAnhEntity hinhAnhMoi = new HinhAnhEntity();
+	        hinhAnhMoi.setLink("assets/img/product/"+avatarFileName);
+	        product.setHinhAnh(hinhAnhMoi); 
+	    }  else {
+	        // Giữ nguyên ảnh đại diện cũ
+	        product.setHinhAnh(sp.getHinhAnh());
+	    } 
+	    
+	    product.setNgayThem(sp.getNgayThem());
+
+	    try {
+	        sanPhamService.updateSanPham(product);
+	        model.addAttribute("successMessage", "Cập nhật sản phẩm thành công.");
+	    } catch (Exception e) {
+	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật sản phẩm. " + e.getMessage());
+	        return "admin/editProduct";
+	    }
+	    return "admin/editProduct";
+	}
+
 //	@RequestMapping(value = "/admin/product/edit/{masp}", params = "update", method = RequestMethod.POST)
 //	public String editProduct(@PathVariable("masp") String masp,
 //	                           @ModelAttribute("product") SanPhamEntity product,
@@ -294,9 +302,12 @@ public class quanLiSanPhamController {
 	        return "admin/product";
 	    }
 	    else {
-	        // Xóa sản phẩm trong cơ sở dữ liệu
-	        sanPhamService.xoaSanPham(sanPham);
 	        
+	        
+	    	// Xóa sản phẩm trong cơ sở dữ liệu
+	        sanPhamService.xoaSanPham(sanPham);
+	        // Xóa hình sản phẩm trong cơ sở dữ liệu	        
+	        sanPhamService.xoaHinhAnhSanPham(sanPham.getHinhAnh());
 	        // Xóa hình đại diện
 	        String hinhAnhDaiDien = sanPham.getHinhAnh().getLink();
 	        if (hinhAnhDaiDien != null) {

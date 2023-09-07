@@ -9,7 +9,8 @@ public interface SanPhamDAO {
 	public List<SanPhamEntity> laySanPhamTheoMa(String key);
 	public List<SanPhamEntity> laySanPhamCungTen(String maSp);
 	public SanPhamEntity laySanPhamTheoMaVaSize(String maSp, String size);
-	public List<SanPhamEntity> LaySanPhamMotTrang(String loai, int page, int pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize);
 	public List<SanPhamEntity> layAllSanPham();
 	public List<SanPhamEntity> layAllSanPhamDaNgungBan();	
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai);
@@ -18,7 +19,7 @@ public interface SanPhamDAO {
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp);
 	public List<SanPhamEntity> laySanPhamNgauNhien();
 	public List<SanPhamEntity> laySanPhamMoi();
-	public List<SanPhamEntity> locSanPhamTheoThuongHieuVaGia(String loai, List<String> brandsList, int minPrice, int maxPrice);
+	public List<SanPhamEntity> locSanPham( List<String> stylesList, int minPrice, int maxPrice);
 	public float tinhSoSaoTB(SanPhamEntity sanPham);
 	public void themSanPham(SanPhamEntity sanPham);
 	public void updateSanPham(SanPhamEntity sanPham);

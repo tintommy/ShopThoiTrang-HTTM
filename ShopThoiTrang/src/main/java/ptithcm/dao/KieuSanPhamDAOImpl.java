@@ -28,6 +28,21 @@ public class KieuSanPhamDAOImpl implements KieuSanPhamDAO{
 	    List<KieuSanPhamEntity> listKieu = query.list();
 	    return listKieu;
 	}
+	
+	@Override
+	public List<KieuSanPhamEntity> layKieuTheoLoai(String loai){
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM KieuSanPhamEntity kieu WHERE kieu.maLoai =: loai";
+		Query query = session.createQuery(hql).setParameter("loai", loai);
+	    List<KieuSanPhamEntity> dsKieu = query.list();
+	    return dsKieu;
+	}
+	@Override
+	public KieuSanPhamEntity layKieuTheoMa(String maKieu) {
+		Session session = sessionFactory.getCurrentSession();
+	    KieuSanPhamEntity Kieu = (KieuSanPhamEntity) session.get(KieuSanPhamEntity.class, maKieu);
+	    return Kieu;
+	}
 
 	@Override
 	public KieuSanPhamEntity layKieuTheoMa(int maKieu) {
