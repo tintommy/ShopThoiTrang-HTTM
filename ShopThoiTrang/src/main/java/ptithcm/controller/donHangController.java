@@ -49,6 +49,17 @@ public class donHangController {
 
 	}
 
+	@RequestMapping("donHang/newInfo")
+	public String donHang1(HttpServletRequest request, ModelMap model) {
+		HttpSession session = request.getSession();
+		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+
+		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
+		model.addAttribute("gioHangList", gioHangList);
+		System.out.print("test");
+		return "/donHang/donHang";
+
+	}
 	@RequestMapping(value = "donHang/newInfo", method = RequestMethod.POST)
 	public String newInfo(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -60,7 +71,7 @@ public class donHangController {
 		newInfo.setSdt(sdt);
 		newInfo.setDiaChi(diaChi);
 		session.setAttribute("NEWINFO", newInfo);
-
+System.out.print("newinfo");
 		return "redirect:/donHang.htm";
 	}
 
