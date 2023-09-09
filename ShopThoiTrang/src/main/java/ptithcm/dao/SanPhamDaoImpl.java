@@ -32,12 +32,10 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	@Override
 	public List<SanPhamEntity> laySanPhamTheoMa(String key) {
 		Session session = sessionFactory.getCurrentSession();
-//	    String hql = "FROM SanPhamEntity sp WHERE sp.tenSanPham LIKE :key OR sp.loaiSanPham.tenLoai LIKE :key";
-
 		String hql = "FROM SanPhamEntity sp WHERE sp.maSP LIKE :key " + "OR sp.tenSanPham LIKE :key "
-				+ "OR sp.thuongHieu.tenThuongHieu LIKE :key " +
+				+ "OR sp.maKieu.tenKieu LIKE :key " ;
 //	                 "OR sp.loaiSanPham.tenLoai LIKE :key"+
-				"OR sp.loaiSanPham.maLoai LIKE :key";
+//				"OR (sp.maKieu).loai.maLoai LIKE :key";
 		Query query = session.createQuery(hql);
 		query.setParameter("key", "%" + key + "%");
 		return query.list();
@@ -68,10 +66,20 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	
 
 	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrang(String loai, int page, int pageSize) {
+	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize){
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM SanPhamEntity sp WHERE trangThai=True ";
+		Query query = session.createQuery(hql);
+		int offset = page * pageSize;
+		List<SanPhamEntity> list = query.setFirstResult(offset).setMaxResults(pageSize).list();
+		return list;
+	}
+	
+	@Override
+	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize) {
 
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM SanPhamEntity sp WHERE sp.loaiSanPham.maLoai = :loai and trangThai=True ";
+		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.maLoai = :loai and trangThai=True ";
 		Query query = session.createQuery(hql).setParameter("loai", loai);
 
 		int offset = page * pageSize;
@@ -143,26 +151,26 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	}
 
 	@Override
-	public List<SanPhamEntity> locSanPhamTheoThuongHieuVaGia(String loai, List<String> brandsList, int minPrice,
+	public List<SanPhamEntity> locSanPham(List<String> stylesList, int minPrice,
 			int maxPrice) {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM SanPhamEntity sp WHERE sp.loaiSanPham.maLoai = :loai and trangThai=True ";
-		if (brandsList != null && !brandsList.isEmpty()) {
-			hql += "AND sp.thuongHieu.tenThuongHieu IN :brandsList ";
+		String hql = "FROM SanPhamEntity sp WHERE trangThai=True ";
+		if (stylesList != null && !stylesList.isEmpty()) {
+			hql += "AND sp.maKieu.tenKieu IN :stylesList ";
 		}
 		if (minPrice >= 0 && maxPrice >= 0) {
 			hql += "AND sp.donGia >= :minPrice AND sp.donGia <= :maxPrice ";
 		}
 
-		Query query = session.createQuery(hql).setParameter("loai", loai);
-		if (brandsList != null && !brandsList.isEmpty()) {
-			query.setParameterList("brandsList", brandsList);
+		Query query = session.createQuery(hql);
+		if (stylesList != null && !stylesList.isEmpty()) {
+			query.setParameterList("stylesList", stylesList);
 		}
 		if (minPrice >= 0 && maxPrice >= 0) {
 			query.setParameter("minPrice", minPrice).setParameter("maxPrice", maxPrice);
 		}
-		List<SanPhamEntity> categoryList = query.list();
-		return categoryList;
+		List<SanPhamEntity> dsKieu = query.list();
+		return dsKieu;
 
 	}
 
@@ -244,7 +252,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	@Override
 	public List<SanPhamEntity> layAllSanPhamTheoLoai(String loai) {
 		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM SanPhamEntity sp WHERE sp.loaiSanPham.maLoai = :loai and trangThai=True ";
+		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.maLoai = :loai and trangThai=True";
 		Query query = session.createQuery(hql).setParameter("loai", loai);
 		List<SanPhamEntity> list = query.list();
 		return list;
