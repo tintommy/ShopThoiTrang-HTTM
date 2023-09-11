@@ -2,11 +2,16 @@ package ptithcm.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ptithcm.dao.YeuThichDAO;
 import ptithcm.entity.YeuThichEntity;
 
+@Service
+@Transactional
 public class yeuThichServiceImpl implements yeuThichService{
 	@Autowired
 	YeuThichDAO yeuThichDao;

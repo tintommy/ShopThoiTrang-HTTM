@@ -64,10 +64,10 @@ public class YeuThichDAOImpl implements YeuThichDAO{
 	public void deleteYeuThich(int maYT) {
 		// TODO Auto-generated method stub
 		Session session = factory.getCurrentSession();
-		String hql = "DELETE FROM YeuThichEntity WHERE maYT =: maYT";
+		String hql = "DELETE FROM YeuThichEntity WHERE id =:maYT";
 		Query query = session.createQuery(hql);
 		query.setParameter("maYT", maYT);
-		int affectedRows = query.executeUpdate();
+		int affectedRows = query.executeUpdate(); 
 		
 	}
 

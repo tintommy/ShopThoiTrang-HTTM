@@ -167,7 +167,7 @@
 																		<c:when test="${sanPham.size == size}">
 																			<a
 																				href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm"
-																				style="border: solid violet 3px; color: #1abef1; background-color: yellow;">
+																				style="color: black;background-color: #CCFF99;border: solid 2px;">
 																				${size} </a>
 																		</c:when>
 																		<c:otherwise>
@@ -214,8 +214,8 @@
 											</div>
 										</c:if>
 										<br>
-										<button name="fav" class="btn btn-danger">Thêm vào
-											yêu thích</button>
+										<button name="fav" class="btn btn-danger"><a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào
+											yêu thích</a></button>
 									</div>
 								</div>
 							</div>

@@ -20,10 +20,13 @@
 
 
 								<c:if test="${not empty sessionScope.USER}">
+									<li><a href="yeuThich.htm">Yêu thích</a></li>
+									<li><a href="user/logout.htm">Lịch sử mua hàng</a></li>
 									<li><a href="userInfo.htm">Tài khoản của tôi</a></li>
 
 								
 									<li><a href="user/logout.htm">Đăng xuất</a></li>
+									
 								</c:if>
 							</ul>
 						</div>

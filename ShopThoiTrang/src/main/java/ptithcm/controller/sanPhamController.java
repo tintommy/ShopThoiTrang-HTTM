@@ -16,9 +16,11 @@ import ptithcm.entity.DanhGiaEntity;
 import ptithcm.entity.GioHangEntity;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
+import ptithcm.entity.YeuThichEntity;
 import ptithcm.service.DanhGiaService;
 import ptithcm.service.SanPhamService;
 import ptithcm.service.gioHangService;
+import ptithcm.service.yeuThichService;
 
 @Transactional
 @Controller
@@ -31,6 +33,8 @@ public class sanPhamController {
 	DanhGiaService danhGiaService;
 	@Autowired
 	gioHangService gioHangService;
+	@Autowired
+	yeuThichService yeuThichService;
 	@RequestMapping("/product/{maSp}")
 	public String sanPham(@PathVariable("maSp") String maSp, ModelMap model,HttpServletRequest request) {
 		SanPhamEntity sanPham=sanPhamService.laySanPham(maSp);
@@ -87,6 +91,40 @@ public class sanPhamController {
 		  
 		System.out.println("Dang them vao gio");
 		model.addAttribute("sanPham", sanPham);
+		return "sanPham/sanPham";
+	}
+	@RequestMapping("themVaoYT/{maSP}")
+	public String addYeuThich(@PathVariable("maSP") String maSp, ModelMap model, HttpServletRequest request) {
+		SanPhamEntity sanPham = sanPhamService.laySanPham(maSp);
+		HttpSession session0= request.getSession();
+		NguoiDungEntity user =  (NguoiDungEntity) session0.getAttribute("USER");
+		if(user == null) {
+			model.addAttribute("user", new NguoiDungEntity());
+			System.out.println("Nguoi dung moi");
+			return "user/login"; 
+		}
+		System.out.println("them vao YT");
+		List<YeuThichEntity> yeuThichList = yeuThichService.layDSYeuThichCuaUser(user.getMaNd());
+		boolean already = false;
+		for(int i = 0; i < yeuThichList.size(); i++) {
+			if(yeuThichList.get(i).getSanPham() == sanPham) {
+				already = true;
+				break;
+			}
+		}
+		if(already ==false) {
+			YeuThichEntity yeuThich = new YeuThichEntity();
+			yeuThich.setNguoiDung(user);
+			yeuThich.setSanPham(sanPham);
+			yeuThichService.addYeuThich(yeuThich);
+		}
+		List<String> sizes = sanPhamService.laySizeTheoTenSanPham(maSp);
+		model.addAttribute("sizes", sizes);
+		
+		List<SanPhamEntity> sanPhamCungKieu = sanPhamService.laySanPhamCungKieu(maSp);
+		model.addAttribute("sanPhamCungKieu", sanPhamCungKieu);
+		model.addAttribute("sanPham",sanPham);
+		model.addAttribute(yeuThichList);
 		return "sanPham/sanPham";
 	}
 	
