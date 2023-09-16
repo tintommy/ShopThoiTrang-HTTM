@@ -120,65 +120,10 @@
                             <img src="img/view-slider/thumbnail/polo-shirt-4.png">
                           </a>
                       </div> -->
-                    </div>
-                  </div>
-                </div>
-                <!-- Modal view content -->
-                <div class="col-md-7 col-sm-7 col-xs-12">
-                  <div class="aa-product-view-content">
-                    <h1 class="mt-3" style="font-size: 2rem; font-weight: bold; color: #3D71B6;">${sanPham.tenSanPham}</h1>
-                    <div class="product-rating-stars">
-							<c:if test="${sanPham.soSaoTB == 0}">
-								<span class="soSaotb"><i>Chưa có đánh giá<i></span>
-							</c:if>
-							<c:if test="${sanPham.soSaoTB > 0}">
-								<span class="soSaotb"><i>Đánh giá:
-										${sanPham.soSaoTB}/5 <i class="fas fa-star"></i><i></span>
-							</c:if>
-						</div>          
-                    
-                    <c:if test="${sanPham.trangThai==true }">
-
-							<h5 style="padding-top: 3px;">
-								Còn lại: <i>${sanPham.soLuong}</i>
-							</h5>
-							<h5>Đang xem: Size ${sanPham.size}</h4>
-							
-							<div class="fs-5 my-3 gia">
-							<span
-									style="font-size: 1.875rem; font-weight: bold; color: #ee4d2d; font-style: normal;"><fmt:formatNumber
-										value="${sanPham.donGia}" pattern="#,##0" />đ</span>
-							</div>
-							<f:form action="themVaoGio/${sanPham.maSP}.htm" method="post">
-								<div class="d-flex align-items-center">
-								
-								<h4>Bảng Size</h4>
-			                    <div class="aa-prod-view-size">
-			                        <div class="size-buttons">
-								        <c:forEach items="${sizes}" var="size">
-										   <%--  <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" /> --%>
-										   
-										   <c:set var="indexOfUnderscore" value="${fn:indexOf(sanPham.maSP, '_')}" />
-											<c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, indexOfUnderscore)}" />
-
-										    <c:set var="trimmedSize" value="${fn:trim(size)}" />
-										    <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm">
-										        ${size}
-										    </a>
-										</c:forEach>
-
-								    </div>					            								    
-			                    </div>
-									
-									<h4>Số lượng</h4>
-									<input class="form-control text-center me-3" id="inputQuantity"
-										type="number" name="soLuong" value="1" min="1" inputmode="numeric" autocomplete="off"
-										max="${sanPham.soLuong}" style="width: 90px" />
-									
-									<br>					
-									<button name="them" class="btn btn-warning">Thêm vào giỏ</button>
-									
+										</div>
+									</div>
 								</div>
+
 								<!-- Modal view content -->
 								<div class="col-md-7 col-sm-7 col-xs-12">
 									<div class="aa-product-view-content">
@@ -223,7 +168,7 @@
 																		<c:when test="${sanPham.size == size}">
 																			<a
 																				href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm"
-																				style="color: black;background-color: #CCFF99;border: solid 2px;">
+																				style="color: black; background-color: #CCFF99; border: solid 2px;">
 																				${size} </a>
 																		</c:when>
 																		<c:otherwise>
@@ -246,13 +191,13 @@
 														<c:choose>
 															<c:when test="${sanPham.soLuong == 0 }">
 
-																<button name="them" class="btn btn-warning" disabled="disabled">Thêm
-																	vào giỏ</button>
+																<button name="them" class="btn btn-warning"
+																	disabled="disabled">Thêm vào giỏ</button>
 															</c:when>
 															<c:otherwise>
 																<button name="them" class="btn btn-warning">Thêm
 																	vào giỏ</button>
-															
+
 															</c:otherwise>
 														</c:choose>
 
@@ -270,8 +215,10 @@
 											</div>
 										</c:if>
 										<br>
-										<button name="fav" class="btn btn-danger"><a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào
-											yêu thích</a></button>
+										<button name="fav" class="btn btn-danger">
+											<a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào yêu
+												thích</a>
+										</button>
 									</div>
 								</div>
 							</div>
