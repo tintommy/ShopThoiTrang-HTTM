@@ -58,6 +58,17 @@ public class SanPhamEntity {
 
 	@OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
 	private List<DanhGiaEntity> danhGiaList;
+	
+	@OneToMany(mappedBy = "sanPham", fetch = FetchType.LAZY)
+	private List<YeuThichEntity> yeuThichList;
+	
+	public List<YeuThichEntity> getYeuThichList() {
+		return yeuThichList;
+	}
+
+	public void setYeuThichList(List<YeuThichEntity> yeuThichList) {
+		this.yeuThichList = yeuThichList;
+	}
 
 	public String getMaSP() {
 		return maSP;
