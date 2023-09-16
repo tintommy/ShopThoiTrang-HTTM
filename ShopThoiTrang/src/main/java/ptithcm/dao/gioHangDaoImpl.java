@@ -24,7 +24,7 @@ public class gioHangDaoImpl implements gioHangDao{
 	@Override
 	public List<GioHangEntity> layGioHangCuaUser(int maNd) {
 		Session session = factory.getCurrentSession();
-        String hql = "FROM GioHangEntity where nguoiDung.maNd=:maNd";
+        String hql = "FROM GioHangEntity where nguoiDung.maNd=:maNd order by sanPham.tenSanPham";
        
         Query query = session.createQuery(hql);
         query.setParameter("maNd",maNd);

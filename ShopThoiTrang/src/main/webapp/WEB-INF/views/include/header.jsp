@@ -65,7 +65,7 @@
 
 							<c:if test="${not empty sessionScope.USER}">
 
-								<a class="aa-cart-link" href="#"> <span
+								<a class="aa-cart-link" href="gioHang.htm"> <span
 									class="fa fa-shopping-basket"></span> <span
 									class="aa-cart-title">SHOPPING CART</span>
 
@@ -110,7 +110,7 @@
 				<div class="navbar-collapse collapse">
 					<!-- Left nav -->
 					<ul class="nav navbar-nav">
-						<li><a href="ShopThoiTrang.htm">Home</a></li>
+						<li><a href=".html">Home</a></li>
 						<li><a href="#">Nam <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 
