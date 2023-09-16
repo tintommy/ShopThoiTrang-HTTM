@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Hibernate;
+import org.hibernate.mapping.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ptithcm.entity.HinhAnhEntity;
 import ptithcm.entity.KieuSanPhamEntity;
@@ -126,6 +128,10 @@ public class quanLiSanPhamController {
 	public String viewEditProduct(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request) {		
 	    SanPhamEntity sanPham = sanPhamService.laySanPham(masp);
 	    List<KieuSanPhamEntity> listkieu = kieuService.layKieu();
+	    
+	    List<String> sizes = sanPhamService.laySizeTheoTenSanPham(masp);
+		model.addAttribute("sizes", sizes);
+		
 	    model.addAttribute("sanPham", sanPham);
 	    model.addAttribute("listkieu", listkieu);
 	    model.addAttribute("product", sanPham);
@@ -178,6 +184,97 @@ public class quanLiSanPhamController {
 	    }
 	    return "admin/editProduct";
 	}
+	
+//	@RequestMapping(value = "/admin/product/edit/{masp}", params = "addSize", method = RequestMethod.POST)
+//	public String showAddNewProductForm(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+//	    SanPhamEntity sp= sanPhamService.laySanPham(masp);
+//	    // Sử dụng Flash Attributes để giữ lại thông tin sản phẩm
+//	    redirectAttributes.addFlashAttribute("spThemSize", sp);
+//
+//	    return "redirect:/admin/product/addSize.htm";
+//	}		
+//	
+//	@RequestMapping(value = "/admin/product/addSize", method = RequestMethod.GET)
+//    public String viewAddNewSizeProductForm(ModelMap model,  HttpServletRequest request, RedirectAttributes redirectAttributes,
+//    		@ModelAttribute("spThemSize") SanPhamEntity sp) {
+//		SanPhamEntity spmoi =new SanPhamEntity();
+//		spmoi=sp;
+//        return "admin/addSize";
+//    }
+//	
+//	
+//	@RequestMapping(value = "/admin/product/addSize", params = "add", method = RequestMethod.POST)
+//    public String AddNewSizeProductForm(@ModelAttribute("productForm") SanPhamEntity product, ModelMap model,  HttpServletRequest request, RedirectAttributes redirectAttributes,
+//    		@RequestParam("sizemoi") String sizemoi, @RequestParam("gia") int gia, @RequestParam("soluong") int soluong,
+//    		@ModelAttribute("spThemSize") SanPhamEntity sp) {
+//
+//		product= sp;
+//		product.setSize(sizemoi);
+//		product.setMaSP(sp.getMaSP()+"_"+sizemoi);
+//		product.setSoLuong(soluong);
+//		product.setDonGia(gia);
+//		Date today = new Date();
+//		product.setNgayThem(today);
+//		try {
+//	        sanPhamService.themSanPham(product);
+//	        model.addAttribute("successMessage", "Thêm thành công.");
+//	    } catch (Exception e) {
+//	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi thêm" + e.getMessage());
+//	        return "/admin/addSize";
+//	    }
+//		
+//	    return "admin/addSize";
+//    }
+	
+	@RequestMapping(value = "/admin/product/edit/{masp}", params = "addSize", method = RequestMethod.POST)
+	public String showAddNewProductForm(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request) {
+	    SanPhamEntity sp= sanPhamService.laySanPham(masp);
+	    HttpSession session = request.getSession();
+	    session.setAttribute("spThemSize", sp);
+	    
+	    List<String> sizes = sanPhamService.laySizeTheoTenSanPham(masp);
+		model.addAttribute("sizes", sizes);
+
+	    return "redirect:/admin/product/addSize.htm";
+	}		
+	
+	@RequestMapping(value = "/admin/product/addSize", method = RequestMethod.GET)
+    public String viewAddNewSizeProductForm(ModelMap model,  HttpServletRequest request) {
+		HttpSession session = request.getSession();
+	    SanPhamEntity spThemSize= (SanPhamEntity) session.getAttribute("spThemSize");
+        return "admin/addSize";
+    }
+	
+	
+	@RequestMapping(value = "/admin/product/addSize", params = "add", method = RequestMethod.POST)
+    public String AddNewSizeProductForm(@ModelAttribute("productForm") SanPhamEntity product, ModelMap model,  HttpServletRequest request,
+    		@RequestParam("sizemoi") String sizemoi, @RequestParam("gia") int gia, @RequestParam("soluong") int soluong) {
+		
+		HttpSession session = request.getSession();
+	    SanPhamEntity spThemSize= (SanPhamEntity) session.getAttribute("spThemSize");
+
+		product= spThemSize;
+		String maSP = spThemSize.getMaSP();
+		int lastIndex = maSP.lastIndexOf("_"); // Tìm vị trí cuối cùng của dấu gạch
+		String maSPMoi = maSP.substring(0, lastIndex);
+		product.setSize(sizemoi);
+		product.setMaSP(maSPMoi+"_"+sizemoi);
+		product.setSoLuong(soluong);
+		product.setDonGia(gia);
+		Date today = new Date();
+		product.setNgayThem(today);
+		try {
+	        sanPhamService.themSanPham(product);
+	        model.addAttribute("successMessage", "Thêm thành công.");
+	    } catch (Exception e) {
+	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi thêm" + e.getMessage());
+	        return "/admin/addSize";
+	    }
+		
+//		session.removeAttribute("spThemSize");
+//		return "redirect:/admin/product/addSize.htm";
+	    return "admin/addSize";
+    }
 
 //	@RequestMapping(value = "/admin/product/edit/{masp}", params = "update", method = RequestMethod.POST)
 //	public String editProduct(@PathVariable("masp") String masp,
@@ -306,13 +403,15 @@ public class quanLiSanPhamController {
 	        
 	    	// Xóa sản phẩm trong cơ sở dữ liệu
 	        sanPhamService.xoaSanPham(sanPham);
-	        // Xóa hình sản phẩm trong cơ sở dữ liệu	        
-	        sanPhamService.xoaHinhAnhSanPham(sanPham.getHinhAnh());
-	        // Xóa hình đại diện
-	        String hinhAnhDaiDien = sanPham.getHinhAnh().getLink();
-	        if (hinhAnhDaiDien != null) {
-	            xoaTepTinHinhAnh(hinhAnhDaiDien);
-	        }
+	        
+	        
+//	        // Xóa hình sản phẩm trong cơ sở dữ liệu	        
+//	        sanPhamService.xoaHinhAnhSanPham(sanPham.getHinhAnh());
+//	        // Xóa hình đại diện
+//	        String hinhAnhDaiDien = sanPham.getHinhAnh().getLink();
+//	        if (hinhAnhDaiDien != null) {
+//	            xoaTepTinHinhAnh(hinhAnhDaiDien);
+//	        }
 	        
 	    }
 	    

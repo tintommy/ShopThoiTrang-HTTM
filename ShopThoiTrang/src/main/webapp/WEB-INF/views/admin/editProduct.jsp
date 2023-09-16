@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +48,8 @@
                 
                 	<div class="form-group mb-3">
     				    <label for="name">Mã sản phẩm</label>
-    				    <f:input id="masp" path="maSP" type="text" class="form-control validate" required="true" />    				    
+    				    <%-- <f:input id="masp" path="maSP" type="text" class="form-control validate" required="true" /> --%>
+    				    <input id="masp" value="${sanPham.maSP}" type="text" class="form-control validate" readonly required="true" />    				    
     				</div>
     				<div class="form-group mb-3">
     				    <label for="name">Tên sản phẩm</label>
@@ -78,13 +80,38 @@
 					    <label for="avatar">Đổi hình ảnh đại diện</label>
 					    <input type="file" name="avatar" id="avatar" class="form-control-file"  onchange="previewAvatar(event);">
 					    <!-- <input type="button" class="btn btn-primary btn-block mx-auto" value="Đổi ảnh" onclick="document.getElementById('avatar').click();" required="true"> -->
-					  </div>	                
+					  </div>
+					  
+					  <div style="margin-top:25px;">
+	    				    <label for="s" style="color: #fff;">Các size của sản phẩm:</label>
+	    				    
+	    				    <div class="size-buttons">
+		    				    <c:forEach items="${sizes}" var="size">
+									<%-- <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" /> --%>
+									
+									
+									<c:set var="indexOfUnderscore" value="${fn:indexOf(sanPham.maSP, '_')}" />
+									<c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, indexOfUnderscore)}" />
+									
+									<c:set var="trimmedSize" value="${fn:trim(size)}" />
+									
+									<button><a style="color: #ff0000;" href="${pageContext.servletContext.contextPath}/admin/product/edit/${trimmedMaSP}_${trimmedSize}.htm">
+										${size}
+									</a></button>
+								</c:forEach>
+							</div>
+							
+							 <form method="POST">
+							 <button name="addSize" type="submit" class="btn btn-primary btn-block text-uppercase">Thêm size</button>							 
+							 </form>
+	    			</div>	  
+	    			              
               </div>
            
 	           <div class="col-12">
 	    			<div class="row">
 	    				<div class="form-group mb-3 col-xs-12 col-sm-6">
-	    				    <label for="kieuSP">Kiểu sản phẩm: ${sanPham.maKieu.tenKieu}</label>
+	    				    <label for="kieuSP">Kiểu: ${sanPham.maKieu.tenKieu}</label>
 	    				    <f:select class="custom-select tm-select-accounts" id="kieuSP" path="maKieu.maKieu">
 	    				        <c:forEach items="${listkieu}" var="k">
 	    							<%-- <option value="${k.maKieu}">${k.tenKieu}</option> --%>

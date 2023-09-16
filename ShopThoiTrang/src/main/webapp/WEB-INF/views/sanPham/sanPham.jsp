@@ -140,7 +140,11 @@
 			                    <div class="aa-prod-view-size">
 			                        <div class="size-buttons">
 								        <c:forEach items="${sizes}" var="size">
-										    <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" />
+										   <%--  <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" /> --%>
+										   
+										   <c:set var="indexOfUnderscore" value="${fn:indexOf(sanPham.maSP, '_')}" />
+											<c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, indexOfUnderscore)}" />
+
 										    <c:set var="trimmedSize" value="${fn:trim(size)}" />
 										    <a href="${pageContext.servletContext.contextPath}/product/${trimmedMaSP}_${trimmedSize}.htm">
 										        ${size}
