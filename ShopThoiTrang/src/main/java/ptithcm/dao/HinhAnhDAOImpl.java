@@ -19,75 +19,58 @@ public class HinhAnhDAOImpl implements HinhAnhDAO{
 	@Autowired
 	private SessionFactory sessionFactory;
 
-//	@Override
-//	public void themHinhAnhSanPham(HinhAnhEntity hinhAnh) {
-//		Session session = sessionFactory.openSession();
-//		Transaction t = session.beginTransaction();
-//		try {
-//			session.saveOrUpdate(hinhAnh);
-//			t.commit();
-//		
-//		} catch (Exception ex) {
-//			t.rollback();
-//			System.out.print("loi");
-//
-//		} finally {
-//			session.close();
-//		}
-//		
-//	}
-	
-	public void themHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-	    Session session = sessionFactory.openSession();
-	    Transaction t = session.beginTransaction();
-	    try {
-	        for (HinhAnhEntity hinhAnh : hinhAnhs) {
-	            session.save(hinhAnh);
-	        }
-	        t.commit();
-	    } catch (Exception ex) {
-	        t.rollback();
-	        System.out.print("loi");
+	@Override
+	public void themHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.save(hinhAnh);
+			t.commit();
+		
+		} catch (Exception ex) {
+			t.rollback();
+			System.out.print("loi");
 
-	    } finally {
-	        session.close();
-	    }
+		} finally {
+			session.close();
+		}
+		
 	}
-	
-	public void suaHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-	    Session session = sessionFactory.openSession();
-	    Transaction t = session.beginTransaction();
-	    try {
-	        for (HinhAnhEntity hinhAnh : hinhAnhs) {
-	            session.update(hinhAnh);
-	        }
-	        t.commit();
-	    } catch (Exception ex) {
-	        t.rollback();
-	        System.out.print("loi");
-
-	    } finally {
-	        session.close();
-	    }
-	}
-	
 
 	@Override
-	public void xoaHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
+	public void suaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
 		Session session = sessionFactory.openSession();
-	    Transaction t = session.beginTransaction();
-	    try {
-	        for (HinhAnhEntity hinhAnh : hinhAnhs) {
-	            session.delete(hinhAnh);
-	        }
-	        t.commit();
-	    } catch (Exception ex) {
-	        t.rollback();
-	        System.out.print("loi");
+		Transaction t = session.beginTransaction();
+		try {
+			session.update(hinhAnh);
+			t.commit();
+		
+		} catch (Exception ex) {
+			t.rollback();
+			System.out.print("loi");
 
-	    } finally {
-	        session.close();
-	    }
+		} finally {
+			session.close();
+		}
 	}
+
+	@Override
+	public void xoaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.delete(hinhAnh);
+			t.commit();
+		
+		} catch (Exception ex) {
+			t.rollback();
+			System.out.print("loi");
+
+		} finally {
+			session.close();
+		}
+	}
+	
+
 
 }
