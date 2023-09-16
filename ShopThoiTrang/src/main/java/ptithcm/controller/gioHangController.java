@@ -52,7 +52,7 @@ public class gioHangController {
 		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
 
 		model.addAttribute("gioHangList", gioHangList);
-
+		model.addAttribute("user", user);
 		return "/gioHang/gioHang";
 	}
 	

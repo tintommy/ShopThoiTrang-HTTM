@@ -139,7 +139,6 @@ System.out.print("newinfo");
 		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
 		model.addAttribute("donHang",donHang);
 		model.addAttribute("ctDonHangList",ctDonHangList);
-	
 		return "donHang/chiTietDonHang";
 	}
 	
@@ -173,6 +172,5 @@ System.out.print("newinfo");
 		
 		return "redirect:/lichSuDonHang.htm";
 	}
-	
 
 }
