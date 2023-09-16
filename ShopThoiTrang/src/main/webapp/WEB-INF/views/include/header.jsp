@@ -79,10 +79,10 @@
 						<!-- / cart box -->
 						<!-- search box -->
 						<div class="aa-search-box">
-							<form action="">
-								<input type="text" name="" id=""
-									placeholder="Search here ex. 'man' ">
-								<button type="submit">
+							<form action="shop.htm" method="post">
+								<input type="text" name="key" id="search-barr"
+									placeholder="Bạn tìm gì ">
+								<button type="submit" name="btnSearch">
 									<span class="fa fa-search"></span>
 								</button>
 							</form>
