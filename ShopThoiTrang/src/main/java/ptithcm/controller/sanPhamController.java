@@ -3,6 +3,7 @@ package ptithcm.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ptithcm.entity.DanhGiaEntity;
+import ptithcm.entity.GioHangEntity;
+import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
+import ptithcm.entity.YeuThichEntity;
 import ptithcm.service.DanhGiaService;
 import ptithcm.service.SanPhamService;
+import ptithcm.service.gioHangService;
+import ptithcm.service.yeuThichService;
 
 @Transactional
 @Controller
@@ -25,7 +31,10 @@ public class sanPhamController {
 	SanPhamService sanPhamService;
 	@Autowired
 	DanhGiaService danhGiaService;
-	
+	@Autowired
+	gioHangService gioHangService;
+	@Autowired
+	yeuThichService yeuThichService;
 	@RequestMapping("/product/{maSp}")
 	public String sanPham(@PathVariable("maSp") String maSp, ModelMap model,HttpServletRequest request) {
 		SanPhamEntity sanPham=sanPhamService.laySanPham(maSp);
@@ -44,6 +53,79 @@ public class sanPhamController {
 		model.addAttribute("danhGiaList",listDanhGia);
 
 		return "/sanPham/sanPham";
+	}
+	@RequestMapping(value="themVaoGio/{maSp}")
+	public String addToCart(@PathVariable("maSp") String maSp, ModelMap model,HttpServletRequest request) {
+		SanPhamEntity sanPham = sanPhamService.laySanPham(maSp);
+		HttpSession session0= request.getSession();
+		int amount = Integer.parseInt(request.getParameter("soLuong"));
+		NguoiDungEntity user =  (NguoiDungEntity) session0.getAttribute("USER");
+		if(user == null) {
+			model.addAttribute("user", new NguoiDungEntity());
+			System.out.println("Nguoi dung moi");
+			return "user/login";
+		}
+		List<GioHangEntity> productsListInCart = gioHangService.layGioHangCuaUser(user.getMaNd());
+		boolean alreadyInCart = false;
+		for(int i =0; i< productsListInCart.size(); i++) {
+			if(productsListInCart.get(i).getSanPham() ==sanPham) {
+				alreadyInCart = true;
+				break;
+			}
+		}
+		if(alreadyInCart) {
+			GioHangEntity gioHang = gioHangService.layGioHangTheoMaNdVaSanPham(user.getMaNd(), sanPham.getMaSP());
+			gioHang.setSoLuong(gioHang.getSoLuong()+amount);
+			gioHangService.updateGioHang(gioHang);
+			System.out.println("San pham da ton tai trong gio hang");
+		}
+		else {
+			
+			GioHangEntity gioHang = new GioHangEntity();
+			gioHang.setNguoiDung(user);
+			gioHang.setSanPham(sanPham);
+			gioHang.setSoLuong(amount);
+			gioHangService.addGioHang(gioHang);
+			System.out.println("San pham chua ton tại trong gio hang");
+		}
+		  
+		System.out.println("Dang them vao gio");
+		model.addAttribute("sanPham", sanPham);
+		return "sanPham/sanPham";
+	}
+	@RequestMapping("themVaoYT/{maSP}")
+	public String addYeuThich(@PathVariable("maSP") String maSp, ModelMap model, HttpServletRequest request) {
+		SanPhamEntity sanPham = sanPhamService.laySanPham(maSp);
+		HttpSession session0= request.getSession();
+		NguoiDungEntity user =  (NguoiDungEntity) session0.getAttribute("USER");
+		if(user == null) {
+			model.addAttribute("user", new NguoiDungEntity());
+			System.out.println("Nguoi dung moi");
+			return "user/login"; 
+		}
+		System.out.println("them vao YT");
+		List<YeuThichEntity> yeuThichList = yeuThichService.layDSYeuThichCuaUser(user.getMaNd());
+		boolean already = false;
+		for(int i = 0; i < yeuThichList.size(); i++) {
+			if(yeuThichList.get(i).getSanPham() == sanPham) {
+				already = true;
+				break;
+			}
+		}
+		if(already ==false) {
+			YeuThichEntity yeuThich = new YeuThichEntity();
+			yeuThich.setNguoiDung(user);
+			yeuThich.setSanPham(sanPham);
+			yeuThichService.addYeuThich(yeuThich);
+		}
+		List<String> sizes = sanPhamService.laySizeTheoTenSanPham(maSp);
+		model.addAttribute("sizes", sizes);
+		
+		List<SanPhamEntity> sanPhamCungKieu = sanPhamService.laySanPhamCungKieu(maSp);
+		model.addAttribute("sanPhamCungKieu", sanPhamCungKieu);
+		model.addAttribute("sanPham",sanPham);
+		model.addAttribute(yeuThichList);
+		return "sanPham/sanPham";
 	}
 	
 		
