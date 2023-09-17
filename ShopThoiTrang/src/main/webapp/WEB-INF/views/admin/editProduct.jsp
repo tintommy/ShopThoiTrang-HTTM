@@ -39,6 +39,19 @@
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
             <div class="row">
               <div class="col-12">
+              <c:if test="${not empty successMessage}">
+					    <div class="alert alert-success">${successMessage}</div>
+					</c:if>
+					<c:if test="${not empty errorMessage}">
+					    <div class="alert alert-danger">${errorMessage}</div>
+					</c:if>
+					
+<%-- 					<c:if test="${not empty sizesuccessMessage}">
+					    <div class="alert alert-success">${successMessage}</div>
+					</c:if>
+					<c:if test="${not empty sizeerrorMessage}">
+					    <div class="alert alert-danger">${errorMessage}</div>
+					</c:if> --%>
                 <h2 class="tm-block-title d-inline-block">Sửa sản phẩm</h2>
               </div>
             </div>

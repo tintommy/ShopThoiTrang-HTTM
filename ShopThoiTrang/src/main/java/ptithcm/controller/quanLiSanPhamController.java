@@ -114,6 +114,12 @@ public class quanLiSanPhamController {
 		product.setNgayThem(today);
 		
 		try {
+			// Lấy mã sản phẩm đã điền từ product
+	        String maSPDaDien = product.getMaSP();
+	        String size = product.getSize();
+	        String newMaSP = maSPDaDien + "_" + size; // Tạo mã sản phẩm mới
+	        product.setMaSP(newMaSP); // Cập nhật mã sản phẩm trong product
+
 	        sanPhamService.themSanPham(product);
 	        model.addAttribute("successMessage", "Thêm sản phẩm thành công.");
 	    } catch (Exception e) {

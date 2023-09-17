@@ -136,7 +136,7 @@ public class userController {
 		String maSp= (String) session0.getAttribute("SANPHAM");
 		if(maSp!=null)
 			{session0.removeAttribute("SANPHAM");
-			return "redirect:/sanpham/"+maSp+".htm";}
+			return "redirect:/product/"+maSp+".htm";}
 		session0.removeAttribute("SANPHAM");
 		return "redirect:/";
 	}
