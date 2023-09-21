@@ -27,5 +27,10 @@ public class DanhGiaServiceImpl implements DanhGiaService {
 		danhGiaDAO.saveDanhGia(danhGia);
 		
 	}
+	@Override
+	public List<DanhGiaEntity> layDanhGiaSanPhamTheoMaND(int maND) {
+		return danhGiaDAO.layDanhGiaSanPhamTheoMaND(maND);
+		
+	}
 
 }
