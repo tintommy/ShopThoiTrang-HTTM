@@ -30,6 +30,16 @@ public class DanhGiaDAOImpl implements DanhGiaDao {
         session.saveOrUpdate(danhGia);
 		
 	}
+	
+	@Override
+	public List<DanhGiaEntity> layDanhGiaSanPhamTheoMaND(int maND){
+		Session session = sessionFactory.getCurrentSession();
+		String hql ="FROM DanhGiaEntity WHERE nguoiDung.maNd = :maND";
+		Query query = session.createQuery(hql);
+		query.setParameter("maND", maND);
+		List<DanhGiaEntity> danhGiaList = query.list();
+		return danhGiaList;
+	}
 
 	
 }

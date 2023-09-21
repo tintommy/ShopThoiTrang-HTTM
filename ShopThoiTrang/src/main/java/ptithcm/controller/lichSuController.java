@@ -33,9 +33,15 @@ public class lichSuController {
 
 			return "/user/login";
 		}
-		List<DonHangEntity> donHangList = donHangService. timDonHangCuaUserTheoTrangThai(user.getMaNd(), 1);
+		List<DonHangEntity> donHangChoXacNhanList = donHangService. timDonHangCuaUserTheoTrangThai(user.getMaNd(), 1);
+		List<DonHangEntity> donHangDangGiaoList = donHangService. timDonHangCuaUserTheoTrangThai(user.getMaNd(), 2);
+		List<DonHangEntity> donHangThanhCongList = donHangService. timDonHangCuaUserTheoTrangThai(user.getMaNd(), 3);
+		List<DonHangEntity> donHangDaHuyList = donHangService. timDonHangCuaUserTheoTrangThai(user.getMaNd(), 0);
 		model.addAttribute("user", user);
-		model.addAttribute("donHangList",donHangList);
+		model.addAttribute("donHangChoXacNhanList",donHangChoXacNhanList);
+		model.addAttribute("donHangDangGiaoList",donHangDangGiaoList);
+		model.addAttribute("donHangThanhCongList",donHangThanhCongList);	
+		model.addAttribute("donHangDaHuyList",donHangDaHuyList);
 		return "history/orderHistory";
 	}
 	

@@ -11,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Daily Shop | Cart Page</title>
-
+<link href="assets/css/orderHistory.css" rel="stylesheet">
 <link href="assets/css/font-awesome.css" rel="stylesheet">
 <!-- Bootstrap -->
 <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -84,12 +84,18 @@
 			<p style="font-size: 20px;">
 				Anh <b>${user.hoTen}</b>
 			</p>
-			<p style="font-size: 20px; margin-bottom: -30px;">Đơn hàng đã mua</p>
-			<div class="row bg-white" style="margin-bottom: 30px">
+			<p style="font-size: 20px; margin-bottom: 10px;">Trạng thái đơn hàng</p>
+			<div class="group-button">
+				<button id="btn-choXacNhan" class="btn-trangThai  js-trangThai">Chờ xác nhận</button>
+				<button id="btn-dangGiao" class="btn-trangThai js-trangThai">Đang giao hàng</button>
+				<button id="btn-thanhCong" class="btn-trangThai js-trangThai btn-trangThai-active">Thành công</button>
+				<button id="btn-daHuy" class="btn-trangThai js-trangThai">Đã hủy</button>
+			</div>
+			<div id="body-thanhCong" class="row bg-white body-content body-content-active" style="margin-bottom: 30px">
 				<div class="col-md-12">
 					<div class="cart-view-area ">
 						<div class="cart-view-table ">
-						<c:forEach var="donHang" items="${donHangList}">
+						<c:forEach var="donHang" items="${donHangThanhCongList}">
 						
 							<a id="donHangItem" href = "chiTietDonHang/${donHang.maDh}.htm"
 								 class="
@@ -104,6 +110,91 @@
 										<span
 											style="padding: 5px; background-color: #99ff99; border-radius: 20px; float: right; color: #00994c;">Giao
 											thành công</span>
+										<p class="card-text" style="color: black">Thời gian đặt
+											hàng: ${donHang.ngayTao}<!-- 16/09/2023 --></p>
+									</div>
+								<!-- </div> -->
+							</a>
+						</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="body-choXacNhan" class="row bg-white body-content" style="margin-bottom: 30px">
+				<div class="col-md-12">
+					<div class="cart-view-area ">
+						<div class="cart-view-table ">
+						<c:forEach var="donHang" items="${donHangChoXacNhanList}">
+						
+							<a id="donHangItem" href = "chiTietDonHang/${donHang.maDh}.htm"
+								 class="
+								card"
+									style="display:block;width: 100%; border: 2px solid #ccc; border-radius: 15px; padding: 10px;">
+
+									<div class="card-body" style="color: #ff6666; font-size: 20px;">
+										<span class="fa fa-shopping-cart"></span>
+										<h5 class="card-title" style="display: inline-block; font-size: 26px">
+											Daily <strong>Shop</strong>
+										</h5>
+										<span
+											style="padding: 5px; background-color: #ffe5cc; border-radius: 20px; float: right; color: #ff9933;">Chờ xác nhận</span>
+										<p class="card-text" style="color: black">Thời gian đặt
+											hàng: ${donHang.ngayTao}<!-- 16/09/2023 --></p>
+									</div>
+								<!-- </div> -->
+							</a>
+						</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="body-dangGiao" class="row bg-white body-content" style="margin-bottom: 30px">
+				<div class="col-md-12">
+					<div class="cart-view-area ">
+						<div class="cart-view-table ">
+						<c:forEach var="donHang" items="${donHangDangGiaoList}">
+						
+							<a id="donHangItem" href = "chiTietDonHang/${donHang.maDh}.htm"
+								 class="
+								card"
+									style="display:block;width: 100%; border: 2px solid #ccc; border-radius: 15px; padding: 10px;">
+
+									<div class="card-body" style="color: #ff6666; font-size: 20px;">
+										<span class="fa fa-shopping-cart"></span>
+										<h5 class="card-title" style="display: inline-block; font-size: 26px">
+											Daily <strong>Shop</strong>
+										</h5>
+										<span
+											style="padding: 5px; background-color: #ffe5cc; border-radius: 20px; float: right; color: #ff9933;">Đang
+											giao hàng</span>
+										<p class="card-text" style="color: black">Thời gian đặt
+											hàng: ${donHang.ngayTao}<!-- 16/09/2023 --></p>
+									</div>
+								<!-- </div> -->
+							</a>
+						</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="body-daHuy" class="row bg-white body-content" style="margin-bottom: 30px">
+				<div class="col-md-12">
+					<div class="cart-view-area ">
+						<div class="cart-view-table ">
+						<c:forEach var="donHang" items="${donHangDaHuyList}">
+						
+							<a id="donHangItem" href = "chiTietDonHang/${donHang.maDh}.htm"
+								 class="
+								card"
+									style="display:block;width: 100%; border: 2px solid #ccc; border-radius: 15px; padding: 10px;">
+
+									<div class="card-body" style="color: #ff6666; font-size: 20px;">
+										<span class="fa fa-shopping-cart"></span>
+										<h5 class="card-title" style="display: inline-block; font-size: 26px">
+											Daily <strong>Shop</strong>
+										</h5>
+										<span
+											style="padding: 5px; background-color: #ff9999; border-radius: 20px; float: right; color: #ff3333;">Đã hủy</span>
 										<p class="card-text" style="color: black">Thời gian đặt
 											hàng: ${donHang.ngayTao}<!-- 16/09/2023 --></p>
 									</div>
@@ -142,7 +233,9 @@
 	<!-- Price picker slider -->
 	<script type="text/javascript" src="assets/js/nouislider.js"></script>
 	<!-- Custom js -->
-	<script src="assets/js/custom.js"></script>
+	<script src="assets/js/custom.js">
+		
+	</script>
 
 	<script>
 		function confirmAction(event) {
@@ -155,7 +248,79 @@
 			}
 		}
 	</script>
+	<script type="text/javascript">
+		const btnTrangThais = document.querySelectorAll('.js-trangThai')
+		const btnThanhCong = document.getElementById('btn-thanhCong')
+		const btnChoXacNhan = document.getElementById('btn-choXacNhan')
+		const btnDangGiao = document.getElementById('btn-dangGiao')
+		const btnDaHuy = document.getElementById('btn-daHuy')
+		const bodyChoXacNhan = document.getElementById('body-choXacNhan')
+		const bodyDangGiao = document.getElementById('body-dangGiao')
+		const bodyThanhCong = document.getElementById('body-thanhCong')
+		const bodyDaHuy = document.getElementById('body-daHuy')
+		
+		function activeTrangThai(){
+			btnActiveTrangThai.classList.add('btn-trangThai-active')
+			
+		}
+		function resetBodyContent(){
+			bodyChoXacNhan.classList.remove('body-content-active')
+			bodyDangGiao.classList.remove('body-content-active')
+			bodyThanhCong.classList.remove('body-content-active')
+			bodyDaHuy.classList.remove('body-content-active')
+		}
+		function noActiveTrangThai(){
+			btnActiveTrangThai.classList.remove('btn-trangThai-active')
+		}
+		
+		btnThanhCong.addEventListener('click', function(event){
+			btnThanhCong.classList.add('btn-trangThai-active')
+			btnChoXacNhan.classList.remove('btn-trangThai-active')
+			btnDaHuy.classList.remove('btn-trangThai-active')
+			btnDangGiao.classList.remove('btn-trangThai-active')
+			bodyChoXacNhan.classList.remove('body-content-active')
+			bodyDangGiao.classList.remove('body-content-active')
+			bodyThanhCong.classList.remove('body-content-active')
+			bodyDaHuy.classList.remove('body-content-active')
+			bodyThanhCong.classList.add('body-content-active')
+			
+		})
+		btnChoXacNhan.addEventListener('click', function(event){
+			btnThanhCong.classList.remove('btn-trangThai-active')
+			btnChoXacNhan.classList.add('btn-trangThai-active')
+			btnDaHuy.classList.remove('btn-trangThai-active')
+			btnDangGiao.classList.remove('btn-trangThai-active')
+			bodyChoXacNhan.classList.remove('body-content-active')
+			bodyDangGiao.classList.remove('body-content-active')
+			bodyThanhCong.classList.remove('body-content-active')
+			bodyDaHuy.classList.remove('body-content-active')
+			bodyChoXacNhan.classList.add('body-content-active')
+		})
+		btnDaHuy.addEventListener('click', function(event){
+			btnThanhCong.classList.remove('btn-trangThai-active')
+			btnChoXacNhan.classList.remove('btn-trangThai-active')
+			btnDaHuy.classList.add('btn-trangThai-active')
+			btnDangGiao.classList.remove('btn-trangThai-active')
+			bodyChoXacNhan.classList.remove('body-content-active')
+			bodyDangGiao.classList.remove('body-content-active')
+			bodyThanhCong.classList.remove('body-content-active')
+			bodyDaHuy.classList.remove('body-content-active')
+			bodyDaHuy.classList.add('body-content-active')
+		})
+		btnDangGiao.addEventListener('click', function(event){
+			btnThanhCong.classList.remove('btn-trangThai-active')
+			btnChoXacNhan.classList.remove('btn-trangThai-active')
+			btnDaHuy.classList.remove('btn-trangThai-active')
+			btnDangGiao.classList.add('btn-trangThai-active')
+			bodyChoXacNhan.classList.remove('body-content-active')
+			bodyDangGiao.classList.remove('body-content-active')
+			bodyThanhCong.classList.remove('body-content-active')
+			bodyDaHuy.classList.remove('body-content-active')
+			bodyDangGiao.classList.add('body-content-active')
+		})
 
+		
+	</script>
 
 </body>
 </html>

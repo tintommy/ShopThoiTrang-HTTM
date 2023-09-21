@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ptithcm.entity.CTDonHangEntity;
+import ptithcm.entity.DanhGiaEntity;
 import ptithcm.entity.DonHangEntity;
 import ptithcm.entity.GioHangEntity;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.service.CTDonHangService;
+import ptithcm.service.DanhGiaService;
 import ptithcm.service.DonHangService;
 import ptithcm.service.SanPhamService;
 import ptithcm.service.gioHangService;
@@ -36,7 +38,8 @@ public class donHangController {
 	CTDonHangService ctDonHangService;
 	@Autowired
 	SanPhamService sanPhamService;
-
+	@Autowired
+	DanhGiaService danhGiaService;
 	@RequestMapping("donHang")
 	public String donHang(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
@@ -133,8 +136,14 @@ System.out.print("newinfo");
 		return "redirect:/donHang.htm";
 	}
 	@RequestMapping("chiTietDonHang/{maDh}")
-	public String ctDonHang(@PathVariable("maDh")int maDh,ModelMap model )
+	public String ctDonHang(@PathVariable("maDh")int maDh, ModelMap model, HttpSession session )
 	{
+		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+		if (user == null) {
+			model.addAttribute("user", new NguoiDungEntity());
+
+			return "/user/login";
+		}
 		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
 		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
 		model.addAttribute("donHang",donHang);
