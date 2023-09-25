@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ptithcm.entity.CTDonHangEntity;
+import ptithcm.entity.DanhGiaEntity;
 import ptithcm.entity.DonHangEntity;
 import ptithcm.entity.GioHangEntity;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.service.CTDonHangService;
+import ptithcm.service.DanhGiaService;
 import ptithcm.service.DonHangService;
 import ptithcm.service.SanPhamService;
 import ptithcm.service.gioHangService;
@@ -36,7 +38,8 @@ public class donHangController {
 	CTDonHangService ctDonHangService;
 	@Autowired
 	SanPhamService sanPhamService;
-
+	@Autowired
+	DanhGiaService danhGiaService;
 	@RequestMapping("donHang")
 	public String donHang(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
@@ -49,6 +52,17 @@ public class donHangController {
 
 	}
 
+	@RequestMapping("donHang/newInfo")
+	public String donHang1(HttpServletRequest request, ModelMap model) {
+		HttpSession session = request.getSession();
+		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+
+		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
+		model.addAttribute("gioHangList", gioHangList);
+		System.out.print("test");
+		return "/donHang/donHang";
+
+	}
 	@RequestMapping(value = "donHang/newInfo", method = RequestMethod.POST)
 	public String newInfo(HttpServletRequest request) {
 		HttpSession session = request.getSession();
@@ -60,7 +74,7 @@ public class donHangController {
 		newInfo.setSdt(sdt);
 		newInfo.setDiaChi(diaChi);
 		session.setAttribute("NEWINFO", newInfo);
-
+System.out.print("newinfo");
 		return "redirect:/donHang.htm";
 	}
 
@@ -122,13 +136,18 @@ public class donHangController {
 		return "redirect:/donHang.htm";
 	}
 	@RequestMapping("chiTietDonHang/{maDh}")
-	public String ctDonHang(@PathVariable("maDh")int maDh,ModelMap model )
+	public String ctDonHang(@PathVariable("maDh")int maDh, ModelMap model, HttpSession session )
 	{
+		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+		if (user == null) {
+			model.addAttribute("user", new NguoiDungEntity());
+
+			return "/user/login";
+		}
 		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
 		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
 		model.addAttribute("donHang",donHang);
 		model.addAttribute("ctDonHangList",ctDonHangList);
-	
 		return "donHang/chiTietDonHang";
 	}
 	
@@ -162,6 +181,5 @@ public class donHangController {
 		
 		return "redirect:/lichSuDonHang.htm";
 	}
-	
 
 }

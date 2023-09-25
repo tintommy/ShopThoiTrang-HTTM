@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ptithcm.entity.KieuSanPhamEntity;
 import ptithcm.entity.LoaiSanPhamEntity;
-import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.service.KieuSanPhamService;
 import ptithcm.service.SanPhamService;
@@ -32,9 +31,15 @@ public class loaiSanPhamController {
 	@Autowired
 	KieuSanPhamService kieuSanPhamService;
 	
+
 	@RequestMapping()
 	public String main(HttpServletRequest request, ModelMap model,
 			@RequestParam(defaultValue = "0") int page) {
+//		List<LoaiSanPhamEntity> loaiSPNam = loaiService.layLoaiTheoGioiTinh("nam");
+//		List<LoaiSanPhamEntity> loaiSPNu = loaiService.layLoaiTheoGioiTinh("nữ");		
+//		model.addAttribute("loaiSPNam", loaiSPNam);
+//		model.addAttribute("loaiSPNu", loaiSPNu);
+		
 		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
 		model.addAttribute("dsLoai", dsLoai);
 	
@@ -64,6 +69,7 @@ public class loaiSanPhamController {
 	@RequestMapping(value = "/{loaiSp}")
 	public String shopTheoLoai(@PathVariable("loaiSp") String loaiSp, ModelMap model,
 			@RequestParam(defaultValue = "0") int page) {
+			
 		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
 		model.addAttribute("dsLoai", dsLoai);
 	
@@ -88,6 +94,36 @@ public class loaiSanPhamController {
 		return "shop/loai";
 	}
 	
+	@RequestMapping(value = "/{loaiSp}/{kieuSp}")
+	public String shopTheoKieu(@PathVariable("loaiSp") String loaiSp,
+			@PathVariable("kieuSp") String kieuSp,
+			ModelMap model,
+			@RequestParam(defaultValue = "0") int page) {
+			
+		model.addAttribute("kieuSp", kieuSp);
+		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
+		model.addAttribute("dsLoai", dsLoai);
+	
+		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPhamTheoLoai(loaiSp);
+		model.addAttribute("dsSP", dsSP);			
+		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieu();
+		model.addAttribute("dsKieu",dsKieu);
+		int pageSize = 6;
+		int totalLoaiSanPham = dsSP.size();
+		int totalPages = (int) Math.ceil((double) totalLoaiSanPham / pageSize);		
+		int startPage = Math.max(0, page - 1);
+		int endPage = Math.min(totalPages - 1, page + 1);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("startPage", startPage);
+		model.addAttribute("endPage", endPage);
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("totalLoaiSanPham", totalLoaiSanPham);
+		model.addAttribute("totalPages", totalPages);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrangTheoLoai(loaiSp, page, pageSize);
+		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
+		
+		return "shop/loai";
+	}
 	
 	@RequestMapping(value = "/{loaiSp}", params = "btnApply", method = RequestMethod.POST)
 	public String locSanPham(@PathVariable("loaiSp") String loaiSp, ModelMap model, HttpServletRequest request,
@@ -97,6 +133,7 @@ public class loaiSanPhamController {
 			@RequestParam(defaultValue = "0") int page)
 	// @RequestParam(value="rating", required=false) Integer rating)
 	{
+		
 		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
 		model.addAttribute("dsLoai", dsLoai);
 	

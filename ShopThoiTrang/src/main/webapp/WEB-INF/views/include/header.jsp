@@ -20,10 +20,13 @@
 
 
 								<c:if test="${not empty sessionScope.USER}">
+									<li><a href="yeuThich.htm">Yêu thích</a></li>
+									<li><a href="lich-su-mua-hang.htm">Lịch sử mua hàng</a></li>
 									<li><a href="userInfo.htm">Tài khoản của tôi</a></li>
 
 								
 									<li><a href="user/logout.htm">Đăng xuất</a></li>
+									
 								</c:if>
 							</ul>
 						</div>
@@ -65,7 +68,7 @@
 
 							<c:if test="${not empty sessionScope.USER}">
 
-								<a class="aa-cart-link" href="#"> <span
+								<a class="aa-cart-link" href="gioHang.htm"> <span
 									class="fa fa-shopping-basket"></span> <span
 									class="aa-cart-title">SHOPPING CART</span>
 
@@ -110,12 +113,31 @@
 				<div class="navbar-collapse collapse">
 					<!-- Left nav -->
 					<ul class="nav navbar-nav">
-						<li><a href="ShopThoiTrang.htm">Home</a></li>
-						<li><a href="#">Nam <span class="caret"></span></a>
+						<li><a href=".htm">Home</a></li>
+						<li></li>
+						<li><a href="shop.htm">Shop</a></li>
+						<!-- <li><a href="#">Nam <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+
+								<li><a href="shop.htm">Áo nam</a></li>
+								<li><a href="shop.htm">Quần nam</a></li>
+							
+							</ul>
+						</li>
+						<li><a href="#">Nữ <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+
+								<li><a href="shop.htm">Áo nữ</a></li>
+								<li><a href="shop.htm">Quần nữ</a></li>
+								
+							</ul>
+						</li> -->
+							
+								<%-- <li><a href="#">Nam <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 
 								<c:forEach var="loai" items="${loaiSPNam}" begin="0">
-									<li><a href="#">${loai.tenLoai}</a></li>
+									<li><a href="shop/${loai.maLoai}.htm">${loai.tenLoai}</a></li>
 								</c:forEach>
 
 
@@ -124,10 +146,10 @@
 						<li><a href="#">Nữ <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<c:forEach var="loai" items="${loaiSPNu}" begin="0">
-									<li><a href="#">${loai.tenLoai}</a></li>
+									<li><a href="shop/${loai.maLoai}.htm">${loai.tenLoai}</a></li>
 								</c:forEach>
 
-							</ul></li>
+							</ul></li> --%>
 
 					</ul>
 				</div>

@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri = "http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="f"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,74 +48,30 @@
                 
                 	<div class="form-group mb-3">
     				    <label for="name">Mã sản phẩm</label>
-    				    <f:input id="masp" path="maSP" type="text" value="${sanPham.maSP}" class="form-control validate" required="true" readonly="true"/>    				    
+    				    <%-- <f:input id="masp" path="maSP" type="text" class="form-control validate" required="true" /> --%>
+    				    <input id="masp" value="${sanPham.maSP}" type="text" class="form-control validate" readonly required="true" />    				    
     				</div>
     				<div class="form-group mb-3">
     				    <label for="name">Tên sản phẩm</label>
-    				    <f:input id="name" path="tenSanPham" value="${sanPham.tenSanPham}" type="text" class="form-control validate" required="true" />
+    				    <f:input id="name" path="tenSanPham" type="text" class="form-control validate" required="true" />
     				</div>
     				<div class="form-group mb-3" style="display:none;">
     				    <label for="name">Trạng thái</label>
     				    <f:input id="tt" path="trangThai" value="True" type="text" class="form-control validate" />
     				</div>
-    				<%-- <div class="form-group mb-3">
-    				    <label for="name">Số sao trung bình</label>
-    				    <f:input id="saotb" path="soSaoTB" type="number" class="form-control validate" required="true" />
-    				</div> --%>
     				
-    				<%-- <div class="form-group mb-3" id="moTa">
-    				    <label for="description">Mô tả</label>
-    				    <f:input path="moTa" class="form-control validate" value="${sanPham.moTa}" rows="3"></f:input>
-    				</div> --%>
-    				
-    				<div class="form-group mb-3">
+    				<div class="form-group mb-3" >
     				    <label for="description">Mô tả</label>
     				    <f:textarea path="moTa" id="moTa" class="form-control validate" rows="3"></f:textarea>
     				</div>
-    				
-    				<div class="form-group my-3">
-					    <label for="category" class="pt-4 mb-0">Loại sản phẩm: ${sanPham.loaiSanPham.tenLoai}</label>
-					    <f:select class="custom-select tm-select-accounts" id="category" path="loaiSanPham.maLoai">
-					        <c:forEach items="${listLoai}" var="l">
-					            <option value="${l.maLoai}" ${l.maLoai == sanPham.loaiSanPham.maLoai ? 'selected' : ''}>${l.tenLoai}</option>
-					        </c:forEach>
-					    </f:select>
-					    
-					    <label for="th" class="pt-4 mb-0">Thương hiệu: ${sanPham.thuongHieu.tenThuongHieu}</label>
-					    <f:select class="custom-select tm-select-accounts mt-3" id="thuongHieu" path="thuongHieu.maTh">
-					        <c:forEach items="${listThuongHieu}" var="th">
-					            <option value="${th.maTh}" ${th.maTh == sanPham.thuongHieu.maTh ? 'selected' : ''}>${th.tenThuongHieu}</option>
-					        </c:forEach>
-					    </f:select>
-					</div>
-
-    				<div class="row">
-    				    <div class="form-group mb-3 col-xs-12 col-sm-6">
-    				        <label for="expire_date">Giá</label>
-    				        <f:input id="expire_date" path="donGia" type="number" value="${sanPham.donGia}" class="form-control validate" data-large-mode="true" />
-    				    </div>
-    				    <div class="form-group mb-3 col-xs-12 col-sm-6">
-    				        <label for="stock">Số lượng</label>
-    				        <f:input id="stock" path="soLuong" type="number" value="${sanPham.soLuong}" class="form-control validate" required="true" />
-    				    </div>
-    				</div>    				
-				
-					<c:if test="${not empty successMessage}">
-					    <div class="alert alert-success">${successMessage}</div>
-					</c:if>
-					<c:if test="${not empty errorMessage}">
-					    <div class="alert alert-danger">${errorMessage}</div>
-					</c:if>
-                
-                       
-                            
-                          
+    				 
             </div>
             
-            <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+            <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">            		
+					
 			  		<!-- <i class="fas fa-cloud-upload-alt tm-upload-icon"></i> -->
 			  		<div class="tm-product-img-dummy mx-auto">
-			  		<img style="width:355px; height:240px;" src="${sanPham.hinhAnhDaiDien}">
+			  		<img style="width:355px; height:240px;" src="${sanPham.hinhAnh.link}">
 					    <i onclick="document.getElementById('avatar').click();"></i>
 					    <img id="avatar-preview" class="d-none" alt="Ảnh đại diện sản phẩm" style="width: 378px; height: 252px; display: block; margin: 0 auto;">
 					  </div>
@@ -125,62 +82,74 @@
 					    <!-- <input type="button" class="btn btn-primary btn-block mx-auto" value="Đổi ảnh" onclick="document.getElementById('avatar').click();" required="true"> -->
 					  </div>
 					  
-					 <!-- <script>
-					  function previewAvatar(event) {
-					    var reader = new FileReader();
-					    reader.onload = function(){
-					      var avatarPreview = document.getElementById('avatar-preview');
-					      avatarPreview.src = reader.result;
-					      avatarPreview.classList.remove('d-none');
-					    };
-					    reader.readAsDataURL(event.target.files[0]);
-					  }
-					</script> --> 
-			  		
-			  		
-			  		
-				<div class="row pt-2">
-							<c:forEach items="${sanPham.hinhAnhs}" var="hinhAnh">
-								<div class="col-md-3 mb-3">
-									<img src="${hinhAnh.link}" alt="Ảnh sản phẩm"
-										class="img-fluid product-thumbnail" style="height:50px;"/>
-								</div>
-							</c:forEach>
-				</div>
-				
-				<div class="form-group mb-3">
-			      		<label for="images">Đổi hình ảnh khác(tối đa 4 hình)</label>
-			      		<input type="file" name="images" id="images" class="form-control-file" multiple>
-			  	</div>
-			  	
-			  	
-			  	<div class="row pt-2">
-					<div class="col-md-3 mb-3">
-						<img src="${sanPham.thongSoKt}" alt="Ảnh thông số sản phẩm"
-						class="img-fluid product-thumbnail" style="height:50px;"/>
-					</div>
-				</div>
-			  	<div class="form-group mb-3">
-			      		<label for="images">Đổi ảnh thông số kĩ thuật</label>
-			      		<input type="file" name="thongSo" id="thongSo" class="form-control-file">
-			  	</div>    
-			  	
-				<div class="form-group mt-2">
-			    <label for="dateAdd">Ngày thêm</label>
-			    <input
-			        id="dateAdd"
-			        name="dateAdd"
-			        type="date"
-			        class="form-control validate"
-			        readonly
-			        value="${sanPham.ngayThem}"
-			        
-			    />
-
-			</div>
-				
-				          
+					  <div style="margin-top:25px;">
+	    				    <label for="s" style="color: #fff;">Các size của sản phẩm:</label>
+	    				    
+	    				    <div class="size-buttons">
+		    				    <c:forEach items="${sizes}" var="size">
+									<%-- <c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" /> --%>
+									
+									
+									<c:set var="indexOfUnderscore" value="${fn:indexOf(sanPham.maSP, '_')}" />
+									<c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, indexOfUnderscore)}" />
+									
+									<c:set var="trimmedSize" value="${fn:trim(size)}" />
+									
+									<button><a style="color: #ff0000;" href="${pageContext.servletContext.contextPath}/admin/product/edit/${trimmedMaSP}_${trimmedSize}.htm">
+										${size}
+									</a></button>
+								</c:forEach>
+							</div>
+							
+							 <form method="POST">
+							 <button name="addSize" type="submit" class="btn btn-primary btn-block text-uppercase">Thêm size</button>							 
+							 </form>
+	    			</div>	  
+	    			              
               </div>
+           
+	           <div class="col-12">
+	    			<div class="row">
+	    				<div class="form-group mb-3 col-xs-12 col-sm-6">
+	    				    <label for="kieuSP">Kiểu: ${sanPham.maKieu.tenKieu}</label>
+	    				    <f:select class="custom-select tm-select-accounts" id="kieuSP" path="maKieu.maKieu">
+	    				        <c:forEach items="${listkieu}" var="k">
+	    							<%-- <option value="${k.maKieu}">${k.tenKieu}</option> --%>
+	    							<option value="${k.maKieu}" ${k.maKieu == sanPham.maKieu.maKieu ? 'selected' : ''}>${k.tenKieu}</option>
+	  					  		</c:forEach>
+	    				    </f:select>
+	    				</div>
+	    				
+	    				<div class="form-group mb-3 col-xs-12 col-sm-6">
+	    				    <label for="th">Size: ${sanPham.size}</label>
+	    				    <f:input id="size" path="size" type="text" class="form-control validate" required="true" />
+	    				</div>
+						
+						<%-- <div class="form-group mb-3 col-xs-12 col-sm-6">   				    
+						    <label for="th">Size: ${sanPham.size}</label>
+						    <f:select class="custom-select tm-select-accounts" id="size" path="size">
+						        <option value="S" <c:if test="${sanPham.size == 'S'}">selected</c:if>>S</option>
+						        <option value="M" <c:if test="${sanPham.size == 'M'}">selected</c:if>>M</option>
+						        <option value="L" <c:if test="${sanPham.size == 'L'}">selected</c:if>>L</option>
+						        <option value="XL" <c:if test="${sanPham.size == 'XL'}">selected</c:if>>XL</option>
+						        <option value="XXL" <c:if test="${sanPham.size == 'XXL'}">selected</c:if>>XXL</option>
+						    </f:select>   				    
+						</div> --%>
+						
+
+	    			</div>
+    				
+    				<div class="row">
+    				    <div class="form-group mb-3 col-xs-12 col-sm-6">
+    				        <label for="expire_date">Giá</label>
+    				        <f:input id="expire_date" path="donGia" type="number" min="0" class="form-control validate" data-large-mode="true" />
+    				    </div>
+    				    <div class="form-group mb-3 col-xs-12 col-sm-6">
+    				        <label for="stock">Số lượng</label>
+    				        <f:input id="stock" path="soLuong" type="number"  min="1" class="form-control validate" required="true" />
+    				    </div>
+    				</div>    				
+				</div>
                                                 
           <div class="col-12">
                 <button type="submit" class="btn btn-primary btn-block text-uppercase" name="update">Cập nhật sản phẩm</button>

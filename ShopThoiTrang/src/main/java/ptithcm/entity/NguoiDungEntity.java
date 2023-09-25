@@ -50,6 +50,16 @@ public class NguoiDungEntity {
 	private List<DanhGiaEntity> danhGiaList;
 	@OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
 	private List<DonHangEntity> donHangs;
+	@OneToMany(mappedBy = "nguoiDung", fetch = FetchType.LAZY)
+	private List<YeuThichEntity> yeuThichList;
+	
+	public List<YeuThichEntity> getYeuThichList() {
+		return yeuThichList;
+	}
+
+	public void setYeuThichList(List<YeuThichEntity> yeuThichList) {
+		this.yeuThichList = yeuThichList;
+	}
 
 	public List<DonHangEntity> getDonHangs() {
 		return donHangs;

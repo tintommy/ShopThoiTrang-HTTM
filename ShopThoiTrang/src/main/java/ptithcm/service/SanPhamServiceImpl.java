@@ -154,26 +154,24 @@ public class SanPhamServiceImpl implements SanPhamService {
 		sanPhamDAO.xoaSanPham(sanPham);
 	}
 
-//	@Override
-//	public void themHinhAnhSanPham(HinhAnhEntity hinhAnh) {
-//		hinhAnhDAO.themHinhAnhSanPham(hinhAnh);
-//		
-//	}
-	
 	@Override
-	public void themHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-		hinhAnhDAO.themHinhAnhSanPham(hinhAnhs);
-	}
-	
-	@Override
-	public void suaHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-		hinhAnhDAO.suaHinhAnhSanPham(hinhAnhs);
+	public void themHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		hinhAnhDAO.themHinhAnhSanPham(hinhAnh);
+		
 	}
 
 	@Override
-	public void xoaHinhAnhSanPham(List<HinhAnhEntity> hinhAnhs) {
-		hinhAnhDAO.xoaHinhAnhSanPham(hinhAnhs);
+	public void suaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		hinhAnhDAO.suaHinhAnhSanPham(hinhAnh);
+		
 	}
+
+	@Override
+	public void xoaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
+		hinhAnhDAO.xoaHinhAnhSanPham(hinhAnh);
+		
+	}
+	
 
 	
 }
