@@ -95,12 +95,12 @@
             <div class="aa-product-catg-body">
             <ul class="aa-product-catg">
               
-                <c:forEach items="${dsSPdaloc}" var="sp">
+                <c:forEach items="${dsSPdaloc}" var="sp" varStatus="loop">
                 
-                <li>               
+                <li class= "SPham ${loop.index >= 6 ? 'd-none' : ''}">               
                   <figure>
                     <a class="aa-product-img" href="product/${sp.maSP}.htm"><img style="width:250px; height:300px;" src="${sp.hinhAnh.link}" alt="product img"></a>
-                    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                 <!--    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a> -->
                      <figcaption>
                       <h4 class="aa-product-title"><a href="product/${sp.maSP}.htm" style="font-weight: bold; color: #3D71B6;">${sp.tenSanPham}</a></h4> 
                           
@@ -110,7 +110,7 @@
                   </figure>
                                        
                   <div class="aa-product-hvr-content">
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                    <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a> -->
                    <!--  <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a> -->
                     <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
                   </div>
@@ -121,7 +121,7 @@
            </ul>                                                                      
                                
               <!-- quick view modal -->   
-               <c:forEach items="${dsSPdaloc}" var="sp">                 
+               <c:forEach items="${dsSPdaloc}" var="sp" >                 
               <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">                      
@@ -184,9 +184,11 @@
             </div>
             
             
+             <c:if test="${dsSPdaloc.size()>6}">
+		 <button id="loadMoreButton" class="btn btn-light btn-sm " style="margin-left:50%;">Xem thêm</button>		
+		</c:if>
             
-            
-            <c:if test = "${totalPages!=0 }">
+          <%--   <c:if test = "${totalPages!=0 }">
             <div class="pagination-wrapper" style="margin-left:30%;">
 		<nav aria-label="Page navigation example">
 
@@ -228,7 +230,7 @@
 			</ul>
 		</nav>
 	</div>
-	</c:if>
+	</c:if> --%>
               
           </div>
         </div>
@@ -374,5 +376,6 @@
   <!-- Custom js -->
   <script src="assets/js/custom.js"></script> 
   <script src="<c:url value='assets/js/loaiSanPham.js'/>"></script>
+  	<script src="<c:url value='assets/js/search.js'/>"></script>
   </body>
 </html>

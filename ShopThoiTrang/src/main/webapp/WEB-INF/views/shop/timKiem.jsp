@@ -85,12 +85,12 @@
             <div class="aa-product-catg-body">
             <ul class="aa-product-catg">
               
-                <c:forEach items="${listSP}" var="sp">
+                <c:forEach items="${listSP}" var="sp" varStatus="loop">
                 
-                <li>               
+                <li class= "SPham ${loop.index >= 6 ? 'd-none' : ''}">               
                   <figure>
                     <a class="aa-product-img" href="product/${sp.maSP}.htm"><img style="width:250px; height:300px;" src="${sp.hinhAnh.link}" alt="product img"></a>
-                    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                 <!--    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a> -->
                      <figcaption>
                       <h4 class="aa-product-title"><a href="product/${sp.maSP}.htm" style="font-weight: bold; color: #3D71B6;">${sp.tenSanPham}</a></h4> 
                           
@@ -100,7 +100,7 @@
                   </figure>
                                        
                   <div class="aa-product-hvr-content">
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                    <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a> -->
                    <!--  <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a> -->
                     <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
                   </div>
@@ -111,7 +111,7 @@
            </ul>                                                                      
                                
               <!-- quick view modal -->   
-               <c:forEach items="${listSP}" var="sp">                 
+             <%--   <c:forEach items="${listSP}" var="sp">                 
               <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">                      
@@ -144,8 +144,7 @@
                             
                             <div class="aa-price-block">
                                <span class="aa-product-price"><fmt:formatNumber value="${sp.donGia}"  pattern="#,##0" />đ</span><span class="aa-product-price"></span>									
-                            </div>
-                            <%-- <p>${sp.moTa}</p> --%>
+                            </div>                 
                             <h4>Size</h4>
                             <div class="aa-prod-view-size">
                               <a href="#">S</a>
@@ -153,17 +152,7 @@
                               <a href="#">L</a>
                               <a href="#">XL</a>
                             </div>
-                            <div class="aa-prod-quantity">
-                              <%-- <form action="">
-                                <select name="" id="">
-                                  <option value="0" selected="1">1</option>
-                                  <option value="1">2</option>
-                                  <option value="2">3</option>
-                                  <option value="3">4</option>
-                                  <option value="4">5</option>
-                                  <option value="5">6</option>
-                                </select>
-                              </form> --%>
+                            <div class="aa-prod-quantity">                     
                               
                               <p class="aa-prod-category">Loại: <a href="#">${sp.maKieu.loai.tenLoai}</a></p>
                               <p class="aa-prod-category"> Kiểu: <a href="#">${sp.maKieu.tenKieu}</a></p>
@@ -181,12 +170,11 @@
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
               </div>
-              </c:forEach>	                       
+              </c:forEach> --%>	                       
             </div>
             
             
-            
-            
+          
           <%--   <c:if test = "${totalPages!=0 }">
             <div class="pagination-wrapper" style="margin-left:30%;">
 		<nav aria-label="Page navigation example">
@@ -233,115 +221,17 @@
               
           </div>
         </div>
-        
-       
-        <div class="col-md-2 col-md-pull-10">
-          <aside class="aa-sidebar">
-          <form action="shop/${loaiSp}.htm" method="post">
-            <!-- single sidebar -->
-            <div class="aa-sidebar-widget" >
-              <h3>Loại sản phẩm</h3>
-              <ul class="aa-catg-nav" >
-               
-               <c:forEach items="${dsLoai}" var="loai">
-              	<li > <a class="text-uppercase font-weight-bold text-danger" href="shop/${loai.maLoai}.htm"> ${loai.tenLoai }</a></li>
-              	  <div class="aa-sidebar-widget">
-              <!-- <h3>Kiểu dáng</h3> -->
-              <div style="max-height: 200px; overflow-y: scroll;"> 
-              
-              <div > 
-            
-              <c:forEach items="${dsKieu}" var = "kieu">
-              <c:if test ="${kieu.loai==loai}">
-              		<%-- <a href="#">${kieu.tenKieu}</a> --%>
-              		<div class="form-check">
-							<input class="form-check-input" type="checkbox"		value="${kieu.tenKieu}" name="style"
-								   id="flexCheckChecked1" /> <label class="form-check-label" for="flexCheckChecked1">${kieu.tenKieu}</label>														
-					</div>
-              </c:if>             	
-              </c:forEach> 
-              
-              </div>
-            </div>
-            </div>
-              	
-                </c:forEach>  
-              
-                 
-              </ul>
-            </div>
-            <!-- single sidebar -->
-           <%--  <div class="aa-sidebar-widget">
-              <h3>Giá</h3>              
-              <!-- price range -->
-              <div class="aa-sidebar-price-range">
-               
-                  <!-- <div id="skipstep" class="noUi-target noUi-ltr noUi-horizontal noUi-background">
-                  </div>
-                  <span id="skip-value-lower" class="example-val">50.00</span>
-                 <span id="skip-value-upper" class="example-val">200.00</span> -->
-                 <div id="collapseThree"
-										class="accordion-collapse collapse show"
-										aria-labelledby="headingThree"
-										data-bs-parent="#accordionExample">
-										<div class="accordion-body">
-
-											<div class="row mb-3">
-												<div>
-													<div class="range">
-														<input type="range" class="form-range" id="customRange1"
-															min="0" max="1000" />
-													</div>
-					
-													<div class="col-6">
-														<p class="mb-0">Min</p>
-														<div class="form-outline">
-															<input type="number" id="typeNumber" name="minPrice"
-																class="form-control"
-																value="${minPrice != 0 ? minPrice : ''}" />
-																
-																
-														</div>
-														
-													</div>
-												</div>
-
-												<div>
-													<div class="range">
-														<input type="range" class="form-range" id="customRange2"
-															min="0" max="100000" />
-													</div>
-													<div class="col-6">
-														<p class="mb-0">Max</p>
-														<div class="form-outline">
-															<input type="number" id="typeNumber1" name="maxPrice"
-																class="form-control"
-																value="${maxPrice != 999999999 ? maxPrice : ''}" />
-																<!-- <h5 class="text-right">K</h5> -->
-
-														</div>
-													</div>
-												</div>
-
-											</div>
-
-										</div>
-									</div>
-                 
-                 <button class="aa-filter-btn" name="btnApply" type="submit">Lọc</button>
-               
-              </div>              
-
-            </div>   
-             </form>
-          </aside>
-        </div> --%>
-      
-      </div>
+  
     </div>
-    <br>
+    <c:if test="${listSP.size()>6}">
+		 <button id="loadMoreButton" class="btn btn-light btn-sm " style="margin-left:50%;">Xem thêm</button>		
+		</c:if>
     <br>
     
+    <br>
+    </div>
+      
+            
   </section>
   <!-- / product category -->
 
@@ -368,6 +258,10 @@
   <script type="text/javascript" src="assets/js/nouislider.js"></script>
   <!-- Custom js -->
   <script src="assets/js/custom.js"></script> 
-<script src="<c:url value='assets/js/loaiSanPham.js'/>"></script>
+
+
+
+
+	<script src="<c:url value='assets/js/search.js'/>"></script>
   </body>
 </html>

@@ -98,9 +98,9 @@
                 <c:forEach items="${listSPTrenTrang}" var="sp">
                 
                 <li>               
-                  <figure>
+                   <figure>
                     <a class="aa-product-img" href="product/${sp.maSP}.htm"><img style="width:250px; height:300px;" src="${sp.hinhAnh.link}" alt="product img"></a>
-                    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a>
+                 <!--    <a class="aa-add-card-btn"href="#"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a> -->
                      <figcaption>
                       <h4 class="aa-product-title"><a href="product/${sp.maSP}.htm" style="font-weight: bold; color: #3D71B6;">${sp.tenSanPham}</a></h4> 
                           
@@ -110,7 +110,7 @@
                   </figure>
                                        
                   <div class="aa-product-hvr-content">
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
+                    <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a> -->
                    <!--  <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a> -->
                     <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
                   </div>
