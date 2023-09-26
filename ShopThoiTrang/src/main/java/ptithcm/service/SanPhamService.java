@@ -9,6 +9,7 @@ public interface SanPhamService {
 	public SanPhamEntity laySanPham(String maSp);
 	public List<SanPhamEntity> laySanPhamTheoMa(String key);
 	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTran(List<SanPhamEntity> list, int page, int pageSize);
 	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize);
 	public List<SanPhamEntity> layAllSanPham();
 	public List<SanPhamEntity> layAllSanPhamDaNgungBan();
@@ -17,9 +18,11 @@ public interface SanPhamService {
 	public List<SanPhamEntity> laySanPhamTheogioiTinh(String gioiTinh);
 	public List<SanPhamEntity> layAllSanPhamTheoLoai(String loai);
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp);
+	public List<SanPhamEntity> layTatCaSanPhamCungKieu(String kieu);
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp);
 	public List<SanPhamEntity> laySanPhamNgauNhien();
 	public List<SanPhamEntity> laySanPhamMoi();
+	public List<SanPhamEntity> locSanPhamTrung(List<SanPhamEntity> list);
 	public List<SanPhamEntity> locSanPham( List<String> stylesList, int minPrice, int maxPrice);
 	public boolean kiemTraSanPhamCoNamTrongGioHang(String maSP);
 	public boolean kiemTraSanPhamCoNamTrongDonHang(String maSP);

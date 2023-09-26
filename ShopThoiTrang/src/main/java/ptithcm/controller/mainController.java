@@ -45,10 +45,12 @@ public class mainController {
 	
 
 		List<SanPhamEntity> listSpNam = sanPhamService.laySanPhamTheogioiTinh("nam");
-		listSpNam=locSanPhamTrung(listSpNam);
+		listSpNam = sanPhamService.locSanPhamTrung(listSpNam);
+//		listSpNam=locSanPhamTrung(listSpNam);
 		model.addAttribute("listSpNam", listSpNam);
 		List<SanPhamEntity> listSpNu = sanPhamService.laySanPhamTheogioiTinh("nữ");
-		listSpNu=locSanPhamTrung(listSpNu);
+		listSpNu = sanPhamService.locSanPhamTrung(listSpNu);
+//		listSpNu=locSanPhamTrung(listSpNu);
 		model.addAttribute("listSpNu", listSpNu);
 		model.addAttribute("user", new NguoiDungEntity());
 		return "main";

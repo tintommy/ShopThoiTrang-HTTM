@@ -1,10 +1,14 @@
 package ptithcm.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +51,26 @@ public class SanPhamServiceImpl implements SanPhamService {
 		return sanPhamDAO.LaySanPhamMotTrang(page, pageSize);
 	}
 	@Override
+	public List<SanPhamEntity> LaySanPhamMotTran(List<SanPhamEntity> list, int page, int pageSize){
+		int offset = page * pageSize;
+
+//		Set<String> uniqueSet = new HashSet<>();
+//		List<SanPhamEntity> result = new ArrayList<>();
+//		for (SanPhamEntity sanPham : list) {
+//
+//			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+//				result.add(sanPham);
+//				uniqueSet.add(sanPham.getTenSanPham());
+//			}
+//		}
+		List<SanPhamEntity> SPMotTrang = new ArrayList<>();
+		if (pageSize + offset>list.size()) pageSize = list.size();
+		for (int i =offset; i<pageSize;i++) {
+			SPMotTrang.add(list.get(i));
+		}
+		return SPMotTrang;
+	}
+	@Override
 	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize){
 		return sanPhamDAO.LaySanPhamMotTrangTheoLoai(loai, page, pageSize);
 	}
@@ -86,6 +110,10 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
+	public List<SanPhamEntity> layTatCaSanPhamCungKieu(String kieu){
+		return sanPhamDAO.layTatCaSanPhamCungKieu(kieu);
+	}
+	@Override
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
 		return sanPhamDAO.laySanPhamCungKieu(maSp);
 	}
@@ -98,6 +126,20 @@ public class SanPhamServiceImpl implements SanPhamService {
 	@Override
 	public List<SanPhamEntity> laySanPhamMoi() {
 		return sanPhamDAO.laySanPhamMoi();
+	}
+	
+	@Override
+	public List<SanPhamEntity> locSanPhamTrung(List<SanPhamEntity> list) {
+		Set<String> uniqueSet = new HashSet<>();
+		List<SanPhamEntity> result = new ArrayList<>();
+		for (SanPhamEntity sanPham : list) {
+
+			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+				result.add(sanPham);
+				uniqueSet.add(sanPham.getTenSanPham());
+			}
+		}
+		return result;
 	}
 	
 	@Override

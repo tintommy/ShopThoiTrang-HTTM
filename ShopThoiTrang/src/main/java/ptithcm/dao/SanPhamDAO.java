@@ -16,6 +16,7 @@ public interface SanPhamDAO {
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai);
 	public List<SanPhamEntity> laySanPhamTheoGioiTinh(String gioiTinh);
 	public List<SanPhamEntity> layAllSanPhamTheoLoai(String loai);
+	public List<SanPhamEntity> layTatCaSanPhamCungKieu(String kieu);
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp);
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp);
 	public List<SanPhamEntity> laySanPhamNgauNhien();

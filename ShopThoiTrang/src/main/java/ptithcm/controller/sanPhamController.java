@@ -43,6 +43,7 @@ public class sanPhamController {
 		model.addAttribute("sizes", sizes);
 		
 		List<SanPhamEntity> sanPhamCungKieu = sanPhamService.laySanPhamCungKieu(maSp);
+		sanPhamCungKieu = sanPhamService.locSanPhamTrung(sanPhamCungKieu);
 		model.addAttribute("sanPhamCungKieu", sanPhamCungKieu);
 		
 		List<DanhGiaEntity> listDanhGia = danhGiaService.layDanhGiaSanPham(maSp);

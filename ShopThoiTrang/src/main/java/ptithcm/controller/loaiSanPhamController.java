@@ -44,12 +44,14 @@ public class loaiSanPhamController {
 		model.addAttribute("dsLoai", dsLoai);
 	
 		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPham();
-		model.addAttribute("dsSP", dsSP);			
+		dsSP = sanPhamService.locSanPhamTrung(dsSP);
+		model.addAttribute("dsSP", dsSP);	
+		
 		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieu();
 		model.addAttribute("dsKieu",dsKieu);
 		int pageSize = 6;
-		int totalLoaiSanPham = dsSP.size();
-		int totalPages = (int) Math.ceil((double) totalLoaiSanPham / pageSize);
+		int soSanPham = dsSP.size();
+		int totalPages = (int) Math.ceil((double) soSanPham / pageSize);
 		if (totalPages==0) return "shop/loai";
 		int startPage = Math.max(0, page - 1);
 		int endPage = Math.min(totalPages - 1, page + 1);
@@ -58,9 +60,10 @@ public class loaiSanPhamController {
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("totalLoaiSanPham", totalLoaiSanPham);
+		model.addAttribute("totalLoaiSanPham", soSanPham);
 		model.addAttribute("totalPages", totalPages);
-		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrang( page, pageSize);
+//		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrang( page, pageSize);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTran( dsSP,page, pageSize);
 		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
 		
 		return "shop/tatCa";
@@ -74,21 +77,23 @@ public class loaiSanPhamController {
 		model.addAttribute("dsLoai", dsLoai);
 	
 		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPhamTheoLoai(loaiSp);
+		dsSP = sanPhamService.locSanPhamTrung(dsSP);
 		model.addAttribute("dsSP", dsSP);			
 		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieu();
 		model.addAttribute("dsKieu",dsKieu);
 		int pageSize = 6;
-		int totalLoaiSanPham = dsSP.size();
-		int totalPages = (int) Math.ceil((double) totalLoaiSanPham / pageSize);		
+		int soSanPham = dsSP.size();
+		int totalPages = (int) Math.ceil((double) soSanPham / pageSize);		
 		int startPage = Math.max(0, page - 1);
 		int endPage = Math.min(totalPages - 1, page + 1);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("totalLoaiSanPham", totalLoaiSanPham);
+		model.addAttribute("totalLoaiSanPham", soSanPham);
 		model.addAttribute("totalPages", totalPages);
-		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrangTheoLoai(loaiSp, page, pageSize);
+//		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrangTheoLoai(loaiSp, page, pageSize);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTran(dsSP, page, pageSize);
 		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
 		
 		return "shop/loai";
@@ -104,25 +109,26 @@ public class loaiSanPhamController {
 		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
 		model.addAttribute("dsLoai", dsLoai);
 	
-		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPhamTheoLoai(loaiSp);
+		List<SanPhamEntity> dsSP = sanPhamService.layTatCaSanPhamCungKieu(kieuSp);
+		dsSP = sanPhamService.locSanPhamTrung(dsSP);
 		model.addAttribute("dsSP", dsSP);			
 		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieu();
 		model.addAttribute("dsKieu",dsKieu);
 		int pageSize = 6;
-		int totalLoaiSanPham = dsSP.size();
-		int totalPages = (int) Math.ceil((double) totalLoaiSanPham / pageSize);		
+		int soSanPham = dsSP.size();
+		int totalPages = (int) Math.ceil((double) soSanPham / pageSize);		
 		int startPage = Math.max(0, page - 1);
 		int endPage = Math.min(totalPages - 1, page + 1);
 		model.addAttribute("currentPage", page);
 		model.addAttribute("startPage", startPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("totalLoaiSanPham", totalLoaiSanPham);
+		model.addAttribute("totalLoaiSanPham", soSanPham);
 		model.addAttribute("totalPages", totalPages);
-		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrangTheoLoai(loaiSp, page, pageSize);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTran(dsSP,page, pageSize);
 		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
 		
-		return "shop/loai";
+		return "shop/locSanPham";
 	}
 	
 	@RequestMapping(value = "/{loaiSp}", params = "btnApply", method = RequestMethod.POST)
@@ -136,11 +142,8 @@ public class loaiSanPhamController {
 		
 		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
 		model.addAttribute("dsLoai", dsLoai);
-	
-		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPhamTheoLoai(loaiSp);
-		model.addAttribute("dsSP", dsSP);			
-		
 		List<SanPhamEntity> dsSPdaloc = sanPhamService.locSanPham(stylesList, minPrice, maxPrice);
+		dsSPdaloc = sanPhamService.locSanPhamTrung(dsSPdaloc);
 		List<KieuSanPhamEntity>dsKieu = kieuSanPhamService.layKieu();
 		model.addAttribute("dsKieu", dsKieu);
 		model.addAttribute("selectedStyles", stylesList);
@@ -159,6 +162,7 @@ public class loaiSanPhamController {
 	public String timSanPham(ModelMap model, @RequestParam(value = "key", required = false) String key,
 			HttpServletRequest request) {
        List<SanPhamEntity>listSP=sanPhamService.laySanPhamTheoMa(key);
+       listSP = sanPhamService.locSanPhamTrung(listSP);
        model.addAttribute("key", key);
        model.addAttribute("listSP", listSP);
        int so = listSP.size();
