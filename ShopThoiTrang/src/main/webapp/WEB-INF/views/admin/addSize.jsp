@@ -48,7 +48,7 @@
                 <h2 class="tm-block-title d-inline-block">Thêm size khác</h2>
               </div>
             </div>
-            <f:form action="admin/product/addSize.htm" class="tm-edit-product-form" modelAttribute="productForm" method="POST" enctype="multipart/form-data">
+            <f:form  class="tm-edit-product-form" modelAttribute="productForm" method="POST" enctype="multipart/form-data">
             <div class="row tm-edit-product-row">            
               <div class="col-xl-6 col-lg-6 col-md-12">                
                 

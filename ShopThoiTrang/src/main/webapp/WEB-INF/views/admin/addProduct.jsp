@@ -76,7 +76,7 @@
 			  		<!-- <i class="fas fa-cloud-upload-alt tm-upload-icon"></i> -->
 			  		<div class="tm-product-img-dummy mx-auto">
 					    <i onclick="document.getElementById('avatar').click();"></i>
-					    <img id="avatar-preview" class="d-none" alt="Avatar preview" style="width: 378px; height: 252px; display: block; margin: 0 auto;">
+					    <img id="avatar-preview" class="d-none" alt="Avatar preview" style="width: 350px; height: 420px; display: block; margin: 0 auto;">
 					  </div>
 					  
 					  <div class="form-group my-3">

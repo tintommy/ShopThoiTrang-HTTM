@@ -54,12 +54,19 @@ public class SanPhamServiceImpl implements SanPhamService {
 	public List<String> laySizeTheoTenSanPham(String maSp){
 		List<String> sizes = new ArrayList<>();
 		List<SanPhamEntity> listSP = sanPhamDAO.laySanPhamCungTen(maSp);
-		for (SanPhamEntity sp: listSP) {
-            String productSizes = sp.getSize();
-            sizes.add(productSizes);
-        }
-		return sizes;
-		
+	    String spSizes = sp.getSize().trim();
+	    String maSpGoc = maSp.substring(0, maSp.length() - spSizes.length()); // Loại bỏ 2 ký tự cuối của maSp
+
+	    for (SanPhamEntity sp2 : listSP) {
+	        String productMa = sp2.getMaSP();
+	        String productSizes = sp2.getSize().trim();
+
+	        // Kiểm tra 
+	        if (productMa.substring(0, productMa.length() - productSizes.length()).equals(maSpGoc)) {
+	            sizes.add(productSizes);
+	        }
+	    }
+	    return sizes;
 	}
 	
 	@Override

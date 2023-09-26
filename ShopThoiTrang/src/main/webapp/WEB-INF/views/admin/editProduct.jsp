@@ -39,6 +39,19 @@
           <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
             <div class="row">
               <div class="col-12">
+              <c:if test="${not empty successMessage}">
+					    <div class="alert alert-success">${successMessage}</div>
+					</c:if>
+					<c:if test="${not empty errorMessage}">
+					    <div class="alert alert-danger">${errorMessage}</div>
+					</c:if>
+					
+<%-- 					<c:if test="${not empty sizesuccessMessage}">
+					    <div class="alert alert-success">${successMessage}</div>
+					</c:if>
+					<c:if test="${not empty sizeerrorMessage}">
+					    <div class="alert alert-danger">${errorMessage}</div>
+					</c:if> --%>
                 <h2 class="tm-block-title d-inline-block">Sửa sản phẩm</h2>
               </div>
             </div>
@@ -73,7 +86,7 @@
 			  		<div class="tm-product-img-dummy mx-auto">
 			  		<img style="width:355px; height:240px;" src="${sanPham.hinhAnh.link}">
 					    <i onclick="document.getElementById('avatar').click();"></i>
-					    <img id="avatar-preview" class="d-none" alt="Ảnh đại diện sản phẩm" style="width: 378px; height: 252px; display: block; margin: 0 auto;">
+					    <img id="avatar-preview" class="d-none" alt="Ảnh đại diện sản phẩm" style="width: 350px; height: 420px; display: block; margin: 0 auto;">
 					  </div>
 					  
 					  <div class="form-group my-3">

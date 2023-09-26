@@ -56,19 +56,7 @@ public class HinhAnhDAOImpl implements HinhAnhDAO{
 
 	@Override
 	public void xoaHinhAnhSanPham(HinhAnhEntity hinhAnh) {
-		Session session = sessionFactory.openSession();
-		Transaction t = session.beginTransaction();
-		try {
-			session.delete(hinhAnh);
-			t.commit();
-		
-		} catch (Exception ex) {
-			t.rollback();
-			System.out.print("loi");
-
-		} finally {
-			session.close();
-		}
+		sessionFactory.getCurrentSession().delete(hinhAnh);
 	}
 	
 
