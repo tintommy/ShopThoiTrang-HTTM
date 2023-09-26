@@ -14,6 +14,7 @@ public interface SanPhamService {
 	public List<SanPhamEntity> layAllSanPhamDaNgungBan();
 	public List<String> laySizeTheoTenSanPham(String maSp);
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai);
+	public List<SanPhamEntity> laySanPhamTheogioiTinh(String gioiTinh);
 	public List<SanPhamEntity> layAllSanPhamTheoLoai(String loai);
 	public List<SanPhamEntity> laySanPhamCungLoai(String maSp);
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp);

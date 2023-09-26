@@ -1,6 +1,9 @@
 package ptithcm.controller;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ptithcm.entity.NguoiDungEntity;
+import ptithcm.entity.SanPhamEntity;
 import ptithcm.entity.LoaiSanPhamEntity;
+import ptithcm.service.SanPhamService;
 import ptithcm.service.loaiSanPhamService;
-
 
 @Transactional
 @Controller
@@ -28,6 +32,9 @@ public class mainController {
 	@Autowired
 	loaiSanPhamService loaiSanPhamService;
 
+	@Autowired
+	SanPhamService sanPhamService;
+
 	@RequestMapping()
 	public String main(HttpServletRequest request, ModelMap model) {
 
@@ -35,6 +42,14 @@ public class mainController {
 		model.addAttribute("loaiSPNam", loaiSPNam);
 		List<LoaiSanPhamEntity> loaiSPNu = loaiSanPhamService.layLoaiTheoGioiTinh("nữ");
 		model.addAttribute("loaiSPNu", loaiSPNu);
+	
+
+		List<SanPhamEntity> listSpNam = sanPhamService.laySanPhamTheogioiTinh("nam");
+		listSpNam=locSanPhamTrung(listSpNam);
+		model.addAttribute("listSpNam", listSpNam);
+		List<SanPhamEntity> listSpNu = sanPhamService.laySanPhamTheogioiTinh("nữ");
+		listSpNu=locSanPhamTrung(listSpNu);
+		model.addAttribute("listSpNu", listSpNu);
 		model.addAttribute("user", new NguoiDungEntity());
 		return "main";
 	}
@@ -42,6 +57,19 @@ public class mainController {
 	@RequestMapping("khongCoQuyen")
 	public String khongCoQuyen() {
 		return "error/403";
+	}
+
+	public List<SanPhamEntity> locSanPhamTrung(List<SanPhamEntity> list) {
+		Set<String> uniqueSet = new HashSet<>();
+		List<SanPhamEntity> result = new ArrayList<>();
+		for (SanPhamEntity sanPham : list) {
+
+			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+				result.add(sanPham);
+				uniqueSet.add(sanPham.getTenSanPham());
+			}
+		}
+		return result;
 	}
 
 }

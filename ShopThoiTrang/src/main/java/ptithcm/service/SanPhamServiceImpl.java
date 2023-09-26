@@ -171,6 +171,11 @@ public class SanPhamServiceImpl implements SanPhamService {
 		hinhAnhDAO.xoaHinhAnhSanPham(hinhAnh);
 		
 	}
+
+	@Override
+	public List<SanPhamEntity> laySanPhamTheogioiTinh(String gioiTinh) {
+		return sanPhamDAO.laySanPhamTheoGioiTinh(gioiTinh);
+	}
 	
 
 	

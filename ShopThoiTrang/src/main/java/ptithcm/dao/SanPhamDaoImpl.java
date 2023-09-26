@@ -258,4 +258,13 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		return list;
 	}
 
+	@Override
+	public List<SanPhamEntity> laySanPhamTheoGioiTinh(String gioiTinh) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.tenLoai LIKE :loai and trangThai=True";
+		Query query = session.createQuery(hql).setParameter("loai", "%" +gioiTinh+"%");
+		List<SanPhamEntity> list = query.setMaxResults(40).list();
+		return list;
+	}
+
 }
