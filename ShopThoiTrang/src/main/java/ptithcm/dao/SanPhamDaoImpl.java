@@ -1,7 +1,9 @@
 package ptithcm.dao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -39,7 +41,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		Query query = session.createQuery(hql);
 		query.setParameter("key", "%" + key + "%");
 		return query.list();
-
+		
 	}
 	
 	@Override
@@ -71,8 +73,25 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		String hql = "FROM SanPhamEntity sp WHERE trangThai=True ";
 		Query query = session.createQuery(hql);
 		int offset = page * pageSize;
-		List<SanPhamEntity> list = query.setFirstResult(offset).setMaxResults(pageSize).list();
-		return list;
+//		List<SanPhamEntity> listSP = query.setFirstResult(offset).setMaxResults(pageSize).list();
+		List<SanPhamEntity> listSP = query.list();
+//		return list;
+
+		Set<String> uniqueSet = new HashSet<>();
+		List<SanPhamEntity> result = new ArrayList<>();
+		for (SanPhamEntity sanPham : listSP) {
+
+			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+				result.add(sanPham);
+				uniqueSet.add(sanPham.getTenSanPham());
+			}
+		}
+		List<SanPhamEntity> SPMotTrang = new ArrayList<>();
+		if (pageSize + offset>result.size()) pageSize = result.size();
+		for (int i =offset; i<pageSize;i++) {
+			SPMotTrang.add(result.get(i));
+		}
+		return SPMotTrang;
 	}
 	
 	@Override
@@ -83,8 +102,18 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		Query query = session.createQuery(hql).setParameter("loai", loai);
 
 		int offset = page * pageSize;
-		List<SanPhamEntity> list = query.setFirstResult(offset).setMaxResults(pageSize).list();
-		return list;
+		List<SanPhamEntity> listSP = query.setFirstResult(offset).setMaxResults(pageSize).list();
+//		return list;	
+		Set<String> uniqueSet = new HashSet<>();
+		List<SanPhamEntity> result = new ArrayList<>();
+		for (SanPhamEntity sanPham : listSP) {
+
+			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+				result.add(sanPham);
+				uniqueSet.add(sanPham.getTenSanPham());
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -93,10 +122,26 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		String hql = "FROM SanPhamEntity sp WHERE sp.loaiSanPham.maLoai = :loai and trangThai=True ";
 		Query query = session.createQuery(hql).setParameter("loai", loai);
 		query.setMaxResults(6);
-		List<SanPhamEntity> list = query.list();
-		return list;
+		List<SanPhamEntity> listSP = query.list();
+//		return list;	
+		Set<String> uniqueSet = new HashSet<>();
+		List<SanPhamEntity> result = new ArrayList<>();
+		for (SanPhamEntity sanPham : listSP) {
+
+			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+				result.add(sanPham);
+				uniqueSet.add(sanPham.getTenSanPham());
+			}
+		}
+		return result;
 	}
-	
+	@Override
+	public List<SanPhamEntity> layTatCaSanPhamCungKieu(String kieu){
+		  Session session = sessionFactory.getCurrentSession();
+		  String hql = "FROM SanPhamEntity sp WHERE sp.maKieu.tenKieu = :kieu and trangThai=True ";
+		  Query query = session.createQuery(hql).setParameter("kieu", kieu);
+		  return query.list();
+		  }
 	@Override
 	public List<SanPhamEntity> laySanPhamCungKieu(String maSp) {
 	    Session session = sessionFactory.getCurrentSession();
@@ -108,9 +153,19 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	    query.setParameter("kieu", kieu);
 	    query.setParameter("ten", ten);
 //	    query.setMaxResults(8);
-	    List<SanPhamEntity> spCungKieu = query.list();
-	    
-	    return spCungKieu;
+	    List<SanPhamEntity> listSP = query.list();    
+//	    return spCungKieu;
+	  
+		Set<String> uniqueSet = new HashSet<>();
+		List<SanPhamEntity> result = new ArrayList<>();
+		for (SanPhamEntity sanPham : listSP) {
+
+			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
+				result.add(sanPham);
+				uniqueSet.add(sanPham.getTenSanPham());
+			}
+		}
+		return result;
 	}
 
 
@@ -255,6 +310,15 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.maLoai = :loai and trangThai=True";
 		Query query = session.createQuery(hql).setParameter("loai", loai);
 		List<SanPhamEntity> list = query.list();
+		return list;
+	}
+
+	@Override
+	public List<SanPhamEntity> laySanPhamTheoGioiTinh(String gioiTinh) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.tenLoai LIKE :loai and trangThai=True";
+		Query query = session.createQuery(hql).setParameter("loai", "%" +gioiTinh+"%");
+		List<SanPhamEntity> list = query.setMaxResults(40).list();
 		return list;
 	}
 

@@ -260,12 +260,12 @@
 						<c:choose> 
                     <c:when test="${kieu.maKieu==kieuSp}" >
                      <input class="form-check-input" type="checkbox"		value="${kieu.tenKieu}" name="style"
-								   id="flexCheckChecked1" checked/> <label class="form-check-label" for="flexCheckChecked1">${kieu.tenKieu}</label >
+								   id="${kieu.maKieu}" checked/> <label class="form-check-label" for="${kieu.maKieu}">${kieu.tenKieu}</label >
                     </c:when> 
                   
                     <c:otherwise>
 						 <input class="form-check-input" type="checkbox"		value="${kieu.tenKieu}" name="style"
-								   id="flexCheckChecked1" /> <label class="form-check-label" for="flexCheckChecked1">${kieu.tenKieu}</label >
+								   id="${kieu.maKieu}" /> <label class="form-check-label" for="${kieu.maKieu}">${kieu.tenKieu}</label >
 					</c:otherwise>
 					</c:choose> 
 					</div>
