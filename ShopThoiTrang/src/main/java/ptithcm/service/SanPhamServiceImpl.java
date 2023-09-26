@@ -52,6 +52,7 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	@Override
 	public List<String> laySizeTheoTenSanPham(String maSp){
+		SanPhamEntity sp= sanPhamDAO.laySanPham(maSp);
 		List<String> sizes = new ArrayList<>();
 		List<SanPhamEntity> listSP = sanPhamDAO.laySanPhamCungTen(maSp);
 	    String spSizes = sp.getSize().trim();
