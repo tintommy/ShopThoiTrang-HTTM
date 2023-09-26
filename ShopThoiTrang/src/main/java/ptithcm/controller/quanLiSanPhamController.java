@@ -46,8 +46,8 @@ public class quanLiSanPhamController {
 	
 //	@Autowired
 //	ServletContext context;
-	String filePath = "C:\\Users\\vanlu\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
-	String imgXoaPath="C:\\Users\\vanlu\\Documents\\shopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
+	String filePath = "C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
+	String imgXoaPath="C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
 	
 	@RequestMapping(value="admin/product", method = RequestMethod.GET)
 	public String product(ModelMap model, HttpServletRequest request) {
@@ -160,21 +160,27 @@ public class quanLiSanPhamController {
 	    if (!avatar.isEmpty()) {
 	        
 	        
-	        // Xóa hình đại diện cũ
-	        HinhAnhEntity hinhAnhCu = sp.getHinhAnh();
-	        if (hinhAnhCu != null) {
-	            xoaTepTinHinhAnh(hinhAnhCu.getLink());
-	        }
+//	        // Xóa hình đại diện cũ
+//	        HinhAnhEntity hinhAnhCu = sp.getHinhAnh();
+//	        if (hinhAnhCu != null) {
+//	            xoaTepTinHinhAnh(hinhAnhCu.getLink());
+//	        }
 	        
 	        
 	        String avatarFileName = now + "-" + avatar.getOriginalFilename();
 	        String avatarFilePath = filePath + avatarFileName;
 	        File avatarFile = new File(avatarFilePath);
 	        avatar.transferTo(avatarFile);
-	        HinhAnhEntity hinhAnhMoi = new HinhAnhEntity();
-	        hinhAnhMoi.setLink("assets/img/product/"+avatarFileName);
-	        product.setHinhAnh(hinhAnhMoi); 
-	    }  else {
+//	        HinhAnhEntity hinhAnhMoi = new HinhAnhEntity();
+//	        hinhAnhMoi.setLink("assets/img/product/"+avatarFileName);
+//	        sanPhamService.themHinhAnhSanPham(hinhAnhMoi);
+//	        product.setHinhAnh(hinhAnhMoi); 
+	        
+	        HinhAnhEntity hinhAnh = sp.getHinhAnh();
+	        hinhAnh.setLink("assets/img/product/"+avatarFileName);
+	        sanPhamService.suaHinhAnhSanPham(hinhAnh);
+	    }  
+	    else {
 	        // Giữ nguyên ảnh đại diện cũ
 	        product.setHinhAnh(sp.getHinhAnh());
 	    } 
@@ -191,46 +197,6 @@ public class quanLiSanPhamController {
 	    return "admin/editProduct";
 	}
 	
-//	@RequestMapping(value = "/admin/product/edit/{masp}", params = "addSize", method = RequestMethod.POST)
-//	public String showAddNewProductForm(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-//	    SanPhamEntity sp= sanPhamService.laySanPham(masp);
-//	    // Sử dụng Flash Attributes để giữ lại thông tin sản phẩm
-//	    redirectAttributes.addFlashAttribute("spThemSize", sp);
-//
-//	    return "redirect:/admin/product/addSize.htm";
-//	}		
-//	
-//	@RequestMapping(value = "/admin/product/addSize", method = RequestMethod.GET)
-//    public String viewAddNewSizeProductForm(ModelMap model,  HttpServletRequest request, RedirectAttributes redirectAttributes,
-//    		@ModelAttribute("spThemSize") SanPhamEntity sp) {
-//		SanPhamEntity spmoi =new SanPhamEntity();
-//		spmoi=sp;
-//        return "admin/addSize";
-//    }
-//	
-//	
-//	@RequestMapping(value = "/admin/product/addSize", params = "add", method = RequestMethod.POST)
-//    public String AddNewSizeProductForm(@ModelAttribute("productForm") SanPhamEntity product, ModelMap model,  HttpServletRequest request, RedirectAttributes redirectAttributes,
-//    		@RequestParam("sizemoi") String sizemoi, @RequestParam("gia") int gia, @RequestParam("soluong") int soluong,
-//    		@ModelAttribute("spThemSize") SanPhamEntity sp) {
-//
-//		product= sp;
-//		product.setSize(sizemoi);
-//		product.setMaSP(sp.getMaSP()+"_"+sizemoi);
-//		product.setSoLuong(soluong);
-//		product.setDonGia(gia);
-//		Date today = new Date();
-//		product.setNgayThem(today);
-//		try {
-//	        sanPhamService.themSanPham(product);
-//	        model.addAttribute("successMessage", "Thêm thành công.");
-//	    } catch (Exception e) {
-//	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi thêm" + e.getMessage());
-//	        return "/admin/addSize";
-//	    }
-//		
-//	    return "admin/addSize";
-//    }
 	
 	@RequestMapping(value = "/admin/product/edit/{masp}", params = "addSize", method = RequestMethod.POST)
 	public String showAddNewProductForm(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request) {
@@ -282,102 +248,6 @@ public class quanLiSanPhamController {
 	    return "admin/addSize";
     }
 
-//	@RequestMapping(value = "/admin/product/edit/{masp}", params = "update", method = RequestMethod.POST)
-//	public String editProduct(@PathVariable("masp") String masp,
-//	                           @ModelAttribute("product") SanPhamEntity product,
-//	                           @RequestParam("avatar") MultipartFile avatar,
-//	                           @RequestParam("images") MultipartFile[] images,
-//	                           @RequestParam("thongSo") MultipartFile thongSo,
-//	                           ModelMap model) throws IOException {
-//		SanPhamEntity sp= sanPhamService.laySanPham(masp);
-//		
-//	    //Lấy ngày tháng cộng vào tên file để khỏi bị trùng file
-//	    Date today = new Date();
-//	    SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-//	    String now = formatter.format(today);
-//	    
-//	    if (!avatar.isEmpty()) {
-//	        
-//	        
-//	        // Xóa hình đại diện cũ
-//	        String hinhAnhDaiDien = sp.getHinhAnhDaiDien();
-//	        if (hinhAnhDaiDien != null) {
-//	            xoaTepTinHinhAnh(hinhAnhDaiDien);
-//	        }
-//	        
-//	        String avatarFileName = now + "-" + avatar.getOriginalFilename();
-//	        String avatarFilePath = filePath + avatarFileName;
-//	        File avatarFile = new File(avatarFilePath);
-//	        avatar.transferTo(avatarFile);
-//	        product.setHinhAnhDaiDien("assets/img/sanPham/" + avatarFileName); 
-//	    }  else {
-//	        // Giữ nguyên ảnh đại diện cũ
-//	        product.setHinhAnhDaiDien(sp.getHinhAnhDaiDien());
-//	    } 
-//		
-//		// Kiểm tra xem có thay đổi hình ảnh khác hay không
-//		if (images.length > 0 && !images[0].isEmpty()) {			 
-//	        
-//	        
-//	        // Xóa các hình ảnh khác cũ
-//	        List<HinhAnhEntity> danhSachHinhAnh = sp.getHinhAnhs();
-//	        if (danhSachHinhAnh != null && !danhSachHinhAnh.isEmpty()) {
-//	            for (HinhAnhEntity hinhAnh : danhSachHinhAnh) {
-//	                String tenTep = hinhAnh.getLink();
-//	                xoaTepTinHinhAnh(tenTep);	                
-//	            }
-//	            sanPhamService.xoaHinhAnhSanPham(danhSachHinhAnh); //xóa trong csdl
-//	        }
-//	        
-//	        List<HinhAnhEntity> hinhAnhKhacs = new ArrayList<>();
-//	        for (MultipartFile file : images) {
-//			    String fileName = now + file.getOriginalFilename();
-//			    String otherImgfilePath = filePath + fileName;
-//			    File dest = new File(otherImgfilePath);
-//			    file.transferTo(dest);
-//		
-//			    HinhAnhEntity hinhAnhKhac = new HinhAnhEntity();
-//			    hinhAnhKhac.setLink("assets/img/sanPham/"+fileName);
-//			    hinhAnhKhac.setSanPham(product);
-//			    hinhAnhKhacs.add(hinhAnhKhac);
-//	        }
-//	        product.setHinhAnhs(hinhAnhKhacs);
-//	        sanPhamService.updateSanPham(product);
-//	        sanPhamService.themHinhAnhSanPham(hinhAnhKhacs);
-//		}
-//	    
-//		
-//	    if (!thongSo.isEmpty()) {  
-//	        
-//	        
-//	        // Xóa hình tskt cũ
-//	        String anhThongSoKT = sp.getThongSoKt();
-//	        if (anhThongSoKT != null) {
-//	            xoaTepTinHinhAnh(anhThongSoKT);
-//	        }
-//	        
-//	        String thongSoFileName = now + "-" + thongSo.getOriginalFilename();
-//	        String thongSoFilePath = filePath + thongSoFileName;
-//	        File thongSoFile = new File(thongSoFilePath);
-//	        thongSo.transferTo(thongSoFile);
-//	        product.setThongSoKt("assets/img/sanPham/" + thongSoFileName);
-//	    } else {
-//	        // Giữ nguyên ảnh đại diện cũ
-//	        product.setThongSoKt(sp.getThongSoKt());
-//	    }
-//	    
-//	    product.setNgayThem(sp.getNgayThem());
-//
-//	    try {
-//	        sanPhamService.updateSanPham(product);
-////	        sanPhamService.suaHinhAnhSanPham(hinhAnhKhacs);
-//	        model.addAttribute("successMessage", "Cập nhật sản phẩm thành công.");
-//	    } catch (Exception e) {
-//	        model.addAttribute("errorMessage", "Có lỗi xảy ra khi cập nhật sản phẩm. " + e.getMessage());
-//	        return "admin/editProduct";
-//	    }
-//	    return "admin/editProduct";
-//	}
 	
 	public void xoaTepTinHinhAnh(String tenTep) {
 	    String imgPath = imgXoaPath + tenTep; // Đường dẫn tới thư mục chứa hình ảnh
@@ -407,17 +277,19 @@ public class quanLiSanPhamController {
 	    else {
 	        
 	        
-	    	// Xóa sản phẩm trong cơ sở dữ liệu
+	    	
+	        
+	        
+	        // Xóa hình sản phẩm trong cơ sở dữ liệu	        
+	        sanPhamService.xoaHinhAnhSanPham(sanPham.getHinhAnh());
+	        // Xóa hình đại diện
+	        String hinhAnhDaiDien = sanPham.getHinhAnh().getLink();
+	        if (hinhAnhDaiDien != null) {
+	            xoaTepTinHinhAnh(hinhAnhDaiDien);
+	        }
+	        
+	     // Xóa sản phẩm trong cơ sở dữ liệu
 	        sanPhamService.xoaSanPham(sanPham);
-	        
-	        
-//	        // Xóa hình sản phẩm trong cơ sở dữ liệu	        
-//	        sanPhamService.xoaHinhAnhSanPham(sanPham.getHinhAnh());
-//	        // Xóa hình đại diện
-//	        String hinhAnhDaiDien = sanPham.getHinhAnh().getLink();
-//	        if (hinhAnhDaiDien != null) {
-//	            xoaTepTinHinhAnh(hinhAnhDaiDien);
-//	        }
 	        
 	    }
 	    

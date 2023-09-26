@@ -92,8 +92,8 @@
 											<li><a
 												href="${pageContext.servletContext.contextPath}/product.htm">Sản
 													phẩm</a></li>
-											<li class="active">${sanPham.maKieu.loai.tenLoai}</li>
-											<li class="active">${sanPham.maKieu.tenKieu}</li>
+											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sanPham.maKieu.loai.tenLoai}</a></li>
+											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sanPham.maKieu.tenKieu}</a></li>
 										</ol>
 									</div>
 								</div>
@@ -105,7 +105,7 @@
 											<div class="simpleLens-container">
 												<div class="simpleLens-big-image-container">
 													<a data-lens-image="${sanPham.hinhAnh.link}"
-														class="simpleLens-lens-image"><img
+														class="simpleLens-lens-image"><img style="width:350px; height:420px;"
 														src="${sanPham.hinhAnh.link}" class="simpleLens-big-image"></a>
 												</div>
 											</div>
@@ -190,9 +190,10 @@
 															max="${sanPham.soLuong}" style="width: 90px" /> <br>
 														<c:choose>
 															<c:when test="${sanPham.soLuong == 0 }">
-
+																
 																<button name="them" class="btn btn-warning"
 																	disabled="disabled">Thêm vào giỏ</button>
+																<span style="font-style: italic; color: red;">Sản phẩm này đã hết hàng!</span>
 															</c:when>
 															<c:otherwise>
 																<button name="them" class="btn btn-warning">Thêm
@@ -205,6 +206,13 @@
 												</f:form>
 												<span id="thongBao"
 													style="font-style: italic; font-size: 0.7rem; color: blue;">${messenger }</span>
+													
+												<br>	
+												<button name="fav" class="btn btn-danger">
+													<a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào yêu
+														thích</a>
+												</button>
+												
 										</c:if>
 
 										<c:if test="${sanPham.trangThai==false }">
@@ -215,10 +223,10 @@
 											</div>
 										</c:if>
 										<br>
-										<button name="fav" class="btn btn-danger">
+										<%-- <button name="fav" class="btn btn-danger">
 											<a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào yêu
 												thích</a>
-										</button>
+										</button> --%>
 									</div>
 								</div>
 							</div>
@@ -348,8 +356,8 @@
 											<a class="aa-product-img" href="product/${sp.maSP}.htm"><img
 												style="width: 250px; height: 300px;"
 												src="${sp.hinhAnh.link}" alt="product img"></a>
-											<a class="aa-add-card-btn" href="#"><span
-												class="fa fa-shopping-cart"></span>Add To Cart</a>
+											<!-- <a class="aa-add-card-btn" href="#"><span
+												class="fa fa-shopping-cart"></span>Add To Cart</a> -->
 											<figcaption>
 												<h4 class="aa-product-title">
 													<a href="product/${sp.maSP}.htm"
@@ -363,10 +371,11 @@
 										</figure>
 
 										<div class="aa-product-hvr-content">
+											<!-- <a href="#" data-toggle="tooltip" data-placement="top"
+												title="Thêm vào giỏ"><span class="fa fa-heart-o"></span></a>
 											<a href="#" data-toggle="tooltip" data-placement="top"
-												title="Add to Wishlist"><span class="fa fa-heart-o"></span></a>
-											<a href="#" data-toggle="tooltip" data-placement="top"
-												title="Compare"><span class="fa fa-exchange"></span></a> <a
+												title="So sánh"><span class="fa fa-exchange"></span></a>  -->
+											<a
 												href="#" data-toggle2="tooltip" data-placement="top"
 												title="Quick View" data-toggle="modal"
 												data-target="#quick-view-modal"><span
@@ -430,7 +439,9 @@
 
 														<div class="aa-product-view-content">
 
-															<h3>${sp.tenSanPham}</h3>
+															<h4>${sp.tenSanPham}</h4>
+															
+															<%-- <span>${sp.moTa}</span> --%>
 
 															<div class="aa-price-block">
 																<span
@@ -438,12 +449,28 @@
 																		value="${sanPham.donGia}" pattern="#,##0" />đ</span>
 																<!-- <p class="aa-product-avilability">Avilability: <span>In stock</span></p> -->
 															</div>
-															<%-- <p>${sp.moTa}</p> --%>
-															<h4>Size</h4>
+															<p id="moTa" class="truncate-text">${sp.moTa}</p>
+															<script>
+															    var moTaElement = document.getElementById("moTa");
+															    var maxWords = 50; // Số từ tối đa bạn muốn hiển thị
+															
+															    // Tách nội dung thành các từ và đếm số từ
+															    var words = moTaElement.textContent.split(' ');
+															    var wordCount = words.length;
+															
+															    // Nếu số từ vượt quá giới hạn, ẩn nội dung và thêm một link để hiển thị toàn bộ nội dung
+															    if (wordCount > maxWords) {
+															        moTaElement.classList.remove("truncate-text");
+															        moTaElement.innerHTML = moTaElement.textContent.split(' ').slice(0, maxWords).join(' ') + '...';
+															    }
+															</script>
+															
+															<!-- <h4>Size</h4>
 															<div class="aa-prod-view-size">
 																<a href="#">S</a> <a href="#">M</a> <a href="#">L</a> <a
 																	href="#">XL</a>
-															</div>
+															</div> -->
+															
 															<div class="aa-prod-quantity">
 																<%-- <form action="">
                                 <select name="" id="">
@@ -457,10 +484,10 @@
                               </form> --%>
 
 																<p class="aa-prod-category">
-																	Loai: <a href="#">${sp.maKieu.loai.tenLoai}</a>
+																	Loai: <a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sp.maKieu.loai.tenLoai}</a>
 																</p>
 																<p class="aa-prod-category">
-																	Kiểu: <a href="#">${sp.maKieu.tenKieu}</a>
+																	Kiểu: <a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sp.maKieu.tenKieu}</a>
 																</p>
 															</div>
 															<div class="aa-prod-view-bottom">

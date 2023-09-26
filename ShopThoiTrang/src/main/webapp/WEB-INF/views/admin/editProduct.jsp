@@ -86,7 +86,7 @@
 			  		<div class="tm-product-img-dummy mx-auto">
 			  		<img style="width:355px; height:240px;" src="${sanPham.hinhAnh.link}">
 					    <i onclick="document.getElementById('avatar').click();"></i>
-					    <img id="avatar-preview" class="d-none" alt="Ảnh đại diện sản phẩm" style="width: 378px; height: 252px; display: block; margin: 0 auto;">
+					    <img id="avatar-preview" class="d-none" alt="Ảnh đại diện sản phẩm" style="width: 350px; height: 420px; display: block; margin: 0 auto;">
 					  </div>
 					  
 					  <div class="form-group my-3">
