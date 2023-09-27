@@ -63,7 +63,7 @@ public class danhGiaController {
 		String content = request.getParameter("content-danhGia");
 		float soSao = Float.parseFloat(request.getParameter("rate"));
 		SanPhamEntity sanpham = sanPhamService.laySanPham(maSp);
-		
+		CTDonHangEntity ctdh= ctDonHangService.timCtdhTheoMaDhMaSP(maDHTypeInt, maSp);
 	
 		danhGia.setNgay(currentDate);
 		danhGia.setNguoiDung(user);
@@ -72,7 +72,8 @@ public class danhGiaController {
 		danhGia.setSanPham(sanpham);
 		danhGiaService.saveDanhGia(danhGia);
 		System.out.println("luu danh gia");
-
+		ctdh.setTrangThaiDanhGia(true);
+		ctDonHangService.updateCtdh(ctdh);
 		return "redirect:/chiTietDonHang/"+maDh+".htm";
 
 	}

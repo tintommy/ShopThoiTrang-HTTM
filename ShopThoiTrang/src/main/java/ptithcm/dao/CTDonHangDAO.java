@@ -10,6 +10,9 @@ public interface CTDonHangDAO {
 	public void updateCtdh(CTDonHangEntity ctdh);
 
 	public List<CTDonHangEntity> timctdhTheoMaDh(int maDh);
+	
+    public CTDonHangEntity timCtdhTheoMaDHMaSP(int maDh, String maSP);
+
 
 	public CTDonHangEntity timCtdhTheoMaCtdh(int maCTDH);
 
