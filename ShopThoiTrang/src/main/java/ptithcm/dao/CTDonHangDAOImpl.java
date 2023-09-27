@@ -84,4 +84,21 @@ public class CTDonHangDAOImpl implements CTDonHangDAO {
 		return ListAllctDonHang;
 	}
 
+	@Override
+	public CTDonHangEntity timCtdhTheoMaDHMaSP(int maDh, String maSP) {
+		// TODO Auto-generated method stub
+		Session session = factory.getCurrentSession();
+		String hql = "FROM CTDonHangEntity WHERE donHang.maDh=:maDh and sanPham.maSP =:maSP";
+		Query query = session.createQuery(hql);
+		query.setParameter("maDh", maDh);
+		query.setParameter("maSP", maSP);
+		if(query.list().size() == 0) {
+			return null;
+		}
+		List<CTDonHangEntity> ctdhList = query.list();
+		CTDonHangEntity ctdh = ctdhList.get(0);
+		return ctdh;
+
+	}
+
 }

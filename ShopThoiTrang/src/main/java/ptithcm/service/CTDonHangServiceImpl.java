@@ -39,4 +39,10 @@ public class CTDonHangServiceImpl implements CTDonHangService {
 	public CTDonHangEntity timCtdhTheoMaCtdh(int maCTDH) {
 		return ctDonHangDAO.timCtdhTheoMaCtdh(maCTDH);
 	}
+
+	@Override
+	public CTDonHangEntity timCtdhTheoMaDhMaSP(int maDHTypeInt, String maSp) {
+		// TODO Auto-generated method stub
+		return ctDonHangDAO.timCtdhTheoMaDHMaSP(maDHTypeInt, maSp);
+	}
 }
