@@ -165,7 +165,8 @@
                             </div>
                             <div class="aa-prod-quantity">                           
                               <p class="aa-prod-category">Loại: <a href="#">${sp.maKieu.loai.tenLoai}</a></p>
-                              <p class="aa-prod-category"> Kiểu: <a href="#">${sp.maKieu.tenKieu}</a></p>
+                              <%-- <p class="aa-prod-category"> Kiểu: <a href="#">${sp.maKieu.tenKieu}</a></p> --%>
+                              <p class="aa-prod-category"> Kiểu: ${sp.maKieu.tenKieu}</p>
                             </div>
                             <div class="aa-prod-view-bottom">
                               <!-- <a href="#" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a> -->

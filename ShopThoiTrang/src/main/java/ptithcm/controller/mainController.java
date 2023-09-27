@@ -46,11 +46,9 @@ public class mainController {
 
 		List<SanPhamEntity> listSpNam = sanPhamService.laySanPhamTheogioiTinh("nam");
 		listSpNam = sanPhamService.locSanPhamTrung(listSpNam);
-//		listSpNam=locSanPhamTrung(listSpNam);
 		model.addAttribute("listSpNam", listSpNam);
 		List<SanPhamEntity> listSpNu = sanPhamService.laySanPhamTheogioiTinh("nữ");
 		listSpNu = sanPhamService.locSanPhamTrung(listSpNu);
-//		listSpNu=locSanPhamTrung(listSpNu);
 		model.addAttribute("listSpNu", listSpNu);
 		model.addAttribute("user", new NguoiDungEntity());
 		return "main";
@@ -59,19 +57,6 @@ public class mainController {
 	@RequestMapping("khongCoQuyen")
 	public String khongCoQuyen() {
 		return "error/403";
-	}
-
-	public List<SanPhamEntity> locSanPhamTrung(List<SanPhamEntity> list) {
-		Set<String> uniqueSet = new HashSet<>();
-		List<SanPhamEntity> result = new ArrayList<>();
-		for (SanPhamEntity sanPham : list) {
-
-			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
-				result.add(sanPham);
-				uniqueSet.add(sanPham.getTenSanPham());
-			}
-		}
-		return result;
 	}
 
 }

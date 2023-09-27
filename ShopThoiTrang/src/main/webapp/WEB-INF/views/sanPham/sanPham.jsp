@@ -93,7 +93,8 @@
 												href="${pageContext.servletContext.contextPath}/product.htm">Sản
 													phẩm</a></li>
 											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sanPham.maKieu.loai.tenLoai}</a></li>
-											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sanPham.maKieu.tenKieu}</a></li>
+											<li class="active">${sanPham.maKieu.tenKieu}</li>
+											<%-- <li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sanPham.maKieu.tenKieu}</a></li> --%>
 										</ol>
 									</div>
 								</div>
@@ -487,7 +488,8 @@
 																	Loai: <a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sp.maKieu.loai.tenLoai}</a>
 																</p>
 																<p class="aa-prod-category">
-																	Kiểu: <a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sp.maKieu.tenKieu}</a>
+																	<%-- Kiểu: <a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sp.maKieu.tenKieu}</a> --%>
+																	Kiểu: ${sp.maKieu.tenKieu}
 																</p>
 															</div>
 															<div class="aa-prod-view-bottom">

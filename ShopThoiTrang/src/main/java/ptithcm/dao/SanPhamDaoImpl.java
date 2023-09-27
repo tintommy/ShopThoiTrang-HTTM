@@ -66,56 +66,6 @@ public class SanPhamDaoImpl implements SanPhamDAO {
                 .uniqueResult();
     }
 	
-
-	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize){
-		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM SanPhamEntity sp WHERE trangThai=True ";
-		Query query = session.createQuery(hql);
-		int offset = page * pageSize;
-//		List<SanPhamEntity> listSP = query.setFirstResult(offset).setMaxResults(pageSize).list();
-		List<SanPhamEntity> listSP = query.list();
-//		return list;
-
-		Set<String> uniqueSet = new HashSet<>();
-		List<SanPhamEntity> result = new ArrayList<>();
-		for (SanPhamEntity sanPham : listSP) {
-
-			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
-				result.add(sanPham);
-				uniqueSet.add(sanPham.getTenSanPham());
-			}
-		}
-		List<SanPhamEntity> SPMotTrang = new ArrayList<>();
-		if (pageSize + offset>result.size()) pageSize = result.size();
-		for (int i =offset; i<pageSize;i++) {
-			SPMotTrang.add(result.get(i));
-		}
-		return SPMotTrang;
-	}
-	
-	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize) {
-
-		Session session = sessionFactory.getCurrentSession();
-		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.maLoai = :loai and trangThai=True ";
-		Query query = session.createQuery(hql).setParameter("loai", loai);
-
-		int offset = page * pageSize;
-		List<SanPhamEntity> listSP = query.setFirstResult(offset).setMaxResults(pageSize).list();
-//		return list;	
-		Set<String> uniqueSet = new HashSet<>();
-		List<SanPhamEntity> result = new ArrayList<>();
-		for (SanPhamEntity sanPham : listSP) {
-
-			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
-				result.add(sanPham);
-				uniqueSet.add(sanPham.getTenSanPham());
-			}
-		}
-		return result;
-	}
-
 	@Override
 	public List<SanPhamEntity> laySanPhamTheoLoai(String loai) {
 		Session session = sessionFactory.getCurrentSession();

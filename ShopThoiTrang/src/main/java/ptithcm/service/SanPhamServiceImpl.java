@@ -46,23 +46,12 @@ public class SanPhamServiceImpl implements SanPhamService {
 	    return sanPhamDAO.laySanPhamTheoMa(key);   
 	}
 	
+
 	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize){
-		return sanPhamDAO.LaySanPhamMotTrang(page, pageSize);
-	}
-	@Override
-	public List<SanPhamEntity> LaySanPhamMotTran(List<SanPhamEntity> list, int page, int pageSize){
+	public List<SanPhamEntity> LaySanPhamMotTrang(List<SanPhamEntity> list, int page, int pageSize){
 		int offset = page * pageSize;
 
-//		Set<String> uniqueSet = new HashSet<>();
-//		List<SanPhamEntity> result = new ArrayList<>();
-//		for (SanPhamEntity sanPham : list) {
-//
-//			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
-//				result.add(sanPham);
-//				uniqueSet.add(sanPham.getTenSanPham());
-//			}
-//		}
+
 		List<SanPhamEntity> SPMotTrang = new ArrayList<>();
 		if (pageSize + offset>list.size()) pageSize = list.size();
 		for (int i =offset; i<pageSize;i++) {
@@ -70,10 +59,10 @@ public class SanPhamServiceImpl implements SanPhamService {
 		}
 		return SPMotTrang;
 	}
-	@Override
-	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize){
-		return sanPhamDAO.LaySanPhamMotTrangTheoLoai(loai, page, pageSize);
-	}
+//	@Override
+//	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize){
+//		return sanPhamDAO.LaySanPhamMotTrangTheoLoai(loai, page, pageSize);
+//	}
 	@Override
 	public List<String> laySizeTheoTenSanPham(String maSp){
 		SanPhamEntity sp= sanPhamDAO.laySanPham(maSp);
