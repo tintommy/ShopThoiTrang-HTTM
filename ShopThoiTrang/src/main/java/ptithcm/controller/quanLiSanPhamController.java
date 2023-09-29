@@ -3,6 +3,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +57,7 @@ public class quanLiSanPhamController {
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 		
 		List<SanPhamEntity> listAllSanPham = sanPhamService.layAllSanPham();
+		listAllSanPham=sanPhamService.locSanPhamTrung(listAllSanPham);
 		model.addAttribute("listAllSanPham",listAllSanPham);
 		
 		List<SanPhamEntity> listSanPhamNgungBan = sanPhamService.layAllSanPhamDaNgungBan();
@@ -136,6 +139,7 @@ public class quanLiSanPhamController {
 	    List<KieuSanPhamEntity> listkieu = kieuService.layKieu();
 	    
 	    List<String> sizes = sanPhamService.laySizeTheoTenSanPham(masp);
+	    Collections.sort(sizes, new SizeComparator());
 		model.addAttribute("sizes", sizes);
 		
 	    model.addAttribute("sanPham", sanPham);
@@ -329,5 +333,17 @@ public class quanLiSanPhamController {
 	    return "redirect:/admin/product.htm";
 	}
 	
-	
+	public class SizeComparator implements Comparator<String> {
+	    @Override
+	    public int compare(String size1, String size2) {
+	        // Xác định thứ tự ưu tiên của các size
+	        List<String> sizeOrder = List.of("S", "M", "L", "XL", "XXL");
+
+	        int index1 = sizeOrder.indexOf(size1);
+	        int index2 = sizeOrder.indexOf(size2);
+
+	        // So sánh dựa trên thứ tự ưu tiên
+	        return Integer.compare(index1, index2);
+	    }
+	}
 }
