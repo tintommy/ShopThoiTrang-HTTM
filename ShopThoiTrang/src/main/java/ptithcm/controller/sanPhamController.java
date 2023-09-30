@@ -1,5 +1,7 @@
 package ptithcm.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,7 @@ public class sanPhamController {
 		SanPhamEntity sanPham=sanPhamService.laySanPham(maSp);
 		
 		List<String> sizes = sanPhamService.laySizeTheoTenSanPham(maSp);
+		Collections.sort(sizes, new SizeComparator());
 		model.addAttribute("sizes", sizes);
 		
 		List<SanPhamEntity> sanPhamCungKieu = sanPhamService.laySanPhamCungKieu(maSp);
@@ -129,5 +132,17 @@ public class sanPhamController {
 		return "sanPham/sanPham";
 	}
 	
-		
+	public class SizeComparator implements Comparator<String> {
+	    @Override
+	    public int compare(String size1, String size2) {
+	        // Xác định thứ tự ưu tiên của các size
+	        List<String> sizeOrder = List.of("S", "M", "L", "XL", "XXL");
+
+	        int index1 = sizeOrder.indexOf(size1);
+	        int index2 = sizeOrder.indexOf(size2);
+
+	        // So sánh dựa trên thứ tự ưu tiên
+	        return Integer.compare(index1, index2);
+	    }
+	}
 }
