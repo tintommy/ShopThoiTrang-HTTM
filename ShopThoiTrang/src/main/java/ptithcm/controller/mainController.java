@@ -53,12 +53,20 @@ public class mainController {
 //		listSpNu=locSanPhamTrung(listSpNu);
 		model.addAttribute("listSpNu", listSpNu);
 		model.addAttribute("user", new NguoiDungEntity());
+		
+		List<SanPhamEntity> listNgauNhien = sanPhamService.laySanPhamNgauNhien();
+		listNgauNhien = sanPhamService.locSanPhamTrung(listNgauNhien);
+		 model.addAttribute("sanPhamNgauNhien", listNgauNhien);
+		List<SanPhamEntity> listMoi = sanPhamService.laySanPhamMoi();
+		listMoi = sanPhamService.locSanPhamTrung(listMoi);
+		model.addAttribute("sanPhamMoi", listMoi);
+		
 		return "main";
 	}
 
 	@RequestMapping("khongCoQuyen")
 	public String khongCoQuyen() {
-		return "error/403";
+		return "redirect:/user/login.htm";
 	}
 
 	public List<SanPhamEntity> locSanPhamTrung(List<SanPhamEntity> list) {
