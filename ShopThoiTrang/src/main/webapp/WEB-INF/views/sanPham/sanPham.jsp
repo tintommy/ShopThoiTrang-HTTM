@@ -211,7 +211,7 @@
 													
 												<br>	
 												<button name="fav" class="btn btn-danger">
-													<a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào yêu
+													<a href="themVaoYT/${sanPham.maSP}.htm" style="color:white;">Thêm vào yêu
 														thích</a>
 												</button>
 												
@@ -372,17 +372,17 @@
 											</figcaption>
 										</figure>
 
-										<div class="aa-product-hvr-content">
-											<!-- <a href="#" data-toggle="tooltip" data-placement="top"
+										<!-- <div class="aa-product-hvr-content">
+											<a href="#" data-toggle="tooltip" data-placement="top"
 												title="Thêm vào giỏ"><span class="fa fa-heart-o"></span></a>
 											<a href="#" data-toggle="tooltip" data-placement="top"
-												title="So sánh"><span class="fa fa-exchange"></span></a>  -->
+												title="So sánh"><span class="fa fa-exchange"></span></a> 
 											<a
 												href="#" data-toggle2="tooltip" data-placement="top"
 												title="Quick View" data-toggle="modal"
 												data-target="#quick-view-modal"><span
 												class="fa fa-search"></span></a>
-										</div> <!-- <span class="aa-badge aa-sale" href="#">SALE!</span>  -->
+										</div> <span class="aa-badge aa-sale" href="#">SALE!</span>  -->
 									</li>
 
 								</c:forEach>

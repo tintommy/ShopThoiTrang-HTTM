@@ -76,16 +76,25 @@
 							</c:if>
 
 						</div>
-						<!-- / cart box -->
-						<!-- search box -->
-						<div class="aa-search-box">
-							<form action="shop.htm" method="post">
-								<input type="text" name="key" id="search-barr"
-									placeholder="Bạn tìm gì ">
-								<button type="submit" name="btnSearch">
-									<span class="fa fa-search"></span>
-								</button>
-							</form>
+						
+						<div style="display: flex; justify-content: space-between; align-items: center;">
+						    <div class="aa-search-box">
+						        <a href="${pageContext.servletContext.contextPath}/imageSearch/test.htm" class="search-button">
+						            <button style="width: 50px; height: 40px; margin-top: -20px; margin-right: -40px;" name="btnImageSearch">
+						                <span class="fa fa-picture-o"></span>
+						            </button>
+						        </a>
+						    </div>
+						
+						    <!-- search box -->
+						    <div class="aa-search-box">
+						        <form action="shop.htm" method="post">
+						            <input type="text" name="key" id="search-barr" placeholder="Bạn tìm gì">
+						            <button type="submit" name="btnSearch">
+						                <span class="fa fa-search"></span>
+						            </button>
+						        </form>
+						    </div>
 						</div>
 						<!-- / search box -->
 					</div>
