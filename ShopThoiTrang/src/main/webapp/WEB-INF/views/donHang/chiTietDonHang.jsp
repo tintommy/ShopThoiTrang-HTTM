@@ -163,9 +163,7 @@
 												<td><b>${ctDonHangItem.sanPham.size}</b></td>
 												<td><fmt:formatNumber
 														value="${ctDonHangItem.sanPham.donGia}" pattern="#,##0" />đ</td>
-												<td><input class="aa-cart-quantity" name="soLuong"
-													type="number" value="${ctDonHangItem.soLuong}" min=1
-													max="${ctDonHangItem.sanPham.soLuong}" readonly> <br></td>
+												<td><p class="aa-cart-quantity" style="width: 100%; height: 100%; padding-top:36px; ">${ctDonHangItem.soLuong}</p> <br></td>
 												<td><c:set var="soTien"
 														value="${ctDonHangItem.sanPham.donGia * ctDonHangItem.soLuong}" />
 													<span style="color: #009432; font-weight: bold"> <fmt:formatNumber

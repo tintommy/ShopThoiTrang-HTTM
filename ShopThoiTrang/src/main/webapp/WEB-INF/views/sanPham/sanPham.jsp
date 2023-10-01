@@ -210,8 +210,8 @@
 													style="font-style: italic; font-size: 0.7rem; color: blue;">${messenger }</span>
 													
 												<br>	
-												<button name="fav" class="btn btn-danger">
-													<a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào yêu
+												<button name="fav" class="btn btn-danger" >
+													<a href="themVaoYT/${sanPham.maSP}.htm" style="color:white;">Thêm vào yêu
 														thích</a>
 												</button>
 												
