@@ -216,15 +216,19 @@
 								<c:choose>
 
 									<c:when test="${donHang.trangThai == 1 }">
-
+										<a href="huyDonHang/${donHang.maDh}.htm">
 										<button class="js-danhGiaSP-${ctDonHangItem.sanPham.maSP}"
 											style="font-size:20px;padding: 10px; background-color: #ff6666; margin-right: 50px; margin-top:30px; color: #fff; border: solid 2px #ff6666;">Hủy
 											đơn hàng</button>
+										</a>
 									</c:when>
 									<c:when test="${donHang.trangThai == 2 }">
+										<a href="daNhanHang/${donHang.maDh}.htm">
 										<button class="js-danhGiaSP-${ctDonHangItem.sanPham.maSP}"
 											style="font-size:20px;padding: 10px; background-color: #00cc00; margin-right: 50px; margin-top:30px; color: #fff; border: solid 2px #00cc00;">Đã
 											nhận hàng</button>
+										</a>
+											
 
 									</c:when>
 									<c:otherwise>
