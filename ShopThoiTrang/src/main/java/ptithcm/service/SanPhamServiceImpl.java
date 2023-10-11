@@ -47,6 +47,11 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 	@Override
+	public List<SanPhamEntity> laySanPhamTheoListMaSP(List<String> listMaSP){
+		return sanPhamDAO.laySanPhamTheoListMaSP(listMaSP);
+	}
+	
+	@Override
 	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize){
 		return sanPhamDAO.LaySanPhamMotTrang(page, pageSize);
 	}

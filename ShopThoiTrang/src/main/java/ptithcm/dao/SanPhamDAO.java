@@ -7,6 +7,7 @@ import ptithcm.entity.SanPhamEntity;
 public interface SanPhamDAO {
 	public SanPhamEntity laySanPham(String maSp);
 	public List<SanPhamEntity> laySanPhamTheoMa(String key);
+	public List<SanPhamEntity> laySanPhamTheoListMaSP(List<String> listMaSP);
 	public List<SanPhamEntity> laySanPhamCungTen(String maSp);
 	public SanPhamEntity laySanPhamTheoMaVaSize(String maSp, String size);
 	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize);

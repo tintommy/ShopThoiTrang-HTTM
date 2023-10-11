@@ -35,9 +35,19 @@
     
     
     <div class="container mt-5">
+    
+    		<form method="POST">
+			    <button class="btn btn-info" name="trainSP" type="submit">Train hình ảnh</button>
+			</form>
+			<%-- <span>${TrainMessage}</span> --%>
+			<c:if test="${not empty TrainMessage}">
+				<div class="alert alert-success">${TrainMessage}</div>
+			</c:if>
       <div class="row tm-content-row">
+      
         <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-products">
+          <div class="tm-bg-primary-dark tm-block tm-block-products">          	
+
           <h2 class="tm-block-title">Các sản phẩm đang kinh doanh</h2>
             <div class="tm-product-table-container">
               <table class="table table-hover tm-table-small tm-product-table">
@@ -188,6 +198,7 @@
       </div>
     </div>
     
+    		
     
    <div class="container mt-5">
     <div class="row tm-content-row">

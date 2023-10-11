@@ -39,124 +39,206 @@
     <!-- Google Font -->
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'> 
+    
+
+<style>
+  /* CSS để định vị hình ảnh và loading */
+  .upload-btn-wrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  #uploadedImageDisplay {
+    width: 250px;
+    height: 300px;
+    margin: 20px auto; /* Để căn giữa theo chiều ngang và dưới theo chiều dọc */
+    max-width: 100%;
+    display: none;
+  }
+
+  #loading {
+    display: none;
+  }
+
+  /* CSS để căn giữa danh sách sản phẩm */
+  .content {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  #uploadedImage{
+  	margin-top: 10px;
+  }
+  
+  #btnSearchImg{
+    margin-top: 10px;
+  	margin-bottom: 20px;
+  }
+</style>
+
 
   </head>
   <!-- !Important notice -->
   <!-- Only for product page body tag have to added .productPage class -->
   
   <title>Image Search</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .title {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 20px 0;
-        }
-
-        .upload-btn-wrapper {
-            position: relative;
-            overflow: hidden;
-            display: inline-block;
-        }
-
-        .btn {
-            border: 2px solid gray;
-            color: gray;
-            background-color: white;
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-size: 20px;
-        }
-
-        .upload-btn-wrapper input[type=file] {
-            font-size: 100px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-        }
-
-        .uploaded-image {
-            max-width: 400px;
-            margin: 20px auto;
-        }
-
-        .recommendations {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .recommendation-item {
-            margin: 10px;
-        }
-
-        .recommendation-item img {
-            max-width: 200px;
-        }
-    </style>
   
   <body class="productPage">  
  
   <%@ include file="../include/header.jsp" %>
 
-  
-	<div class="container">
-        <div class="title">Tìm kiếm sản phẩm bằng hình ảnh</div>
+  	
+  	<div class="container content text-center">
+        <h2>Tìm kiếm sản phẩm bằng hình ảnh</h2>
         <div class="upload-btn-wrapper">
-            <button class="btn">Tải hình mẫu của bạn</button>
-            <input type="file" name="file" id="fileInput" accept="image/*">
+            <form method="POST" enctype="multipart/form-data" onsubmit="return validateForm();">    
+            	<input type="file" id="uploadedImage" name="avatar" onchange="handleImageUpload(this);">
+				<button name="btnSearchImg" id="btnSearchImg" type="submit" onclick="showLoading();">Tìm sản phẩm tương tự</button>
+            </form>
         </div>
-        <div class="uploaded-image">
-            <img id="uploadedImage" src="" alt="Uploaded Image">
+         <div id="error-message" class="alert alert-danger" style="display: none;">
+	        Bạn chưa tải lên tệp nào.
+	    </div>
+        <img id="uploadedImageDisplay" style="width: 250px; height: 300px;" alt="Uploaded Image">
+        <div id="loading">
+            <img src="assets/img/loading.gif" alt="Loading">
         </div>
-        <div class="recommendations">
-            <div class="recommendation-item">
-                <img src="recommendation1.jpg" alt="Gợi ý 1">
-            </div>
-            <div class="recommendation-item">
-                <img src="recommendation2.jpg" alt="Gợi ý 2">
-            </div>
-            <div class="recommendation-item">
-                <img src="recommendation3.jpg" alt="Gợi ý 3">
-            </div>
-            <div class="recommendation-item">
-                <img src="recommendation4.jpg" alt="Gợi ý 4">
-            </div>
-            <div class="recommendation-item">
-                <img src="recommendation5.jpg" alt="Gợi ý 5">
-            </div>
+        <div>
+            <!-- Kiểm tra danh sách imageNames có rỗng hay không -->
+            <c:choose>
+                <c:when test="${not empty message}">
+                    <p>Không có sản phẩm cần tìm.</p>
+                </c:when>
+                <c:otherwise>
+                    <!-- Hiển thị danh sách sản phẩm -->
+                    <h3>${messageTrue}</h3>
+        			<div class="tab-pane fade in active" id="popular">
+						<ul class="aa-product-catg aa-popular-slider">
+							<!-- start single product item -->
+							<c:forEach items="${products}" var="sp">
+							<li>
+								<figure>
+									<a class="aa-product-img" href="product/${sp.maSP}.htm"><img
+										src="${sp.hinhAnh.link}" style="width:250px; height:300px;"alt="product img"></a>
+									<!-- <a class="aa-add-card-btn" href="#"><span
+										class="fa fa-shopping-cart"></span>Add To Cart</a> -->
+									<figcaption>
+									<h4 class="aa-product-title">
+										<a href="product/${sp.maSP}.htm"
+											style="font-weight: bold; color: #3D71B6;">${sp.tenSanPham}</a>
+									</h4>
+									
+									<span class="aa-product-price"><fmt:formatNumber
+														value="${sp.donGia}" pattern="#,##0" />đ</span><span
+													class="aa-product-price"></span>
+								</figcaption>
+								</figure>
+							</li>
+							</c:forEach>
+						</ul>
+					</div>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 
-    <script>
-        // JavaScript code to handle file input and display the uploaded image
-        const fileInput = document.getElementById('fileInput');
-        const uploadedImage = document.getElementById('uploadedImage');
-
-        fileInput.addEventListener('change', function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    uploadedImage.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
-
    
   <%@ include file = "../include/footer.jsp" %>
+  
+  
+<script>
+  
+  // JavaScript để hiển thị loading khi nhấn nút "Tìm sản phẩm"
+  function showLoading() {
+    $('#loading').css('display', 'block');
+  }
+  
+//JavaScript để kiểm tra trước khi gửi form
+  function validateForm() {
+      var uploadedImageInput = document.getElementById('uploadedImage');
+      var errorMessageBox = document.getElementById('error-message');
+      var loadingImage = document.getElementById('loading');
+      
+      if (uploadedImageInput.files.length === 0) {
+          // Hiển thị thông báo lỗi nếu không có tệp hình ảnh được chọn
+          errorMessageBox.style.display = 'block';
+       	  // Ẩn gif loading
+          loadingImage.style.display = 'none';
+          return false; // Ngăn chặn việc gửi form
+      }
+      
+      // Nếu có tệp hình ảnh được chọn, ẩn thông báo lỗi và cho phép gửi form
+      errorMessageBox.style.display = 'none';
+      return true;
+  }
+  
+
+  
+//JavaScript để hiển thị hình ảnh khi tải lên và kiểm tra trước khi gửi form
+  function handleImageUpload(input) {
+      var errorMessageBox = document.getElementById('error-message');
+      var loadingImage = document.getElementById('loading');
+      var uploadedImageDisplay = document.getElementById('uploadedImageDisplay');
+	  
+      if (input.files && input.files[0]) {
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+              // Hiển thị hình ảnh
+              uploadedImageDisplay.src = e.target.result;
+              uploadedImageDisplay.style.display = 'block';
+              
+              // Ẩn thông báo lỗi
+              errorMessageBox.style.display = 'none';
+              
+              // Ẩn gif loading
+              loadingImage.style.display = 'none';
+          }
+
+          reader.readAsDataURL(input.files[0]);
+      } else {
+          // Hiển thị thông báo lỗi nếu không có tệp hình ảnh được chọn
+          errorMessageBox.style.display = 'block';
+          
+          // Ẩn gif loading
+          loadingImage.style.display = 'none';
+      }
+  }
+  
+  
+  /*   // JavaScript để hiển thị hình ảnh khi tải lên
+  function showImage(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#uploadedImageDisplay').attr('src', e.target.result);
+        $('#uploadedImageDisplay').css('display', 'block');
+      }
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  } */
+
+  /* //JavaScript để kiểm tra trước khi gửi form
+  function checkImage(input) {
+      var errorMessageBox = document.getElementById('error-message');
+      var loadingImage = document.getElementById('loading');
+
+      if (input.files.length === 0) {
+          // Hiển thị thông báo lỗi nếu không có tệp hình ảnh được chọn
+          errorMessageBox.style.display = 'block';
+          // Ẩn gif loading
+          loadingImage.style.display = 'none';
+      } else {
+          // Nếu có tệp hình ảnh được chọn, ẩn thông báo lỗi và không hiển thị gif loading
+          errorMessageBox.style.display = 'none';
+      }
+  } */
+  
+</script>
+  
+  
      <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->

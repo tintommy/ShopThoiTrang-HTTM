@@ -74,6 +74,11 @@ public class danhGiaController {
 		System.out.println("luu danh gia");
 		ctdh.setTrangThaiDanhGia(true);
 		ctDonHangService.updateCtdh(ctdh);
+		
+		float soSaoTB = sanPhamService.tinhSoSaoTB(sanpham);
+	    sanpham.setSoSaoTB(soSaoTB);
+	    sanPhamService.updateSanPham(sanpham);
+		
 		return "redirect:/chiTietDonHang/"+maDh+".htm";
 
 	}

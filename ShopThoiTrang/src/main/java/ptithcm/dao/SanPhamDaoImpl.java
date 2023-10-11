@@ -45,6 +45,14 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 	}
 	
 	@Override
+	public List<SanPhamEntity> laySanPhamTheoListMaSP(List<String> listMaSP){
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM SanPhamEntity sp WHERE sp.maSP IN :listMaSP";
+		List<SanPhamEntity> products = session.createQuery(hql).setParameterList("listMaSP", listMaSP).list();
+        return products;
+	}
+	
+	@Override
 	public List<SanPhamEntity> laySanPhamCungTen(String maSp){
 		Session session = sessionFactory.getCurrentSession();
 	    SanPhamEntity sp = (SanPhamEntity) session.get(SanPhamEntity.class, maSp);
