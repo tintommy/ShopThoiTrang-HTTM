@@ -102,127 +102,17 @@
             	      <span class="aa-product-price"><fmt:formatNumber value="${sp.donGia}"  pattern="#,##0" />đ</span><span class="aa-product-price"></span>
                      
                     </figcaption>
-                  </figure>
-                                       
-                  <div class="aa-product-hvr-content">
-                    <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Add to Wishlist"><span class="fa fa-heart-o"></span></a> -->
-                   <!--  <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"><span class="fa fa-exchange"></span></a> -->
-                    <a href="#" data-toggle2="tooltip" data-placement="top" title="Quick View" data-toggle="modal" data-target="#quick-view-modal"><span class="fa fa-search"></span></a>                            
-                  </div>
-                  <!-- <span class="aa-badge aa-sale" href="#">SALE!</span>  -->                
+                  </figure>                                                                    
                 </li>
                 
                 </c:forEach>
            </ul>                                                                      
                                
-              <!-- quick view modal -->   
-             <%--   <c:forEach items="${listSP}" var="sp">                 
-              <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">                      
-                    <div class="modal-body">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <div class="row">
-                        <!-- Modal view slider -->
-                        
-                        <div class="col-md-6 col-sm-6 col-xs-12">                              
-                          <div class="aa-product-view-slider">                               
-                            <div class="simpleLens-gallery-container" id="demo-1">
-                              <div class="simpleLens-container">
-                                  <div class="simpleLens-big-image-container">
-                                      <a class="simpleLens-lens-image" data-lens-image="${sp.hinhAnh.link}">
-                                          <img src="${sp.hinhAnh.link}" class="simpleLens-big-image">
-                                      </a>
-                                  </div>
-                              </div>                       
-                            </div>
-                          </div>                          
-                        </div>
-                        
-                        
-                        <!-- Modal view content -->
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                        
-                          <div class="aa-product-view-content">
-                          
-                            <h3>${sp.tenSanPham}</h3>
-                            
-                            <div class="aa-price-block">
-                               <span class="aa-product-price"><fmt:formatNumber value="${sp.donGia}"  pattern="#,##0" />đ</span><span class="aa-product-price"></span>									
-                            </div>                 
-                            <h4>Size</h4>
-                            <div class="aa-prod-view-size">
-                              <a href="#">S</a>
-                              <a href="#">M</a>
-                              <a href="#">L</a>
-                              <a href="#">XL</a>
-                            </div>
-                            <div class="aa-prod-quantity">                     
-                              
-                              <p class="aa-prod-category">Loại: <a href="#">${sp.maKieu.loai.tenLoai}</a></p>
-                              <p class="aa-prod-category"> Kiểu: <a href="#">${sp.maKieu.tenKieu}</a></p>
-                            </div>
-                            <div class="aa-prod-view-bottom">
-                              <!-- <a href="#" class="aa-add-to-cart-btn"><span class="fa fa-shopping-cart"></span>Thêm vào giỏ</a> -->
-                              <a href="product/${sp.maSP}.htm" class="aa-add-to-cart-btn">Xem chi tiết</a>
-                            </div>
-                            
-                          </div>
-                         
-                        </div>
-                      </div>
-                    </div>                        
-                  </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-              </div>
-              </c:forEach> --%>	                       
+                 
             </div>
             
             
-          
-          <%--   <c:if test = "${totalPages!=0 }">
-            <div class="pagination-wrapper" style="margin-left:30%;">
-		<nav aria-label="Page navigation example">
-
-
-			<ul class="pagination">
-				<li class="page-item ${currentPage == 0 ? 'disabled' : ''}"><a
-					class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-					href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${currentPage - 1}">Trước</a>
-				</li>
-				<c:if test="${currentPage > 1}">
-					<li class="page-item"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-						href="/ShopThoiTrang/shop/${loaiSp}.htm?page=0">1</a></li>
-					<li class="page-item disabled"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark">...</a>
-					</li>
-				</c:if>
-				<c:forEach begin="${startPage}" end="${endPage}" var="i">
-					<li class="page-item ${currentPage == i ? 'active' : ''}"><a
-						class="${currentPage == i ? 'page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0' : 'page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark'}"
-						href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${i}">${i + 1}</a>
-					</li>
-				</c:forEach>
-				<c:if test="${currentPage < totalPages - 2}">
-					<li class="page-item disabled"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark">...</a>
-					</li>
-					<li class="page-item"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-						href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${totalPages - 1}">${totalPages}</a>
-					</li>
-				</c:if>
-				<li
-					class="page-item ${currentPage == totalPages - 1 ? 'disabled' : ''}">
-					<a
-					class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-					href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${currentPage + 1}">Sau</a>
-				</li>
-			</ul>
-		</nav>
-	</div>
-	</c:if> --%>
+         
               
           </div>
         </div>

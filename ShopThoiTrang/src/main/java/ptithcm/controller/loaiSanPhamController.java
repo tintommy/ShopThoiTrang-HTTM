@@ -35,16 +35,12 @@ public class loaiSanPhamController {
 	@RequestMapping()
 	public String main(HttpServletRequest request, ModelMap model,
 			@RequestParam(defaultValue = "0") int page) {
-//		List<LoaiSanPhamEntity> loaiSPNam = loaiService.layLoaiTheoGioiTinh("nam");
-//		List<LoaiSanPhamEntity> loaiSPNu = loaiService.layLoaiTheoGioiTinh("nữ");		
-//		model.addAttribute("loaiSPNam", loaiSPNam);
-//		model.addAttribute("loaiSPNu", loaiSPNu);
 		
 		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
 		model.addAttribute("dsLoai", dsLoai);
 	
 		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPham();
-//		dsSP = sanPhamService.locSanPhamTrung(dsSP);
+		dsSP = sanPhamService.locSanPhamTrung(dsSP);
 		model.addAttribute("dsSP", dsSP);	
 		
 		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieu();
@@ -161,13 +157,20 @@ public class loaiSanPhamController {
 	@RequestMapping(params = "btnSearch")
 	public String timSanPham(ModelMap model, @RequestParam(value = "key", required = false) String key,
 			HttpServletRequest request) {
+		 String mess ="";
+		if (key.isEmpty()) {
+			mess = "Vui lòng nhập tên sản phẩm";
+			model.addAttribute("message", mess);	
+			return "shop/timKiem";
+			
+		}
        List<SanPhamEntity>listSP=sanPhamService.laySanPhamTheoMa(key);
        listSP = sanPhamService.locSanPhamTrung(listSP);
        model.addAttribute("key", key);
        model.addAttribute("listSP", listSP);
        int so = listSP.size();
        model.addAttribute("soLuong", so);
-       String mess =""; 
+       
        if (listSP.isEmpty()) mess = "Không có sản phẩm này";
        else {
     	    mess = "Tìm thấy "+so+" sản phẩm";
@@ -177,16 +180,4 @@ public class loaiSanPhamController {
         return "shop/timKiem";
 	}
 
-//	
-//	@RequestMapping(value = "/{loaiSp}/{kieuSp}")
-//	public String shopTheoKieu(@PathVariable("loaiSp") String loaiSp,@PathVariable("kieuSp") String kieuSp, ModelMap model) {
-//		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
-//		model.addAttribute("dsLoai", dsLoai);
-//		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPhamTheoLoai(loaiSp);
-//		model.addAttribute("dsSP", dsSP);
-//		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieuTheoLoai(loaiSp);
-//		model.addAttribute("dsKieu",dsKieu);
-//		
-//		return "shop/loai";
-//	}
 }

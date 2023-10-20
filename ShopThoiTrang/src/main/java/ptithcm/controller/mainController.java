@@ -62,34 +62,6 @@ public class mainController {
 		List<SanPhamEntity> listMoi = sanPhamService.laySanPhamMoi();
 		listMoi = sanPhamService.locSanPhamTrung(listMoi);
 		model.addAttribute("sanPhamMoi", listMoi);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		List<String>dsLink = new ArrayList<>();		;
-		dsLink.add("assets/img/product/ao/ao-polo-unique.jpg");
-		dsLink.add("assets/img/product/ao/BODKEY.jpg");
-		dsLink.add("assets/img/product/quan/quanjeannu.jpg");
-		model.addAttribute("dsLink", dsLink);
-		model.addAttribute("SP1",dsLink.get(0));
-		List<SanPhamEntity> dsSPGY= dsSPGoiY(dsLink);
-		dsSPGY = sanPhamService.locSanPhamTrung(dsSPGY);
-		model.addAttribute("dsSPGY",dsSPGY);
 		return "main";
 	}
 
