@@ -58,7 +58,7 @@ public class quanLiSanPhamController {
 		HttpSession session0 = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 		
-		List<SanPhamEntity> listAllSanPham = sanPhamService.layAllSanPham();
+		List<SanPhamEntity> listAllSanPham = sanPhamService.laySanPhamMoi();
 		listAllSanPham=sanPhamService.locSanPhamTrung(listAllSanPham);
 		model.addAttribute("listAllSanPham",listAllSanPham);
 		

@@ -196,7 +196,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM SanPhamEntity where trangThai=True ORDER BY NEWID()";
 		Query query = session.createQuery(hql);
-		query.setMaxResults(8);
+		query.setMaxResults(16);
 		List<SanPhamEntity> listNgauNhien = query.list();
 		return listNgauNhien;
 	}
@@ -208,7 +208,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 																						// SanPhamEntity ORDER BY id
 																						// DESC";
 		Query query = session.createQuery(hql);
-		query.setMaxResults(6);
+//		query.setMaxResults();
 		List<SanPhamEntity> danhSachSanPham = query.list();
 		return danhSachSanPham;
 	}
@@ -326,7 +326,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM SanPhamEntity sp WHERE (sp.maKieu).loai.tenLoai LIKE :loai and trangThai=True";
 		Query query = session.createQuery(hql).setParameter("loai", "%" +gioiTinh+"%");
-		List<SanPhamEntity> list = query.setMaxResults(40).list();
+		List<SanPhamEntity> list = query.setMaxResults(12).list();
 		return list;
 	}
 
