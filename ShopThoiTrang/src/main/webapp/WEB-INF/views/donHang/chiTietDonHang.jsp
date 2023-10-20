@@ -163,9 +163,7 @@
 												<td><b>${ctDonHangItem.sanPham.size}</b></td>
 												<td><fmt:formatNumber
 														value="${ctDonHangItem.sanPham.donGia}" pattern="#,##0" />đ</td>
-												<td><input class="aa-cart-quantity" name="soLuong"
-													type="number" value="${ctDonHangItem.soLuong}" min=1
-													max="${ctDonHangItem.sanPham.soLuong}" readonly> <br></td>
+												<td><p class="aa-cart-quantity" style="width: 100%; height: 100%; padding-top:36px; ">${ctDonHangItem.soLuong}</p> <br></td>
 												<td><c:set var="soTien"
 														value="${ctDonHangItem.sanPham.donGia * ctDonHangItem.soLuong}" />
 													<span style="color: #009432; font-weight: bold"> <fmt:formatNumber
@@ -175,15 +173,16 @@
 													<c:choose>
 														<c:when test="${ctDonHangItem.trangThaiDanhGia == true}">
 															<td>
-																<button 
-																	style="padding: 4px; background-color: #CCFFCC; border-radius: 10px; color: #00cc66; border: solid 2px #CCFFCC;">Đã đánh
-																	giá sản phẩm</button>
+																<button
+																	style="padding: 4px; background-color: #CCFFCC; border-radius: 10px; color: #00cc66; border: solid 2px #CCFFCC;">Đã
+																	đánh giá sản phẩm</button>
 															</td>
 														</c:when>
 														<c:otherwise>
-														
+
 															<td>
-																<button class="js-danhGiaSP-${ctDonHangItem.sanPham.maSP}"
+																<button
+																	class="js-danhGiaSP-${ctDonHangItem.sanPham.maSP}"
 																	style="padding: 4px; background-color: #ffcc99; border-radius: 10px; color: #cc6600; border: solid 2px #ffcc99;">Đánh
 																	giá sản phẩm</button>
 															</td>
@@ -214,6 +213,32 @@
 									</tbody>
 								</table>
 
+								<c:choose>
+
+									<c:when test="${donHang.trangThai == 1 }">
+										<a href="huyDonHang/${donHang.maDh}.htm">
+										<button class="js-danhGiaSP-${ctDonHangItem.sanPham.maSP}"
+											style="font-size:20px;padding: 10px; background-color: #ff6666; margin-right: 50px; margin-top:30px; color: #fff; border: solid 2px #ff6666;">Hủy
+											đơn hàng</button>
+										</a>
+									</c:when>
+									<c:when test="${donHang.trangThai == 2 }">
+										<a href="daNhanHang/${donHang.maDh}.htm">
+										<button class="js-danhGiaSP-${ctDonHangItem.sanPham.maSP}"
+											style="font-size:20px;padding: 10px; background-color: #00cc00; margin-right: 50px; margin-top:30px; color: #fff; border: solid 2px #00cc00;">Đã
+											nhận hàng</button>
+										</a>
+											
+
+									</c:when>
+									<c:otherwise>
+
+									</c:otherwise>
+
+								</c:choose>
+
+
+
 							</div>
 						</div>
 					</div>
@@ -224,36 +249,36 @@
 	<!-- / Cart view section -->
 	<c:forEach var="ctDonHangItem" items="${ctDonHangList}">
 		<c:if test="${ctDonHangItem.trangThaiDanhGia == false }">
-		
-		
-		
-		
-		
-		<div
-			class="modal-danh-gia js-modal-danh-gia-${ctDonHangItem.sanPham.maSP}">
+
+
+
+
+
 			<div
-				class="modal-danh-gia-container js-modal-danh-gia-container-${ctDonHangItem.sanPham.maSP}">
-				<div class="container">
+				class="modal-danh-gia js-modal-danh-gia-${ctDonHangItem.sanPham.maSP}">
+				<div
+					class="modal-danh-gia-container js-modal-danh-gia-container-${ctDonHangItem.sanPham.maSP}">
+					<div class="container">
 
-					<div class="modal-danh-gia-header">
-						<h1 class="modal-dang-gia-title">Đánh giá sản phẩm</h1>
-					</div>
+						<div class="modal-danh-gia-header">
+							<h1 class="modal-dang-gia-title">Đánh giá sản phẩm</h1>
+						</div>
 
-					<!-- Modal view slider -->
-					<div class="col-md-5 col-sm-5 col-xs-12">
-						<div class="aa-product-view-slider">
-							<!-- 							<div id="demo-1" class="simpleLens-gallery-container">
+						<!-- Modal view slider -->
+						<div class="col-md-5 col-sm-5 col-xs-12">
+							<div class="aa-product-view-slider">
+								<!-- 							<div id="demo-1" class="simpleLens-gallery-container">
  -->
-							<div class="simpleLens-gallery-container">
-								<div class="simpleLens-container">
-									<div class="simpleLens-big-image-container">
-										<a data-lens-image="${ctDonHangItem.sanPham.hinhAnh.link}"
-											class="simpleLens-lens-image"><img
-											src="${ctDonHangItem.sanPham.hinhAnh.link}"
-											class="simpleLens-big-image"></a>
+								<div class="simpleLens-gallery-container">
+									<div class="simpleLens-container">
+										<div class="simpleLens-big-image-container">
+											<a data-lens-image="${ctDonHangItem.sanPham.hinhAnh.link}"
+												class="simpleLens-lens-image"><img
+												src="${ctDonHangItem.sanPham.hinhAnh.link}"
+												class="simpleLens-big-image"></a>
+										</div>
 									</div>
-								</div>
-								<!-- <div class="simpleLens-thumbnails-container">
+									<!-- <div class="simpleLens-thumbnails-container">
                           <a data-big-image="img/view-slider/medium/polo-shirt-1.png" data-lens-image="img/view-slider/large/polo-shirt-1.png" class="simpleLens-thumbnail-wrapper" href="#">
                             <img src="img/view-slider/thumbnail/polo-shirt-1.png">
                           </a>                                    
@@ -264,50 +289,50 @@
                             <img src="img/view-slider/thumbnail/polo-shirt-4.png">
                           </a>
                       </div> -->
+								</div>
 							</div>
 						</div>
-					</div>
-					<h1 class="mt-3"
-						style="font-size: 3rem; font-weight: bold; color: #3D71B6;">${ctDonHangItem.sanPham.tenSanPham}</h1>
-					<h3>Size: ${ctDonHangItem.sanPham.size}</h3>
-					<form
-						action="chiTietDonHang/${donHang.maDh}/${ctDonHangItem.sanPham.maSP}.htm"
-						method="post">
-						<h3>Đánh giá số sao</h3>
-						<div style="width: 60%">
-							<div class="star-widget">
-								<input type="radio" name="rate" value="5"
-									id="rate-5-${ctDonHangItem.sanPham.maSP}"> <label
-									for="rate-5-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
-								<input type="radio" name="rate" value="4"
-									id="rate-4-${ctDonHangItem.sanPham.maSP}"> <label
-									for="rate-4-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
-								<input type="radio" name="rate" value="3"
-									id="rate-3-${ctDonHangItem.sanPham.maSP}"> <label
-									for="rate-3-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
-								<input type="radio" name="rate" value="2"
-									id="rate-2-${ctDonHangItem.sanPham.maSP}"> <label
-									for="rate-2-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
-								<input type="radio" name="rate" value="1"
-									id="rate-1-${ctDonHangItem.sanPham.maSP}"> <label
-									for="rate-1-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
+						<h1 class="mt-3"
+							style="font-size: 3rem; font-weight: bold; color: #3D71B6;">${ctDonHangItem.sanPham.tenSanPham}</h1>
+						<h3>Size: ${ctDonHangItem.sanPham.size}</h3>
+						<form
+							action="chiTietDonHang/${donHang.maDh}/${ctDonHangItem.sanPham.maSP}.htm"
+							method="post">
+							<h3>Đánh giá số sao</h3>
+							<div style="width: 60%">
+								<div class="star-widget">
+									<input type="radio" name="rate" value="5"
+										id="rate-5-${ctDonHangItem.sanPham.maSP}"> <label
+										for="rate-5-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
+									<input type="radio" name="rate" value="4"
+										id="rate-4-${ctDonHangItem.sanPham.maSP}"> <label
+										for="rate-4-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
+									<input type="radio" name="rate" value="3"
+										id="rate-3-${ctDonHangItem.sanPham.maSP}"> <label
+										for="rate-3-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
+									<input type="radio" name="rate" value="2"
+										id="rate-2-${ctDonHangItem.sanPham.maSP}"> <label
+										for="rate-2-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
+									<input type="radio" name="rate" value="1"
+										id="rate-1-${ctDonHangItem.sanPham.maSP}"> <label
+										for="rate-1-${ctDonHangItem.sanPham.maSP}" class="fa fa-star"></label>
+								</div>
 							</div>
-						</div>
-						<div class="modal-danh-gia-body">
-							<!-- <textarea id="w3review" name="w3review" rows="4" cols="70"
+							<div class="modal-danh-gia-body">
+								<!-- <textarea id="w3review" name="w3review" rows="4" cols="70"
 								placeholder="Nội dung đánh giá"></textarea> -->
-							<textarea name="content-danhGia" rows="4" cols="70"
-								placeholder="Nội dung đánh giá"></textarea>
-						</div>
-						<button name="submit-rating" id="submitRating"
-							style="padding: 4px; background-color: #ff8000; border-radius: 0px; color: #fff; border: solid 2px #ff8000;">Gửi
-							đánh giá</button>
-					</form>
+								<textarea name="content-danhGia" rows="4" cols="70"
+									placeholder="Nội dung đánh giá"></textarea>
+							</div>
+							<button name="submit-rating" id="submitRating"
+								style="padding: 4px; background-color: #ff8000; border-radius: 0px; color: #fff; border: solid 2px #ff8000;">Gửi
+								đánh giá</button>
+						</form>
+					</div>
 				</div>
-			</div>
-			s
+				s
 
-		</div>
+			</div>
 		</c:if>
 	</c:forEach>
 	<%-- 	<%@ include file="../include/footer.jsp"%> --%>

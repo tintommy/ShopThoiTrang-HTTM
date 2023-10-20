@@ -93,8 +93,7 @@
 												href="${pageContext.servletContext.contextPath}/product.htm">Sản
 													phẩm</a></li>
 											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sanPham.maKieu.loai.tenLoai}</a></li>
-											<li class="active">${sanPham.maKieu.tenKieu}</li>
-											<%-- <li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sanPham.maKieu.tenKieu}</a></li> --%>
+											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sanPham.maKieu.tenKieu}</a></li>
 										</ol>
 									</div>
 								</div>
@@ -162,8 +161,10 @@
 														<div class="aa-prod-view-size">
 															<div class="size-buttons">
 																<c:forEach items="${sizes}" var="size">
-																	<c:set var="trimmedMaSP"
-																		value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" />
+																	<%-- <c:set var="trimmedMaSP"
+																		value="${fn:substring(sanPham.maSP, 0, fn:length(sanPham.maSP) - 2)}" /> --%>
+																		<c:set var="indexOfUnderscore" value="${fn:indexOf(sanPham.maSP, '_')}" />
+																	<c:set var="trimmedMaSP" value="${fn:substring(sanPham.maSP, 0, indexOfUnderscore)}" />
 																	<c:set var="trimmedSize" value="${fn:trim(size)}" />
 																	<c:choose>
 																		<c:when test="${sanPham.size == size}">
@@ -209,8 +210,8 @@
 													style="font-style: italic; font-size: 0.7rem; color: blue;">${messenger }</span>
 													
 												<br>	
-												<button name="fav" class="btn btn-danger">
-													<a href="themVaoYT/${sanPham.maSP}.htm">Thêm vào yêu
+												<button name="fav" class="btn btn-danger" >
+													<a href="themVaoYT/${sanPham.maSP}.htm" style="color:white;">Thêm vào yêu
 														thích</a>
 												</button>
 												
@@ -371,17 +372,17 @@
 											</figcaption>
 										</figure>
 
-										<div class="aa-product-hvr-content">
-											<!-- <a href="#" data-toggle="tooltip" data-placement="top"
+										<!-- <div class="aa-product-hvr-content">
+											<a href="#" data-toggle="tooltip" data-placement="top"
 												title="Thêm vào giỏ"><span class="fa fa-heart-o"></span></a>
 											<a href="#" data-toggle="tooltip" data-placement="top"
-												title="So sánh"><span class="fa fa-exchange"></span></a>  -->
+												title="So sánh"><span class="fa fa-exchange"></span></a> 
 											<a
 												href="#" data-toggle2="tooltip" data-placement="top"
 												title="Quick View" data-toggle="modal"
 												data-target="#quick-view-modal"><span
 												class="fa fa-search"></span></a>
-										</div> <!-- <span class="aa-badge aa-sale" href="#">SALE!</span>  -->
+										</div> <span class="aa-badge aa-sale" href="#">SALE!</span>  -->
 									</li>
 
 								</c:forEach>
@@ -488,8 +489,7 @@
 																	Loai: <a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sp.maKieu.loai.tenLoai}</a>
 																</p>
 																<p class="aa-prod-category">
-																	<%-- Kiểu: <a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sp.maKieu.tenKieu}</a> --%>
-																	Kiểu: ${sp.maKieu.tenKieu}
+																	Kiểu: <a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sp.maKieu.tenKieu}</a>
 																</p>
 															</div>
 															<div class="aa-prod-view-bottom">

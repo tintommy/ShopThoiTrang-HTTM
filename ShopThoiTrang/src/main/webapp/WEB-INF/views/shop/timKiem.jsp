@@ -64,6 +64,11 @@
         <h2  id="message">${message }</h2>
  </div>
  <hr>	
+  <c:if test="${listSP.size()==0}">
+   <div class="d-flex justify-content-center align-items-center">
+	   <img src="assets/img/not-found.png"   width="205" height="205" alt="..." />
+   </div>
+ </c:if>
   <!-- / menu -->  
  
   <!-- catg header banner section -->

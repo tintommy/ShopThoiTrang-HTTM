@@ -160,7 +160,7 @@ System.out.print("newinfo");
 		donHang.setTrangThai(3);
 		DonHangService.updateDonHang(donHang);
 		
-		return "redirect:/lichSuDonHang.htm";
+		return "redirect:/lich-su-mua-hang.htm";
 	}
 	
 	@RequestMapping("huyDonHang/{maDh}")
@@ -179,7 +179,8 @@ System.out.print("newinfo");
 			 sanPhamService.updateSanPham(sp);
 		 }
 		
-		return "redirect:/lichSuDonHang.htm";
+		return "redirect:/lich-su-mua-hang.htm";
 	}
+	
 
 }

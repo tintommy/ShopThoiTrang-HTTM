@@ -44,7 +44,7 @@ public class loaiSanPhamController {
 		model.addAttribute("dsLoai", dsLoai);
 	
 		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPham();
-		dsSP = sanPhamService.locSanPhamTrung(dsSP);
+//		dsSP = sanPhamService.locSanPhamTrung(dsSP);
 		model.addAttribute("dsSP", dsSP);	
 		
 		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieu();
@@ -63,7 +63,7 @@ public class loaiSanPhamController {
 		model.addAttribute("totalLoaiSanPham", soSanPham);
 		model.addAttribute("totalPages", totalPages);
 //		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrang( page, pageSize);
-		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrang( dsSP,page, pageSize);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTran( dsSP,page, pageSize);
 		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
 		
 		return "shop/tatCa";
@@ -93,7 +93,7 @@ public class loaiSanPhamController {
 		model.addAttribute("totalLoaiSanPham", soSanPham);
 		model.addAttribute("totalPages", totalPages);
 //		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrangTheoLoai(loaiSp, page, pageSize);
-		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrang(dsSP, page, pageSize);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTran(dsSP, page, pageSize);
 		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
 		
 		return "shop/loai";
@@ -125,7 +125,7 @@ public class loaiSanPhamController {
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("totalLoaiSanPham", soSanPham);
 		model.addAttribute("totalPages", totalPages);
-		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTrang(dsSP,page, pageSize);
+		List<SanPhamEntity> listSPTrenTrang = sanPhamService.LaySanPhamMotTran(dsSP,page, pageSize);
 		model.addAttribute("listSPTrenTrang", listSPTrenTrang);
 		
 		return "shop/locSanPham";
@@ -177,4 +177,16 @@ public class loaiSanPhamController {
         return "shop/timKiem";
 	}
 
+//	
+//	@RequestMapping(value = "/{loaiSp}/{kieuSp}")
+//	public String shopTheoKieu(@PathVariable("loaiSp") String loaiSp,@PathVariable("kieuSp") String kieuSp, ModelMap model) {
+//		List<LoaiSanPhamEntity> dsLoai = loaiService.layLoai();
+//		model.addAttribute("dsLoai", dsLoai);
+//		List<SanPhamEntity> dsSP = sanPhamService.layAllSanPhamTheoLoai(loaiSp);
+//		model.addAttribute("dsSP", dsSP);
+//		List<KieuSanPhamEntity>dsKieu= kieuSanPhamService.layKieuTheoLoai(loaiSp);
+//		model.addAttribute("dsKieu",dsKieu);
+//		
+//		return "shop/loai";
+//	}
 }

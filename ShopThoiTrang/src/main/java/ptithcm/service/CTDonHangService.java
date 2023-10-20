@@ -12,4 +12,5 @@ public interface CTDonHangService{
 	public void updateCtdh(CTDonHangEntity ctdh) ;
 	public List<CTDonHangEntity> timctdhTheoMaDh(int maDh);
     public CTDonHangEntity timCtdhTheoMaCtdh(int maCTDH);
+	public CTDonHangEntity timCtdhTheoMaDhMaSP(int maDHTypeInt, String maSp);
 }

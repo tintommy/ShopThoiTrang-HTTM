@@ -17,7 +17,7 @@
 	<!-- Spring MVC Annotation -->
 	<context:annotation-config />
 	<mvc:annotation-driven />
-	<!-- <mvc:interceptors>
+	 <mvc:interceptors>
 	<mvc:interceptor>
 			<mvc:mapping path="/admin/adminAccount.htm" />
 			<bean class="ptithcm.intercepter.ownerIntercepter" />
@@ -26,7 +26,7 @@
 			<mvc:mapping path="/admin/**" />
 			<bean class="ptithcm.intercepter.adminIntercepter" />
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors> 
 
 
 	<!-- Cấu hình view -->

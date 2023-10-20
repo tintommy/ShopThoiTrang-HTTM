@@ -8,7 +8,10 @@ import ptithcm.entity.SanPhamEntity;
 public interface SanPhamService {
 	public SanPhamEntity laySanPham(String maSp);
 	public List<SanPhamEntity> laySanPhamTheoMa(String key);
-	public List<SanPhamEntity> LaySanPhamMotTrang(List<SanPhamEntity> list, int page, int pageSize);
+	public List<SanPhamEntity> laySanPhamTheoListMaSP(List<String> listMaSP);
+	public List<SanPhamEntity> LaySanPhamMotTrang(int page, int pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTran(List<SanPhamEntity> list, int page, int pageSize);
+	public List<SanPhamEntity> LaySanPhamMotTrangTheoLoai(String loai, int page, int pageSize);
 	public List<SanPhamEntity> layAllSanPham();
 	public List<SanPhamEntity> layAllSanPhamDaNgungBan();
 	public List<String> laySizeTheoTenSanPham(String maSp);

@@ -1,8 +1,12 @@
 package ptithcm.controller;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -55,6 +59,7 @@ public class quanLiSanPhamController {
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 		
 		List<SanPhamEntity> listAllSanPham = sanPhamService.layAllSanPham();
+		listAllSanPham=sanPhamService.locSanPhamTrung(listAllSanPham);
 		model.addAttribute("listAllSanPham",listAllSanPham);
 		
 		List<SanPhamEntity> listSanPhamNgungBan = sanPhamService.layAllSanPhamDaNgungBan();
@@ -69,6 +74,56 @@ public class quanLiSanPhamController {
 		return "admin/product";
 	}
 	
+	@RequestMapping(value="admin/product", params="trainSP", method = RequestMethod.POST)
+	public String trainSP(HttpServletRequest request, ModelMap model) throws IOException{
+		
+		boolean processCompleted = false; // Biến để kiểm tra quá trình đã hoàn thành hay chưa
+
+		try {
+		    ProcessBuilder builder = new ProcessBuilder(
+		        "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python store_vectors.py");
+		    builder.redirectErrorStream(true);
+		    Process p = builder.start();
+		    BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+		    
+		    System.out.println("test train");
+		    
+		    String line;
+		    while ((line = r.readLine()) != null) {
+		        System.out.println(line);
+		    }
+		    
+		    // Quá trình đã hoàn thành
+		    processCompleted = true;
+		} catch (IOException e) {
+		    // Xử lý các ngoại lệ nếu cần
+		}
+
+		if (processCompleted) {
+		    System.out.println("Hoan thanh train");
+		    model.addAttribute("TrainMessage", "Hoàn thành train");
+		} else {
+		    System.out.println("Chua hoan thanh hoac co loi!!!");
+		    model.addAttribute("TrainMessage", "Chưa hoàn thành hoặc có lỗi!!!");
+		}
+
+		HttpSession session0 = request.getSession();
+		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
+		
+		List<SanPhamEntity> listAllSanPham = sanPhamService.layAllSanPham();
+		listAllSanPham=sanPhamService.locSanPhamTrung(listAllSanPham);
+		model.addAttribute("listAllSanPham",listAllSanPham);
+		
+		List<SanPhamEntity> listSanPhamNgungBan = sanPhamService.layAllSanPhamDaNgungBan();
+		model.addAttribute("listNgungBan",listSanPhamNgungBan);
+		
+		List<KieuSanPhamEntity> listkieu=kieuService.layKieu();
+		model.addAttribute("listkieu", listkieu);
+		
+		List<LoaiSanPhamEntity> listLoai = loaiService.layLoai();
+		model.addAttribute("listLoai", listLoai);
+		return "admin/product";
+	}
 	
 	@RequestMapping(value="admin/product", params="changeStatus", method = RequestMethod.POST)
 	public String updateTrangThaiSanPham(HttpServletRequest request) {
@@ -100,9 +155,18 @@ public class quanLiSanPhamController {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		String now = formatter.format(today);
 		
+		// Lấy mã sản phẩm đã điền từ product
+        String maSPDaDien = product.getMaSP();
+        String size = product.getSize();
+        String newMaSP = maSPDaDien + "_" + size; // Tạo mã sản phẩm mới
+		
 		HinhAnhEntity hinhAnh = new HinhAnhEntity();
 		
-	    String avatarFileName = now +"-"+ avatar.getOriginalFilename();
+//	    String avatarFileName = now +"-"+ avatar.getOriginalFilename();
+//	    String avatarFileName = now+".jpg";
+		String avatarFileName = newMaSP+".jpg";
+	    
+	    
 //	    String avatarFilePath = context.getRealPath("/assets/img/sanPham/" + avatarFileName);
 	    String avatarFilePath = filePath + avatarFileName;
 	    File avatarFile = new File(avatarFilePath);
@@ -110,16 +174,14 @@ public class quanLiSanPhamController {
 	    hinhAnh.setLink("assets/img/product/"+avatarFileName);
 	    
         sanPhamService.themHinhAnhSanPham(hinhAnh);
+//        product.setMaSP(now);
+             
+        product.setMaSP(newMaSP);
+        
 	    product.setHinhAnh(hinhAnh);
 		product.setNgayThem(today);
 		
 		try {
-			// Lấy mã sản phẩm đã điền từ product
-	        String maSPDaDien = product.getMaSP();
-	        String size = product.getSize();
-	        String newMaSP = maSPDaDien + "_" + size; // Tạo mã sản phẩm mới
-	        product.setMaSP(newMaSP); // Cập nhật mã sản phẩm trong product
-
 	        sanPhamService.themSanPham(product);
 	        model.addAttribute("successMessage", "Thêm sản phẩm thành công.");
 	    } catch (Exception e) {
@@ -136,6 +198,7 @@ public class quanLiSanPhamController {
 	    List<KieuSanPhamEntity> listkieu = kieuService.layKieu();
 	    
 	    List<String> sizes = sanPhamService.laySizeTheoTenSanPham(masp);
+	    Collections.sort(sizes, new SizeComparator());
 		model.addAttribute("sizes", sizes);
 		
 	    model.addAttribute("sanPham", sanPham);
@@ -329,5 +392,17 @@ public class quanLiSanPhamController {
 	    return "redirect:/admin/product.htm";
 	}
 	
-	
+	public class SizeComparator implements Comparator<String> {
+	    @Override
+	    public int compare(String size1, String size2) {
+	        // Xác định thứ tự ưu tiên của các size
+	        List<String> sizeOrder = List.of("S", "M", "L", "XL", "XXL");
+
+	        int index1 = sizeOrder.indexOf(size1);
+	        int index2 = sizeOrder.indexOf(size2);
+
+	        // So sánh dựa trên thứ tự ưu tiên
+	        return Integer.compare(index1, index2);
+	    }
+	}
 }
