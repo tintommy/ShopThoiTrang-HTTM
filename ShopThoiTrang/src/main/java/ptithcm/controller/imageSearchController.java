@@ -23,21 +23,21 @@ import ptithcm.service.SanPhamService;
 
 @Transactional
 @Controller
-@RequestMapping("/imageSearch")
+@RequestMapping()
 public class imageSearchController {
 	
 	@Autowired
 	SanPhamService sanPhamService;
 	
-	@RequestMapping("/test")
+	@RequestMapping("/imageSearch")
 	public String imageSearch(HttpServletRequest request, ModelMap model) {
-		return "shop/imageSearch";
+		return "deXuat/imageSearch";
 	}
 	
 //	String filePath = "C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\imgSearch\\";
 	String filePath = "D:\\imgSearch\\";
 	
-	@RequestMapping(value="/test", params = "btnSearchImg", method = RequestMethod.POST)
+	@RequestMapping(value="/imageSearch", params = "btnSearchImg", method = RequestMethod.POST)
 	public String imageSearch(HttpServletRequest request, @RequestParam("avatar") MultipartFile avatar, ModelMap model) throws IOException {
 		
 		String avatarFileName = avatar.getOriginalFilename();
@@ -52,10 +52,6 @@ public class imageSearchController {
 	        Process p = builder.start();
 	        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
 	        	System.out.println("test anh");
-//	        	 String line;
-//	             while ((line = r.readLine()) != null) {
-//	                 System.out.println(line);
-//	             }
 	         
 	     // Đọc đầu ra từ quy trình Python và lưu vào danh sách
 	        List<String> imageNames = new ArrayList<>();
@@ -80,7 +76,7 @@ public class imageSearchController {
 	        }
 	        xoaTepTinHinhAnh(avatarFileName);	        
 	        
-		return "shop/imageSearch";
+		return "deXuat/imageSearch";
 	}
 	
 	public void xoaTepTinHinhAnh(String tenTep) {

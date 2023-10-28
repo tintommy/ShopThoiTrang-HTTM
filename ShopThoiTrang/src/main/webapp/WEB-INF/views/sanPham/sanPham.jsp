@@ -90,7 +90,7 @@
 											<li><a href="${pageContext.servletContext.contextPath}/">Trang
 													chủ</a></li>
 											<li><a
-												href="${pageContext.servletContext.contextPath}/product.htm">Sản
+												href="${pageContext.servletContext.contextPath}/shop.htm">Sản
 													phẩm</a></li>
 											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}.htm">${sanPham.maKieu.loai.tenLoai}</a></li>
 											<li class="active"><a href="shop/${sanPham.maKieu.loai.maLoai}/${sanPham.maKieu.maKieu}.htm">${sanPham.maKieu.tenKieu}</a></li>

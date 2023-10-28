@@ -21,8 +21,8 @@
 
 								<c:if test="${not empty sessionScope.USER}">
 									<li><a href="yeuThich.htm">Yêu thích</a></li>
-									<li><a href="lich-su-mua-hang.htm">Lịch sử mua hàng</a></li>
-									<li><a href="userInfo.htm">Tài khoản của tôi</a></li>
+									<li><a href="lich-su-mua-hang.htm">Lịch sử mua</a></li>
+									<li><a href="userInfo.htm">Tài khoản</a></li>
 
 								
 									<li><a href="user/logout.htm">Đăng xuất</a></li>
@@ -79,7 +79,7 @@
 						
 						<div style="display: flex; justify-content: space-between; align-items: center;">
 						    <div class="aa-search-box">
-						        <a href="${pageContext.servletContext.contextPath}/imageSearch/test.htm" class="search-button">
+						        <a href="${pageContext.servletContext.contextPath}/imageSearch.htm" class="search-button">
 						            <button style="width: 50px; height: 40px; margin-top: -20px; margin-right: -40px;" name="btnImageSearch">
 						                <span class="fa fa-picture-o"></span>
 						            </button>
@@ -125,6 +125,9 @@
 						<li><a href=".htm">Home</a></li>
 						<li></li>
 						<li><a href="shop.htm">Shop</a></li>
+					<c:if test="${not empty sessionScope.USER}">
+						<li><a href="recommend.htm">Gợi ý hôm nay</a></li>
+					</c:if>
 						<!-- <li><a href="#">Nam <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 

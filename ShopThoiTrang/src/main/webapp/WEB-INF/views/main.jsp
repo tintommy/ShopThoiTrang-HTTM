@@ -107,8 +107,7 @@
 						<div class="aa-popular-category-area">
 							<!-- start prduct navigation -->
 							<ul class="nav nav-tabs aa-products-tab">
-								<li class="active"><a href="#popular" data-toggle="tab">Đề
-										xuất cho bạn</a></li>
+								<li class="active"><a href="#popular" data-toggle="tab">Phổ biến</a></li>
 
 								<li><a href="#latest" data-toggle="tab">Mới Nhất</a></li>
 							</ul>
@@ -118,7 +117,7 @@
 								<div class="tab-pane fade in active" id="popular">
 									<ul class="aa-product-catg aa-popular-slider">
 										<!-- start single product item -->
-										<c:forEach items="${sanPhamNgauNhien}" var="sp">
+										<c:forEach items="${listNgauNhien}" var="sp">
 										<li>
 											<figure>
 												<a class="aa-product-img" href="product/${sp.maSP}.htm"><img

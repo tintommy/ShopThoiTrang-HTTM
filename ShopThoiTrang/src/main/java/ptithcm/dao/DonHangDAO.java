@@ -12,4 +12,6 @@ public interface DonHangDAO{
 	public List<DonHangEntity> layAllDonHang();	
 	public List<DonHangEntity> layDonHangTheoTrangThai(int trangThai);
 	public long tinhTongDoanhThuTheoThang(int thang);
+	
+	public List<String> layMaSanPhamTrongDonHangGanNhatCuaUser(int maNd);
 }

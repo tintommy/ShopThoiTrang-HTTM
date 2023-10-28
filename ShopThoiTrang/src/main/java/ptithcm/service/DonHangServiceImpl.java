@@ -56,4 +56,8 @@ public class DonHangServiceImpl implements DonHangService{
 		return DonHang.tinhTongDoanhThuTheoThang(thang);
 	}
 	
+	@Override
+	public List<String> layMaSanPhamTrongDonHangGanNhatCuaUser(int maNd){
+		return DonHang.layMaSanPhamTrongDonHangGanNhatCuaUser(maNd);
+	}
 }

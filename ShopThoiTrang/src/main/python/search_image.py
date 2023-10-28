@@ -57,30 +57,9 @@ distance = np.linalg.norm(vectors - search_vector, axis=1)
 K = 16
 ids = np.argsort(distance)[:K]
 
-## Tao oputput
-#nearest_image = [(paths[id], distance[id]) for id in ids]
-#
-## Ve len man hinh cac anh gan nhat do
-#import matplotlib.pyplot as plt
-#
-#axes = []
-#grid_size = int(math.sqrt(K))
-#fig = plt.figure(figsize=(10,5))
-#
-#
-#for id in range(K):
-#    draw_image = nearest_image[id]
-#    if draw_image[1]<=0.7:
-#        axes.append(fig.add_subplot(grid_size, grid_size, id+1))
-#        axes[-1].set_title(draw_image[1])
-#        plt.imshow(Image.open(draw_image[0]))
-#
-#fig.tight_layout()
-#plt.show()
-
 nearest_image_names = []
 for id in ids:
-    if distance[id] <= 0.7:
+    if distance[id] <= 0.5:
         image_path = paths[id]
         image_name = os.path.basename(image_path)  # Lấy tên tệp ảnh từ đường dẫn
         image_name_without_extension = os.path.splitext(image_name)[0]  # Loại bỏ phần mở rộng ".jpg"

@@ -55,7 +55,7 @@ public class userController {
 	@RequestMapping("user/login")
 	public String login(ModelMap model) {
 		model.addAttribute("user", new NguoiDungEntity());
-		System.out.print("hello");
+		System.out.println("hello");
 		return "/user/login";
 
 	}
