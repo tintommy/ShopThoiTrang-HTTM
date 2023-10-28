@@ -252,7 +252,7 @@
             
               <c:forEach items="${dsKieu}" var = "kieu">
               <c:if test ="${kieu.loai==loai}">
-              		<%-- <a href="#">${kieu.tenKieu}</a> --%>
+              
               		 <div class="form-check">
 							<%--<input class="form-check-input" type="checkbox"		value="${kieu.tenKieu}" name="style"
 								   id="flexCheckChecked1" /> <label class="form-check-label" for="flexCheckChecked1">${kieu.tenKieu}</label>														

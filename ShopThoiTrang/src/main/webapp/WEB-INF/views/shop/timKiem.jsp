@@ -64,6 +64,11 @@
         <h2  id="message">${message }</h2>
  </div>
  <hr>	
+  <c:if test="${listSP.size()==0}">
+   <div class="d-flex justify-content-center align-items-center">
+	   <img src="assets/img/not-found.png"   width="205" height="205" alt="..." />
+   </div>
+ </c:if>
   <!-- / menu -->  
  
   <!-- catg header banner section -->
@@ -109,7 +114,8 @@
                 
                 </c:forEach>
            </ul>                                                                      
-                               
+                    
+          </div>           
               <!-- quick view modal -->   
              <%--   <c:forEach items="${listSP}" var="sp">                 
               <div class="modal fade" id="quick-view-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -171,53 +177,8 @@
                 </div><!-- /.modal-dialog -->
               </div>
               </c:forEach> --%>	                       
-            </div>
-            
-            
+       
           
-          <%--   <c:if test = "${totalPages!=0 }">
-            <div class="pagination-wrapper" style="margin-left:30%;">
-		<nav aria-label="Page navigation example">
-
-
-			<ul class="pagination">
-				<li class="page-item ${currentPage == 0 ? 'disabled' : ''}"><a
-					class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-					href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${currentPage - 1}">Trước</a>
-				</li>
-				<c:if test="${currentPage > 1}">
-					<li class="page-item"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-						href="/ShopThoiTrang/shop/${loaiSp}.htm?page=0">1</a></li>
-					<li class="page-item disabled"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark">...</a>
-					</li>
-				</c:if>
-				<c:forEach begin="${startPage}" end="${endPage}" var="i">
-					<li class="page-item ${currentPage == i ? 'active' : ''}"><a
-						class="${currentPage == i ? 'page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0' : 'page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark'}"
-						href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${i}">${i + 1}</a>
-					</li>
-				</c:forEach>
-				<c:if test="${currentPage < totalPages - 2}">
-					<li class="page-item disabled"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark">...</a>
-					</li>
-					<li class="page-item"><a
-						class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-						href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${totalPages - 1}">${totalPages}</a>
-					</li>
-				</c:if>
-				<li
-					class="page-item ${currentPage == totalPages - 1 ? 'disabled' : ''}">
-					<a
-					class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark"
-					href="/ShopThoiTrang/shop/${loaiSp}.htm?page=${currentPage + 1}">Sau</a>
-				</li>
-			</ul>
-		</nav>
-	</div>
-	</c:if> --%>
               
           </div>
         </div>

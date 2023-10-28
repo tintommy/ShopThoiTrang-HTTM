@@ -56,21 +56,12 @@ public class SanPhamServiceImpl implements SanPhamService {
 		return sanPhamDAO.LaySanPhamMotTrang(page, pageSize);
 	}
 	@Override
-	public List<SanPhamEntity> LaySanPhamMotTran(List<SanPhamEntity> list, int page, int pageSize){
-		int offset = page * pageSize;
-
-//		Set<String> uniqueSet = new HashSet<>();
-//		List<SanPhamEntity> result = new ArrayList<>();
-//		for (SanPhamEntity sanPham : list) {
-//
-//			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
-//				result.add(sanPham);
-//				uniqueSet.add(sanPham.getTenSanPham());
-//			}
-//		}
+	public List<SanPhamEntity> LaySanPhamMotTran(List<SanPhamEntity> list, int page, int pageSize){		
 		List<SanPhamEntity> SPMotTrang = new ArrayList<>();
-		if (pageSize + offset>list.size()) pageSize = list.size();
-		for (int i =offset; i<pageSize;i++) {
+		int offset = page * pageSize;
+		int endIndex = pageSize + offset;
+		if (endIndex>list.size()) endIndex = list.size();
+		for (int i =offset; i<endIndex;i++) {
 			SPMotTrang.add(list.get(i));
 		}
 		return SPMotTrang;
