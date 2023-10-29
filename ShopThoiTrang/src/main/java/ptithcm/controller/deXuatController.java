@@ -30,7 +30,6 @@ public class deXuatController {
 	@Autowired
 	DonHangService DonHangService;
 	
-//	String param = "sp12_S";
 	
 	@RequestMapping("/recommend")
 	public String imageSearch(HttpServletRequest request, ModelMap model) throws IOException {
@@ -64,15 +63,16 @@ public class deXuatController {
             	String productName = line.replace("name: ", "");
                 productNames.add(productName);
             }
-        }        
+        }
         
-        if (productNames.isEmpty()) {
-            // Nếu danh sách đề xuất trống, xuất sp ngẫu nhiên
-            model.addAttribute("listDeXuat", listNgauNhien);
+        List<SanPhamEntity> listDeXuat = sanPhamService.laySanPhamTheoListMaSP(productNames);
+        
+        if (productNames.size()<10) {
+            // Nếu danh sách đề xuất ít hơn 10, xuất sp đề xuất + ngẫu nhiên 20sp
+        	listDeXuat.addAll(listNgauNhien);
+            model.addAttribute("listDeXuat", listDeXuat);
         } else {
-            // Nếu danh sách không rỗng, tiến hành tìm sản phẩm và truyền vào model
-            List<SanPhamEntity> products = sanPhamService.laySanPhamTheoListMaSP(productNames);
-            model.addAttribute("listDeXuat", products);
+            model.addAttribute("listDeXuat", listDeXuat);
         }	
         
 		return "deXuat/deXuat";
