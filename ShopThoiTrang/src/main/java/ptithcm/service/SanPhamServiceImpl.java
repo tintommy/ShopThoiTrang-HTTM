@@ -224,5 +224,8 @@ public class SanPhamServiceImpl implements SanPhamService {
 	}
 	
 
-	
+	@Override
+	public List<CTDonHangEntity> laySanPhamPhoBien(int soLuongSanPham){
+		return sanPhamDAO.laySanPhamPhoBien(soLuongSanPham);
+	}
 }

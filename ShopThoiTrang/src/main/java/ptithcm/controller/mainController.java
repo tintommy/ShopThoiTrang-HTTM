@@ -4,8 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
+import ptithcm.entity.CTDonHangEntity;
 import ptithcm.entity.LoaiSanPhamEntity;
 import ptithcm.service.DonHangService;
 import ptithcm.service.SanPhamService;
@@ -60,67 +64,69 @@ public class mainController {
 		List<SanPhamEntity> listMoi = sanPhamService.laySanPhamMoi();
 		listMoi = sanPhamService.locSanPhamTrung(listMoi);
 		model.addAttribute("sanPhamMoi", listMoi);
-				
-		List<SanPhamEntity> listNgauNhien = sanPhamService.laySanPhamNgauNhien();
-		listNgauNhien = sanPhamService.locSanPhamTrung(listNgauNhien);
-		model.addAttribute("listNgauNhien", listNgauNhien);
-		 
-//		 	HttpSession session0 = request.getSession();
-//			NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-//			int maNd=user.getMaNd();
-//			List<String> maSanPhamListDeXuat = DonHangService.layMaSanPhamTrongDonHangGanNhatCuaUser(maNd);
-////			System.out.print(maSanPhamListDeXuat);
-//			
-//			List<String> param = maSanPhamListDeXuat;
-//			
-//			ProcessBuilder builder = new ProcessBuilder(
-//	                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python recommend.py \"" + param + "\"");
-//	        builder.redirectErrorStream(true);
-//	        Process p = builder.start();
-//	        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//	        System.out.println("test de xuat");
-//	         
-//	     // Đọc đầu ra từ quy trình Python và lưu vào danh sách
-//	        List<String> productNames = new ArrayList<>();
-//	        String line;
-//	        while ((line = r.readLine()) != null) {
-//	        	System.out.println(line);
-//	            // Kiểm tra xem dòng có chứa tên tệp ảnh không
-//	            if (line.startsWith("name: ")) {
-//	            	String productName = line.replace("name: ", "");
-//	                productNames.add(productName);
-//	            }
-//	        }
-//	        
-//	        if (productNames.isEmpty()) {
-//	            // Nếu danh sách đề xuất trống, xuất sp ngẫu nhiên
-//	            model.addAttribute("listDeXuat", listNgauNhien);
-//	        } else {
-//	            // Nếu danh sách không rỗng, tiến hành tìm sản phẩm và truyền vào model
-//	            List<SanPhamEntity> products = sanPhamService.laySanPhamTheoListMaSP(productNames);
-//	            model.addAttribute("listDeXuat", products);
-//	        }
-//		
+
+		List<CTDonHangEntity> listPhoBien = sanPhamService.laySanPhamPhoBien(12);
+		for(int i=0; i<listPhoBien.size();i++)
+		{
+			System.out.print(listPhoBien.get(i).getMaSP());
+		}
+		System.out.println();
+		listPhoBien = sapXepVaTinhTong(listPhoBien); 
+		model.addAttribute("listPhoBien", listPhoBien);
 		
 		return "main";
 	}
+	
+	public List<CTDonHangEntity> sapXepVaTinhTong(List<CTDonHangEntity> sanPhamList) {
+		Map<String, Integer> tongSoLuongMap = new HashMap<>();
 
+        // Lọc và tính tổng số lượng cho từng sản phẩm cùng maSP
+        for (CTDonHangEntity ctdh : sanPhamList) {
+            SanPhamEntity sanPham = ctdh.getSanPham();
+            int soLuong = ctdh.getSoLuong();
+            
+            // Kiểm tra xem sản phẩm đã tồn tại trong Map chưa
+            if (tongSoLuongMap.containsKey(sanPham.getMaSP())) {
+                int tongSoLuongHienTai = tongSoLuongMap.get(sanPham.getMaSP());
+                tongSoLuongMap.put(sanPham.getMaSP(), tongSoLuongHienTai + soLuong);
+            } else {
+                tongSoLuongMap.put(sanPham.getMaSP(), soLuong);
+            }
+        }
+
+        // Tạo danh sách mới để chứa các đối tượng đã lọc
+        List<CTDonHangEntity> sanPhamDaLoc = new ArrayList<>();
+
+        // Duyệt qua danh sách gốc và thêm các đối tượng đã lọc vào danh sách mới
+        for (CTDonHangEntity ctdh : sanPhamList) {
+            SanPhamEntity sanPham = ctdh.getSanPham();
+            boolean checkSPTrung = false;
+            for(int i  = 0 ; i < sanPhamDaLoc.size(); i++) {
+            	if (sanPhamDaLoc.get(i).getMaSP() == sanPham.getMaSP()) {
+            		checkSPTrung = true;
+            	}
+            }
+            if(checkSPTrung ) {
+            	continue;
+            }
+            int soLuong = tongSoLuongMap.get(sanPham.getMaSP());
+
+            // Tạo một đối tượng mới với tổng số lượng
+            CTDonHangEntity ctdhMoi = new CTDonHangEntity();
+            ctdhMoi.setSanPham(sanPham);
+            ctdhMoi.setSoLuong(soLuong);
+
+            sanPhamDaLoc.add(ctdhMoi);
+        }
+        
+        // Sử dụng Collections.sort để sắp xếp danh sách theo số lượng giảm dần
+        Collections.sort(sanPhamDaLoc, (ctdh2, ctdh1) -> Integer.compare(ctdh1.getSoLuong(), ctdh2.getSoLuong()));
+	    return sanPhamDaLoc;
+	}
+	
 	@RequestMapping("khongCoQuyen")
 	public String khongCoQuyen() {
 		return "redirect:/user/login.htm";
 	}
-
-//	public List<SanPhamEntity> locSanPhamTrung(List<SanPhamEntity> list) {
-//		Set<String> uniqueSet = new HashSet<>();
-//		List<SanPhamEntity> result = new ArrayList<>();
-//		for (SanPhamEntity sanPham : list) {
-//
-//			if (!uniqueSet.contains(sanPham.getTenSanPham())) {
-//				result.add(sanPham);
-//				uniqueSet.add(sanPham.getTenSanPham());
-//			}
-//		}
-//		return result;
-//	}
 
 }

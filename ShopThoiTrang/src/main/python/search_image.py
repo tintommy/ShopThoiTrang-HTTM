@@ -36,7 +36,6 @@ def extract_vector(model, image_path):
     return vector
 
 # Dinh nghia anh can tim kiem
-# search_image = "testimage/giay.jpg"
 import sys
 search_image = str(sys.argv[1])
 
@@ -59,7 +58,7 @@ ids = np.argsort(distance)[:K]
 
 nearest_image_names = []
 for id in ids:
-    if distance[id] <= 0.5:
+    if distance[id] <= 0.66:
         image_path = paths[id]
         image_name = os.path.basename(image_path)  # Lấy tên tệp ảnh từ đường dẫn
         image_name_without_extension = os.path.splitext(image_name)[0]  # Loại bỏ phần mở rộng ".jpg"

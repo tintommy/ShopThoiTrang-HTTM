@@ -3,17 +3,22 @@ package ptithcm.dao;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import ptithcm.entity.CTDonHangEntity;
 import ptithcm.entity.KieuSanPhamEntity;
 import ptithcm.entity.LoaiSanPhamEntity;
 import ptithcm.entity.SanPhamEntity;
@@ -196,7 +201,7 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		Session session = sessionFactory.getCurrentSession();
 		String hql = "FROM SanPhamEntity where trangThai=True ORDER BY NEWID()";
 		Query query = session.createQuery(hql);
-		query.setMaxResults(20);
+		query.setMaxResults(10);
 		List<SanPhamEntity> listNgauNhien = query.list();
 		return listNgauNhien;
 	}
@@ -329,5 +334,24 @@ public class SanPhamDaoImpl implements SanPhamDAO {
 		List<SanPhamEntity> list = query.setMaxResults(12).list();
 		return list;
 	}
+	
+	@Override
+	public List<CTDonHangEntity> laySanPhamPhoBien(int soLuongSanPham) {
+		Session session = sessionFactory.getCurrentSession();
+		String hql = "FROM CTDonHangEntity";
+		Query query = session.createQuery(hql);
+		List<CTDonHangEntity> sanPhamList = query.setMaxResults(soLuongSanPham).list();
+
+		List<CTDonHangEntity> sortedSanPhamList = sanPhamList.stream()
+			    .collect(Collectors.groupingBy(CTDonHangEntity::getMaSP, Collectors.summingInt(CTDonHangEntity::getSoLuong)))
+			    .entrySet().stream()
+			    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+			    .flatMap(entry -> sanPhamList.stream()
+			      .filter(sanPham -> sanPham.getMaSP().equals(entry.getKey())))
+			    .collect(Collectors.toList());
+		return sortedSanPhamList;
+	}
+
+
 
 }

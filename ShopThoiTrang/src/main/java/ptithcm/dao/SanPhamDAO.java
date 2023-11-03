@@ -2,6 +2,7 @@ package ptithcm.dao;
 
 import java.util.List;
 
+import ptithcm.entity.CTDonHangEntity;
 import ptithcm.entity.SanPhamEntity;
 
 public interface SanPhamDAO {
@@ -23,6 +24,7 @@ public interface SanPhamDAO {
 	public List<SanPhamEntity> laySanPhamNgauNhien();
 	public List<SanPhamEntity> laySanPhamMoi();
 	public List<SanPhamEntity> locSanPham( List<String> stylesList, int minPrice, int maxPrice);
+	public List<CTDonHangEntity> laySanPhamPhoBien(int soLuongSanPham);
 	public float tinhSoSaoTB(SanPhamEntity sanPham);
 	public void themSanPham(SanPhamEntity sanPham);
 	public void updateSanPham(SanPhamEntity sanPham);

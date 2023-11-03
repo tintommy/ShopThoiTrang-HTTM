@@ -2,6 +2,7 @@ package ptithcm.service;
 
 import java.util.List;
 
+import ptithcm.entity.CTDonHangEntity;
 import ptithcm.entity.HinhAnhEntity;
 import ptithcm.entity.SanPhamEntity;
 
@@ -27,6 +28,7 @@ public interface SanPhamService {
 	public List<SanPhamEntity> locSanPham( List<String> stylesList, int minPrice, int maxPrice);
 	public boolean kiemTraSanPhamCoNamTrongGioHang(String maSP);
 	public boolean kiemTraSanPhamCoNamTrongDonHang(String maSP);
+	public List<CTDonHangEntity> laySanPhamPhoBien(int soLuongSanPham);
 	public float tinhSoSaoTB(SanPhamEntity sanPham);
 	public void themSanPham(SanPhamEntity sanPham);
 	public void updateSanPham(SanPhamEntity sanPham);

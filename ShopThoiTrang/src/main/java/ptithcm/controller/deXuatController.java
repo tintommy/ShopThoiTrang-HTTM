@@ -36,18 +36,18 @@ public class deXuatController {
 		
 		HttpSession session0 = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-		int maNd=user.getMaNd();
-		
-		List<SanPhamEntity> listNgauNhien = sanPhamService.laySanPhamNgauNhien();
-		listNgauNhien = sanPhamService.locSanPhamTrung(listNgauNhien);
-		model.addAttribute("listNgauNhien", listNgauNhien);
+		int maNd=user.getMaNd();				
 		
 		List<String> maSanPhamList = DonHangService.layMaSanPhamTrongDonHangGanNhatCuaUser(maNd);
-		
-		List<String> param = maSanPhamList;
+		if(maSanPhamList.isEmpty()) {
+			List<SanPhamEntity> listNgauNhien = sanPhamService.laySanPhamNgauNhien();
+    		listNgauNhien = sanPhamService.locSanPhamTrung(listNgauNhien);
+    		model.addAttribute("listDeXuat", listNgauNhien);
+    		return "deXuat/deXuat";
+		}
 		
 		ProcessBuilder builder = new ProcessBuilder(
-                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python recommend.py \"" + param + "\"");
+                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python recommend.py \"" + maSanPhamList + "\"");
         builder.redirectErrorStream(true);
         Process p = builder.start();
         BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -65,14 +65,18 @@ public class deXuatController {
             }
         }
         
-        List<SanPhamEntity> listDeXuat = sanPhamService.laySanPhamTheoListMaSP(productNames);
         
-        if (productNames.size()<10) {
-            // Nếu danh sách đề xuất ít hơn 10, xuất sp đề xuất + ngẫu nhiên 20sp
-        	listDeXuat.addAll(listNgauNhien);
+        if (productNames.size()<6) {
+        	List<SanPhamEntity> listNgauNhien = sanPhamService.laySanPhamNgauNhien();
+    		listNgauNhien = sanPhamService.locSanPhamTrung(listNgauNhien);
+    		List<SanPhamEntity> listDeXuat = sanPhamService.laySanPhamTheoListMaSP(productNames);
+    		listDeXuat.addAll(listNgauNhien);
+            // Nếu danh sách đề xuất trống, xuất sp ngẫu nhiên
             model.addAttribute("listDeXuat", listDeXuat);
         } else {
-            model.addAttribute("listDeXuat", listDeXuat);
+            // Nếu danh sách không rỗng, tiến hành tìm sản phẩm và truyền vào model
+            List<SanPhamEntity> products = sanPhamService.laySanPhamTheoListMaSP(productNames);
+            model.addAttribute("listDeXuat", products);
         }	
         
 		return "deXuat/deXuat";

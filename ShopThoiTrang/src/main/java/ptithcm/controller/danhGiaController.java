@@ -1,5 +1,8 @@
 package ptithcm.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Driver;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +50,7 @@ public class danhGiaController {
 		return "donHang/danhGia";
 	}
 	@RequestMapping(value="chiTietDonHang/{maDh}/{maSp}", params="submit-rating")
-	public String guiDanhGia(@PathVariable("maDh") String maDh, @PathVariable("maSp") String maSp, HttpServletRequest request, ModelMap model ) {
+	public String guiDanhGia(@PathVariable("maDh") String maDh, @PathVariable("maSp") String maSp, HttpServletRequest request, ModelMap model ) throws IOException {
 		HttpSession session0 = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 		if (user == null) {
@@ -78,6 +81,17 @@ public class danhGiaController {
 		float soSaoTB = sanPhamService.tinhSoSaoTB(sanpham);
 	    sanpham.setSoSaoTB(soSaoTB);
 	    sanPhamService.updateSanPham(sanpham);
+	    
+	    ProcessBuilder builder = new ProcessBuilder(
+                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python recommendTrain.py");
+        builder.redirectErrorStream(true);
+        Process p = builder.start();
+        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        System.out.println("test train");
+        String line;
+        while ((line = r.readLine()) != null) {
+        	System.out.println(line);
+        }
 		
 		return "redirect:/chiTietDonHang/"+maDh+".htm";
 

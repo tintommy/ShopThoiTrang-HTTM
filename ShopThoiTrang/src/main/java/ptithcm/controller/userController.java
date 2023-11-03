@@ -266,7 +266,7 @@ public class userController {
 		session.setAttribute("USERFORGOT", user);
 		String otp = taoOTP();
 		session.setAttribute("OTP", otp);
-		mailer.sendMailAsync("THEGIOIDIENMAY", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp);
+		mailer.sendMailAsync("DAILYSHOP", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp);
 		model.addAttribute("email","****"+user.getEmail().substring(user.getEmail().length()-13));
 		return "/user/verify2";
 	}

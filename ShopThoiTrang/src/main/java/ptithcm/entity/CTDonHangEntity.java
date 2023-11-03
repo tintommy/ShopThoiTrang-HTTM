@@ -23,7 +23,7 @@ public class CTDonHangEntity{
 	private	SanPhamEntity sanPham;
 	@Column(name = "DONGIA")
 	private	int donGia;
-	@Column(name="SOLUONg")
+	@Column(name="SOLUONG")
 	private int soLuong;
 	@Column(name = "TRANGTHAIDANHGIA")
 	private boolean trangThaiDanhGia;
@@ -65,5 +65,7 @@ public class CTDonHangEntity{
 	public void setSanPham(SanPhamEntity sanPham) {
 		this.sanPham = sanPham;
 	}
-	
+	public String getMaSP() {
+		return this.sanPham.getMaSP();
+	}
 }

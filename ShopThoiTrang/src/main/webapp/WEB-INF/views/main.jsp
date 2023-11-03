@@ -117,21 +117,21 @@
 								<div class="tab-pane fade in active" id="popular">
 									<ul class="aa-product-catg aa-popular-slider">
 										<!-- start single product item -->
-										<c:forEach items="${listNgauNhien}" var="sp">
+										<c:forEach items="${listPhoBien}" var="sp">
 										<li>
 											<figure>
-												<a class="aa-product-img" href="product/${sp.maSP}.htm"><img
-													src="${sp.hinhAnh.link}" style="width:250px; height:300px;"alt="product img"></a>
+												<a class="aa-product-img" href="product/${sp.sanPham.maSP}.htm"><img
+													src="${sp.sanPham.hinhAnh.link}" style="width:250px; height:300px;"alt="product img"></a>
 												<!-- <a class="aa-add-card-btn" href="#"><span
 													class="fa fa-shopping-cart"></span>Add To Cart</a> -->
 												<figcaption>
 												<h4 class="aa-product-title">
-													<a href="product/${sp.maSP}.htm"
-														style="font-weight: bold; color: #3D71B6;">${sp.tenSanPham}</a>
+													<a href="product/${sp.sanPham.maSP}.htm"
+														style="font-weight: bold; color: #3D71B6;">${sp.sanPham.tenSanPham}</a>
 												</h4>
 												<%-- <span class="aa-product-price">${sp.donGia}đ</span><span class="aa-product-price"><!-- <del>$65.50</del> --></span> --%>
 												<span class="aa-product-price"><fmt:formatNumber
-																	value="${sp.donGia}" pattern="#,##0" />đ</span><span
+																	value="${sp.sanPham.donGia}" pattern="#,##0" />đ</span><span
 																class="aa-product-price"></span>
 											</figcaption>
 											</figure>
@@ -149,7 +149,7 @@
 										</li>
 										</c:forEach>
 									</ul>
-									<a class="aa-browse-btn" href="#">Xem thêm  <span
+									<a class="aa-browse-btn" href="shop.htm">Xem thêm<span
 										class="fa fa-long-arrow-right"></span></a>
 								</div>
 								
@@ -190,7 +190,7 @@
 										</c:forEach>
 										
 									</ul>
-									<a class="aa-browse-btn" href="#">Xem thêm <span
+									<a class="aa-browse-btn" href="shop.htm">Xem thêm <span
 										class="fa fa-long-arrow-right"></span></a>
 								</div>
 								<!-- / latest product category -->
