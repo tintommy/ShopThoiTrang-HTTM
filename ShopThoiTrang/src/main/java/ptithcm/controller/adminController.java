@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.designpattern.SingletonPattern.ConstraintSingleton;
 import ptithcm.entity.DonHangEntity;
 
 import ptithcm.entity.NguoiDungEntity;
@@ -55,10 +56,10 @@ public class adminController {
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 		
 		List<DonHangEntity> donThanhCong = donHangService.layDonHangTheoTrangThai(3);
-		int tongDoanhThu = 0;
-		for (DonHangEntity donHang : donThanhCong) {
-		    tongDoanhThu += donHang.getTongTien();
-		}
+		// Tính tổng doanh thu đơn hàng thành công
+		//Sử dụng singleton pattern
+		int tongDoanhThu = ConstraintSingleton.getInstance().tinhTongDoanhThu(donThanhCong);
+		
 	
 		model.addAttribute("tongDoanhThu", tongDoanhThu);
 		
@@ -135,48 +136,26 @@ public class adminController {
 
 		String NGAYSINH = request.getParameter("ngaySinh");
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
-		if (admin.getHoTen().isEmpty()) {
-			model.addAttribute("loiHoTen", "Họ tên không được để trống !!!");
-
-			loi = Boolean.FALSE;
-
-		} else if (admin.getHoTen().length() > 50)
-
-		{
-			model.addAttribute("loiHoTen", "Họ tên quá dài !!!");
-			loi = Boolean.FALSE;
-		} else if (!admin.getHoTen().matches("[\\p{L} ]+")) {
-			model.addAttribute("loiHoTen", "Họ tên không được chứa số !!!");
+		// Kiểm tra họ tên sử dụng Singleton
+		if (!ConstraintSingleton.getInstance().checkHoTen(admin.getHoTen(), model, "loiHoTen")) {
 			loi = Boolean.FALSE;
 		}
-
-		if (admin.getNgaySinh() == null) {
-			model.addAttribute("loiNgaySinh", "Hãy nhập ngày sinh !!!");
-			loi = Boolean.FALSE;
-		} else if (!isValidAndOver18(admin.getNgaySinh())) {
-			model.addAttribute("loiNgaySinh", "Bạn cần lớn hơn 18 tuổi để tạo tài khoản !!!");
+		// Kiểm tra ngày sinh sử dụng Singleton
+		if (!ConstraintSingleton.getInstance().checkNgaySinh(admin.getNgaySinh(), model, "loiNgaySinh")) {
 			loi = Boolean.FALSE;
 		}
-		if (admin.getDiaChi().isEmpty()) {
-			model.addAttribute("loiDiaChi", "Địa chỉ không được trống!!!");
+		// Kiểm tra địa chỉ
+		if (!ConstraintSingleton.getInstance().checkDiaChi(admin.getDiaChi(), model, "loiDiaChi")) {
+			loi = Boolean.FALSE;
+		}
+		// Kiểm tra số điện thoại
+		if (!ConstraintSingleton.getInstance().checkPhoneNumber(admin.getSdt(), model, "loiSdt")) {
 			loi = Boolean.FALSE;
 		}
 		
-		if (admin.getSdt().isEmpty()) {
-			model.addAttribute("loiSdt", "Hãy nhập sdt !!!");
-			loi = Boolean.FALSE;
-		} else if (!admin.getSdt().matches("[0-9]+")) {
-			model.addAttribute("loiSdt", "SDT không hợp lệ !!!");
-			loi = Boolean.FALSE;
-		} else if (admin.getSdt().length() != 10 && admin.getSdt().length() != 11) {
-			model.addAttribute("loiSdt", "SDT không hợp lệ !!!");
-			loi = Boolean.FALSE;
-		}
-		if (admin.getEmail().isEmpty()) {
-			model.addAttribute("loiEmail", "Hãy nhập email !!!");
-			loi = Boolean.FALSE;
-		} else if (!admin.getEmail().endsWith("@gmail.com")) {
-			model.addAttribute("loiEmail", "Hãy nhập email đúng định dạng !!!");
+		
+		// Kiểm tra email
+		if (!ConstraintSingleton.getInstance().checkEmail(admin.getEmail(), model, "loiEmail")) {
 			loi = Boolean.FALSE;
 		}
 		
@@ -189,8 +168,8 @@ public class adminController {
 		adminSave.setGioiTinh(admin.isGioiTinh());
 		adminSave.setNgaySinh(ns);
 		adminSave.setDiaChi(admin.getDiaChi());
-		admin.setEmail(admin.getEmail());
-		admin.setSdt(admin.getSdt());
+		adminSave.setEmail(admin.getEmail());
+		adminSave.setSdt(admin.getSdt());
 		session.setAttribute("USER", adminSave);
 
 		nguoiDungService.updateUser(adminSave);
@@ -224,23 +203,13 @@ public class adminController {
 			model.addAttribute("loiPass", "Mật khẩu cũ không đúng !!!");
 			return "/admin/changePass";
 		}
-
-		if (newPass.isEmpty()) {
-			model.addAttribute("loiNewPass", "Hãy nhập mật khẩu mới !!!");
-			loi = Boolean.FALSE;
-		} else if (newPass.length() < 8) {
-			model.addAttribute("loiNewPass", "Mật khẩu tối thiểu 8 kí tự !!!");
-			loi = Boolean.FALSE;
-		} else if (newPass.contains(" ")) {
-			model.addAttribute("loiNewPass", "Mật khẩu không được chứa khoảng trắng !!!");
-			loi = Boolean.FALSE;
-		} else if (reNewPass.isEmpty()) {
-			model.addAttribute("loiRePass", "Hãy nhập lại mật khẩu !!!");
-			loi = Boolean.FALSE;
-		} else if (!reNewPass.equals(newPass)) {
-			model.addAttribute("loiRePass", "Xác nhận mật khẩu không đúng !!!");
+		
+		
+		// Check new password Singleton
+		if (!ConstraintSingleton.getInstance().checkNewPassword(newPass, reNewPass, model, "loiNewPass", "loiRePass")) {
 			loi = Boolean.FALSE;
 		}
+
 
 		if (loi == Boolean.TRUE) {
 			user.setPassWord(nguoiDungService.maHoaMatKhau(newPass));
@@ -270,23 +239,17 @@ public class adminController {
 		String rePassword = request.getParameter("re-passWord");
 		NguoiDungEntity userCheck;
 
-		if (admin.getEmail().isEmpty()) {
-			errors.rejectValue("email", "user", "Hãy nhập email !!!");
-			loi = Boolean.FALSE;
-		} else if (!admin.getEmail().endsWith("@gmail.com")) {
-			errors.rejectValue("email", "user", "Hãy nhập email đúng định dạng !!!");
+		
+		// Kiểm tra email
+		if (!ConstraintSingleton.getInstance().checkEmail(admin.getEmail(), errors, "email", "user")) {
 			loi = Boolean.FALSE;
 		}
-		if (admin.getUserName().isEmpty()) {
-			errors.rejectValue("userName", "user", "Hãy nhập username !!!");
-			loi = Boolean.FALSE;
-		} else if (admin.getUserName().contains(" ")) {
-			errors.rejectValue("userName", "user", "UserName không được chứa khoảng trắng !!!");
-			loi = Boolean.FALSE;
-		} else if (admin.getUserName().length() > 30) {
-			errors.rejectValue("userName", "user", "UserName không được dài quá 30 kí tự !!!");
+			
+		// Kiểm tra username
+		if (!ConstraintSingleton.getInstance().checkUsername(admin.getUserName(), errors, "userName", "user")) {
 			loi = Boolean.FALSE;
 		}
+
 		
 
 		userCheck = nguoiDungService.findUserByNameAndEmail(admin.getUserName(), admin.getEmail());
@@ -302,54 +265,25 @@ public class adminController {
 
 		}
 
-		if (admin.getPassWord().isEmpty()) {
-			errors.rejectValue("passWord", "user", "Hãy nhập mật khẩu !!!");
-			loi = Boolean.FALSE;
-		} else if (admin.getPassWord().length() < 8) {
-			errors.rejectValue("passWord", "user", "Password tối thiểu 8 kí tự !!!");
-			loi = Boolean.FALSE;
-		} else if (admin.getPassWord().contains(" ")) {
-			errors.rejectValue("passWord", "user", "Password không được chứa khoảng trắng !!!");
-			loi = Boolean.FALSE;
-		} else if (rePassword.isEmpty()) {
-			errors.rejectValue("passWord", "user", "Hãy nhập lại mật khẩu !!!");
-			loi = Boolean.FALSE;
-		} else if (!rePassword.equals(admin.getPassWord())) {
-			errors.rejectValue("passWord", "user", "Xác nhận mật khẩu không đúng !!!");
+		// Kiểm tra mật khẩu
+		if (!ConstraintSingleton.getInstance().checkPasword(admin.getPassWord(), rePassword, errors, "passWord", "user")) {
 			loi = Boolean.FALSE;
 		}
-		if (admin.getHoTen().isEmpty()) {
-			errors.rejectValue("hoTen", "user", "Hãy nhập họ tên !!!");
+		// Kiểm tra họ tên
+		if (!ConstraintSingleton.getInstance().checkHoTen(admin.getHoTen(), errors, "hoTen", "user")) {
 			loi = Boolean.FALSE;
-		} else if (admin.getHoTen().length() > 50) {
-			errors.rejectValue("hoTen", "user", "Họ tên quá dài !!!");
+		}
+		
+		
+		// Kiểm tra ngày sinh
+		if (!ConstraintSingleton.getInstance().checkNgaySinh(admin.getNgaySinh(), errors, "ngaySinh", "user")) {
 			loi = Boolean.FALSE;
-		} else if (!admin.getHoTen().matches("[\\p{L} ]+")) {
-			errors.rejectValue("hoTen", "user", "Họ tên không được chứa số !!!");
+		}
+		// Kiểm tra số điện thoại
+		if (!ConstraintSingleton.getInstance().checkPhoneNumber(admin.getSdt(), errors, "sdt", "user")) {
 			loi = Boolean.FALSE;
 		}
 
-		if (admin.getNgaySinh() == null) {
-			errors.rejectValue("ngaySinh", "user", "Hãy nhập ngày sinh !!!");
-			loi = Boolean.FALSE;
-		} else if (!isValidAndOver18(admin.getNgaySinh())) {
-			errors.rejectValue("ngaySinh", "user", "Admin cần lớn hơn 18 tuổi để tạo tài khoản !!!");
-			loi = Boolean.FALSE;
-		}
-		if (admin.getSdt().isEmpty()) {
-			errors.rejectValue("sdt", "user", "Hãy nhập sdt !!!");
-			loi = Boolean.FALSE;
-		} else if (!admin.getSdt().matches("[0-9]+")) {
-			errors.rejectValue("sdt", "user", "SDT không hợp lệ !!!");
-			loi = Boolean.FALSE;
-		} else if (admin.getSdt().length() != 10 && admin.getSdt().length() != 11) {
-			errors.rejectValue("sdt", "user", "SDT không hợp lệ !!!");
-			loi = Boolean.FALSE;
-		}
-		if (admin.getDiaChi().isEmpty()) {
-			errors.rejectValue("diaChi", "user", "Hãy nhập địa chỉ !!!");
-			loi = Boolean.FALSE;
-		}
 
 		if (loi == Boolean.FALSE)
 			{ model.addAttribute("errorMessage","Lỗi thêm Admin");
@@ -360,7 +294,7 @@ public class adminController {
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
 		admin.setPassWord(nguoiDungService.maHoaMatKhau(admin.getPassWord()));
 		admin.setNgaySinh(ns);
-		admin.setHoTen(capitalizeString(admin.getHoTen()));
+		admin.setHoTen(ConstraintSingleton.getInstance().capitalizeString(admin.getHoTen()));
 		admin.setTrangThai(true);
 		admin.setQuyen(1);
 		nguoiDungService.addUser(admin);
@@ -421,22 +355,6 @@ public class adminController {
 		NguoiDungEntity admin = (NguoiDungEntity) session0.getAttribute("USER");
 		model.addAttribute("admin",admin);
 		return "admin/me";
-	}
-	
-	public boolean isValidAndOver18(Date ngaySinh) {
-		LocalDate dob = ngaySinh.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate today = LocalDate.now();
-		int age = Period.between(dob, today).getYears();
-		Date currentDate = new Date();
-		return !ngaySinh.after(currentDate) && age >= 18;
-	}
-
-	public static String capitalizeString(String str) {
-		String[] words = str.split("\\s+");
-		for (int i = 0; i < words.length; i++) {
-			words[i] = words[i].substring(0, 1).toUpperCase() + words[i].substring(1);
-		}
-		return String.join(" ", words);
 	}
 	
 }
