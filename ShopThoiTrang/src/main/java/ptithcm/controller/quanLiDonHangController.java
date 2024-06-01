@@ -15,6 +15,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.DesignPattern.State.CancelledState;
+import ptithcm.DesignPattern.State.DeliveringState;
+import ptithcm.DesignPattern.State.OrderContext;
 import ptithcm.entity.DonHangEntity;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.service.DonHangService;
@@ -28,6 +31,8 @@ public class quanLiDonHangController {
 	
 	@Autowired
 	DonHangService donHangService;
+	private OrderContext context = new OrderContext();
+
 	
 	@RequestMapping(value="admin/order", method = RequestMethod.GET)
 	public String product(ModelMap model, HttpServletRequest request) {
@@ -47,8 +52,11 @@ public class quanLiDonHangController {
 
 	    if (trangThai == 1) { // Nếu trạng thái là "Chờ xác nhận"
 	        DonHangEntity donHang = donHangService.timDonHangTheoMa(maDonHang);
-	        donHang.setTrangThai(2); // Chuyển trạng thái đơn hàng sang "Đang giao"
-	        donHangService.updateDonHang(donHang);
+//	        donHang.setTrangThai(2); // Chuyển trạng thái đơn hàng sang "Đang giao"
+//	        donHangService.updateDonHang(donHang);
+//	        OrderContext context = new OrderContext();
+            donHang.changeState(context, new DeliveringState()); // Chuyển trạng thái đơn hàng sang "Đang giao"
+            donHangService.updateDonHang(donHang);
 	    }
 
 	    return "redirect:/admin/order.htm";
@@ -61,8 +69,11 @@ public class quanLiDonHangController {
 
 	    if (trangThai == 1) { // Nếu trạng thái là "Chờ xác nhận"
 	        DonHangEntity donHang = donHangService.timDonHangTheoMa(maDonHang);
-	        donHang.setTrangThai(0); // Chuyển trạng thái đơn hàng sang "Đang giao"
-	        donHangService.updateDonHang(donHang);
+//	        donHang.setTrangThai(0); // Chuyển trạng thái đơn hàng sang "Đang giao"
+//	        donHangService.updateDonHang(donHang);
+//	        OrderContext context = new OrderContext();
+            donHang.changeState(context, new CancelledState()); // Chuyển trạng thái đơn hàng sang "Đã hủy"
+            donHangService.updateDonHang(donHang);
 	    }
 
 	    return "redirect:/admin/order.htm";

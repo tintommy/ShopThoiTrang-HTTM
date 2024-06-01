@@ -17,6 +17,10 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import ptithcm.DesignPattern.State.OrderContext;
+import ptithcm.DesignPattern.State.OrderState;
+import ptithcm.DesignPattern.State.PendingState;
+
 @Entity
 @Table(name = "DONHANG")
 public class DonHangEntity{
@@ -28,7 +32,6 @@ public class DonHangEntity{
 	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	@Column(name="NGAYTAO")
 	private Date ngayTao;
-	
 	@Column(name="HOTEN")
 	private String hoTen;
 	@Column(name="SDT")
@@ -44,6 +47,7 @@ public class DonHangEntity{
 	private NguoiDungEntity nguoiDung;
 	@OneToMany(mappedBy = "donHang",fetch = FetchType.EAGER)
 	private List<CTDonHangEntity> ctDonHangList;
+
 	public int getMaDh() {
 		return maDh;
 	}
@@ -99,5 +103,8 @@ public class DonHangEntity{
 		this.ctDonHangList = ctDonHangList;
 	}
 	
-	
+	public void changeState(OrderContext context, OrderState newState) {
+        context.setState(newState);
+        context.applyState(this);
+    }
 }

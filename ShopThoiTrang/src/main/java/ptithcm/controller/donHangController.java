@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.DesignPattern.State.CancelledState;
+import ptithcm.DesignPattern.State.CompletedState;
+import ptithcm.DesignPattern.State.OrderContext;
 import ptithcm.entity.CTDonHangEntity;
 import ptithcm.entity.DanhGiaEntity;
 import ptithcm.entity.DonHangEntity;
@@ -40,6 +43,8 @@ public class donHangController {
 	SanPhamService sanPhamService;
 	@Autowired
 	DanhGiaService danhGiaService;
+	private OrderContext context = new OrderContext();
+	
 	@RequestMapping("donHang")
 	public String donHang(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
@@ -157,8 +162,11 @@ System.out.print("newinfo");
 	public String daNhanHang(@PathVariable("maDh")int maDh )
 	{
 		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
-		donHang.setTrangThai(3);
-		DonHangService.updateDonHang(donHang);
+//		donHang.setTrangThai(3);
+//		DonHangService.updateDonHang(donHang);
+//		 OrderContext context = new OrderContext();
+	     donHang.changeState(context, new CompletedState()); // Chuyển trạng thái đơn hàng sang "Đã nhận"
+	     DonHangService.updateDonHang(donHang);
 		
 		return "redirect:/lich-su-mua-hang.htm";
 	}
@@ -167,8 +175,11 @@ System.out.print("newinfo");
 	public String huyDonHang(@PathVariable("maDh")int maDh )
 	{
 		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
-		donHang.setTrangThai(0);
-		DonHangService.updateDonHang(donHang);
+//		donHang.setTrangThai(0);
+//		DonHangService.updateDonHang(donHang);
+//		 OrderContext context = new OrderContext();
+	        donHang.changeState(context, new CancelledState()); // Chuyển trạng thái đơn hàng sang "Đã hủy"
+	        DonHangService.updateDonHang(donHang);
 		
 		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
 		 SanPhamEntity sp=new SanPhamEntity();
