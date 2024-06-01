@@ -4,12 +4,13 @@ import sklearn
 import sys
 from sklearn.decomposition import TruncatedSVD
 from sqlalchemy import create_engine
+import numpy as np
 
 # Thay đổi các thông số kết nối theo cơ sở dữ liệu SQL Server của bạn
-server = 'HP'
+server = 'MSI'
 database = 'shopThoiTrang'
 username = 'sa'
-password = '123456'
+password = 'sa'
 
 # Tạo một URI kết nối sử dụng SQLAlchemy
 connection_string = f"mssql+pyodbc://{username}:{password}@{server}/{database}?driver=SQL+Server"
@@ -40,6 +41,25 @@ decomposed_matrix = SVD.fit_transform(X)
 
 correlation_matrix = np.corrcoef(decomposed_matrix)
 
+
+
+# Tạo ma trận tương quan
+correlation_matrix = np.corrcoef(decomposed_matrix)
+
+# Lưu ma trận tương quan vào một tệp sử dụng np.save
+np.save('correlation_matrix.npy', correlation_matrix)
+
+
+
+import pandas as pd
+import numpy as np
+import sklearn
+import sys
+from sklearn.decomposition import TruncatedSVD
+from sqlalchemy import create_engine
+import numpy as np
+
+correlation_matrix = np.load('correlation_matrix.npy')
 # Đầu vào là một chuỗi danh sách sản phẩm, ví dụ: "[sp12_S, sp01_S]"
 input_product_str = sys.argv[1]
 print(input_product_str)

@@ -47,7 +47,7 @@ public class imageSearchController {
 		
 		  String param = avatarFilePath;
 		  ProcessBuilder builder = new ProcessBuilder(
-	                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python search_image.py \"" + param + "\"");
+	                "cmd.exe", "/c", "D: & cd D:\\eclipse\\ShopThoiTrang\\src\\main\\python & python search_image.py \"" + param + "\"");
 	        builder.redirectErrorStream(true);
 	        Process p = builder.start();
 	        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));

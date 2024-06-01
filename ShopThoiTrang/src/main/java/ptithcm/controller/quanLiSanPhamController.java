@@ -50,8 +50,8 @@ public class quanLiSanPhamController {
 	
 //	@Autowired
 //	ServletContext context;
-	String filePath = "C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
-	String imgXoaPath="C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
+	String filePath = "D:\\eclipse\\ShopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
+	String imgXoaPath="D:\\eclipse\\ShopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
 	
 	@RequestMapping(value="admin/product", method = RequestMethod.GET)
 	public String product(ModelMap model, HttpServletRequest request) {
@@ -81,7 +81,8 @@ public class quanLiSanPhamController {
 
 		try {
 		    ProcessBuilder builder = new ProcessBuilder(
-		        "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python store_vectors.py");
+		        "cmd.exe", "/c", "D: & cd D:\\eclipse\\ShopThoiTrang\\src\\main\\python & python store_vectors.py"
+		    );
 		    builder.redirectErrorStream(true);
 		    Process p = builder.start();
 		    BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));

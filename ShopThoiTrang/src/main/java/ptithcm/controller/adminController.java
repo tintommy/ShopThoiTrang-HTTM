@@ -24,6 +24,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.DesignPattern.Strategy.Statistics.MonthlyRevenue;
+import ptithcm.DesignPattern.Strategy.Statistics.OrderStatusStatistics;
+import ptithcm.DesignPattern.Strategy.Statistics.StatisticsContext;
+import ptithcm.DesignPattern.Strategy.Statistics.TotalSuccessOrder;
+import ptithcm.DesignPattern.Strategy.Statistics.UserStatistics;
 import ptithcm.entity.DonHangEntity;
 
 import ptithcm.entity.NguoiDungEntity;
@@ -54,39 +59,72 @@ public class adminController {
 		HttpSession session0 = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 		
-		List<DonHangEntity> donThanhCong = donHangService.layDonHangTheoTrangThai(3);
-		int tongDoanhThu = 0;
-		for (DonHangEntity donHang : donThanhCong) {
-		    tongDoanhThu += donHang.getTongTien();
-		}
-	
-		model.addAttribute("tongDoanhThu", tongDoanhThu);
 		
-		// Tính tổng doanh thu theo từng tháng
-	    List<Long> monthlyRevenues = new ArrayList<>();
-	    for (int i = 1; i <= 12; i++) {
-	        long totalRevenue = donHangService.tinhTongDoanhThuTheoThang(i);
-	        monthlyRevenues.add(totalRevenue);
-	    }
+		StatisticsContext context = new StatisticsContext();
+		
 
-	    model.addAttribute("monthlyRevenues", monthlyRevenues);
+	//Thống kê đơn thành công
+		context.setStrategy(new TotalSuccessOrder());
+		model.addAttribute("tongDoanhThu", context.executeStrategy());
+		
+//		// Tính tổng doanh thu theo từng tháng
+		context.setStrategy(new MonthlyRevenue());
+	    model.addAttribute("monthlyRevenues", context.executeStrategy());
 		
 		//Thống kê số người dùng
 		
-		List<NguoiDungEntity> listNguoiDung = nguoiDungService.getAllUserByRole(0);
-		int tongSoNguoiDung=listNguoiDung.size();
-		model.addAttribute("tongSoNguoiDung", tongSoNguoiDung);
+	    context.setStrategy(new UserStatistics());
+		model.addAttribute("tongSoNguoiDung", context.executeStrategy());
 		
-	    // Thống kêsố đơn hàng
-		int tongDonChoXacNhan= donHangService.layDonHangTheoTrangThai(1).size();
-		int tongDonDangGiao= donHangService.layDonHangTheoTrangThai(2).size();
-		int tongDonThanhCong= donHangService.layDonHangTheoTrangThai(3).size();
-		int tongDonDaHuy= donHangService.layDonHangTheoTrangThai(0).size();
-		
-		model.addAttribute("pendingOrders", tongDonChoXacNhan);
-	    model.addAttribute("deliveringOrders", tongDonDangGiao);
-	    model.addAttribute("completedOrders", tongDonThanhCong);
-	    model.addAttribute("cancelledOrders", tongDonDaHuy);
+//	    // Thống kêsố đơn hàng
+		context.setStrategy(new OrderStatusStatistics());
+	//	List<Integer> tongDon= (List<Integer>) context.executeStrategy(); 
+	
+		model.addAttribute("cancelledOrders",0);
+		model.addAttribute("pendingOrders",  0);
+	    model.addAttribute("deliveringOrders",0);
+	    model.addAttribute("completedOrders", 0);
+	 
+	    
+	    
+	    
+	    
+	    
+//
+//		List<DonHangEntity> donThanhCong = donHangService.layDonHangTheoTrangThai(3);
+//		int tongDoanhThu = 0;
+//		for (DonHangEntity donHang : donThanhCong) {
+//		    tongDoanhThu += donHang.getTongTien();
+//		}
+//	
+//		model.addAttribute("tongDoanhThu", tongDoanhThu);
+//		
+//		// Tính tổng doanh thu theo từng tháng
+//	    List<Long> monthlyRevenues = new ArrayList<>();
+//	    for (int i = 1; i <= 12; i++) {
+//	        long totalRevenue = donHangService.tinhTongDoanhThuTheoThang(i);
+//	        monthlyRevenues.add(totalRevenue);
+//	    }
+//
+//	    model.addAttribute("monthlyRevenues", monthlyRevenues);
+//		
+//		//Thống kê số người dùng
+//		
+//		List<NguoiDungEntity> listNguoiDung = nguoiDungService.getAllUserByRole(0);
+//		int tongSoNguoiDung=listNguoiDung.size();
+//		model.addAttribute("tongSoNguoiDung", tongSoNguoiDung);
+//		
+//	    // Thống kêsố đơn hàng
+//		int tongDonChoXacNhan= donHangService.layDonHangTheoTrangThai(1).size();
+//		int tongDonDangGiao= donHangService.layDonHangTheoTrangThai(2).size();
+//		int tongDonThanhCong= donHangService.layDonHangTheoTrangThai(3).size();
+//		int tongDonDaHuy= donHangService.layDonHangTheoTrangThai(0).size();
+//		
+//		model.addAttribute("pendingOrders", tongDonChoXacNhan);
+//	    model.addAttribute("deliveringOrders", tongDonDangGiao);
+//	    model.addAttribute("completedOrders", tongDonThanhCong);
+//	    model.addAttribute("cancelledOrders", tongDonDaHuy);
+	    
 		
 		return "admin/index";
 	}
