@@ -6,11 +6,12 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import ptithcm.service.DonHangService;
 
 
-@Transactional
+@Service
 public class OrderStatusStatistics implements StatisticsInterface {
 
 
@@ -21,8 +22,21 @@ public class OrderStatusStatistics implements StatisticsInterface {
     private int tongDonDangGiao;
     private int tongDonThanhCong;
     private int tongDonDaHuy;
+    
+    
+    public OrderStatusStatistics() {
+		// TODO Auto-generated constructor stub
+	}
 
-    @Override
+    public OrderStatusStatistics(DonHangService donHangService) {
+		super();
+		this.donHangService = donHangService;
+	}
+
+
+
+
+	@Override
     public Object collectStatistics() {
     	List<Integer> tongDon= new ArrayList<>();
     	tongDonDaHuy = donHangService.layDonHangTheoTrangThai(0).size();

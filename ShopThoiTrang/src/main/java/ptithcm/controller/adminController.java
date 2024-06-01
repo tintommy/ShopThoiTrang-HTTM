@@ -42,54 +42,45 @@ import ptithcm.service.nguoiDungService;
 @Controller
 @RequestMapping("/admin/")
 public class adminController {
-	
+
 	@Autowired
 	SanPhamService sanPhamService;
-	
+
 	@Autowired
 	DonHangService donHangService;
-	
+
 	@Autowired
 	nguoiDungService nguoiDungService;
-	
-	
-	
+
 	@RequestMapping("index")
 	public String index(HttpServletRequest request, ModelMap model) {
 		HttpSession session0 = request.getSession();
 		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-		
-		
-		StatisticsContext context = new StatisticsContext();
-		
 
-	//Thống kê đơn thành công
-		context.setStrategy(new TotalSuccessOrder());
+		StatisticsContext context = new StatisticsContext();
+
+		// Thống kê đơn thành công
+		context.setStrategy(new TotalSuccessOrder(donHangService));
 		model.addAttribute("tongDoanhThu", context.executeStrategy());
-		
+
 //		// Tính tổng doanh thu theo từng tháng
-		context.setStrategy(new MonthlyRevenue());
-	    model.addAttribute("monthlyRevenues", context.executeStrategy());
-		
-		//Thống kê số người dùng
-		
-	    context.setStrategy(new UserStatistics());
+		context.setStrategy(new MonthlyRevenue(donHangService));
+		model.addAttribute("monthlyRevenues", context.executeStrategy());
+
+		// Thống kê số người dùng
+
+		context.setStrategy(new UserStatistics(nguoiDungService));
 		model.addAttribute("tongSoNguoiDung", context.executeStrategy());
-		
+
 //	    // Thống kêsố đơn hàng
-		context.setStrategy(new OrderStatusStatistics());
-	//	List<Integer> tongDon= (List<Integer>) context.executeStrategy(); 
-	
-		model.addAttribute("cancelledOrders",0);
-		model.addAttribute("pendingOrders",  0);
-	    model.addAttribute("deliveringOrders",0);
-	    model.addAttribute("completedOrders", 0);
-	 
-	    
-	    
-	    
-	    
-	    
+		context.setStrategy(new OrderStatusStatistics(donHangService));
+		List<Integer> tongDon = (List<Integer>) context.executeStrategy();
+
+		model.addAttribute("cancelledOrders", tongDon.get(0));
+		model.addAttribute("pendingOrders", tongDon.get(1));
+		model.addAttribute("deliveringOrders", tongDon.get(2));
+		model.addAttribute("completedOrders", tongDon.get(3));
+
 //
 //		List<DonHangEntity> donThanhCong = donHangService.layDonHangTheoTrangThai(3);
 //		int tongDoanhThu = 0;
@@ -124,44 +115,39 @@ public class adminController {
 //	    model.addAttribute("deliveringOrders", tongDonDangGiao);
 //	    model.addAttribute("completedOrders", tongDonThanhCong);
 //	    model.addAttribute("cancelledOrders", tongDonDaHuy);
-	    
-		
+
 		return "admin/index";
 	}
-	
 
-	
-	
 	@RequestMapping("adminAccount")
-	public String account(HttpServletRequest request,ModelMap model) {
+	public String account(HttpServletRequest request, ModelMap model) {
 		HttpSession session0 = request.getSession();
-	List<NguoiDungEntity> adminList= nguoiDungService.getAllUserByRole(1);
-	
-	Collections.sort(adminList, new Comparator<NguoiDungEntity>() {
-	    @Override
-	    public int compare(NguoiDungEntity nguoi1, NguoiDungEntity nguoi2) {
-	        boolean trangThai1 = nguoi1.isTrangThai();
-	        boolean trangThai2 = nguoi2.isTrangThai();
+		List<NguoiDungEntity> adminList = nguoiDungService.getAllUserByRole(1);
 
-	        // Sắp xếp theo thứ tự giảm dần (true trước, false sau)
-	        return Boolean.compare(trangThai2, trangThai1);
-	    }
-	});
-	
-	
-	model.addAttribute("adminList",adminList);
+		Collections.sort(adminList, new Comparator<NguoiDungEntity>() {
+			@Override
+			public int compare(NguoiDungEntity nguoi1, NguoiDungEntity nguoi2) {
+				boolean trangThai1 = nguoi1.isTrangThai();
+				boolean trangThai2 = nguoi2.isTrangThai();
+
+				// Sắp xếp theo thứ tự giảm dần (true trước, false sau)
+				return Boolean.compare(trangThai2, trangThai1);
+			}
+		});
+
+		model.addAttribute("adminList", adminList);
 		return "admin/adminAccount";
 	}
-	
+
 	@RequestMapping("inforAcc/{maNd}")
-	public String inforAcc(@PathVariable("maNd") int maNd,HttpServletRequest request,ModelMap model) {
-	HttpSession session0 = request.getSession();
-	NguoiDungEntity user = nguoiDungService.findUserById(maNd);
-	model.addAttribute("user",user);
-	
-	return "admin/inforAcc";
-}
-	
+	public String inforAcc(@PathVariable("maNd") int maNd, HttpServletRequest request, ModelMap model) {
+		HttpSession session0 = request.getSession();
+		NguoiDungEntity user = nguoiDungService.findUserById(maNd);
+		model.addAttribute("user", user);
+
+		return "admin/inforAcc";
+	}
+
 	@RequestMapping(value = "changeInfo", params = "save", method = RequestMethod.POST)
 	public String infoUpdate(HttpServletRequest request, ModelMap model, @ModelAttribute("admin") NguoiDungEntity admin,
 			BindingResult errors) {
@@ -169,7 +155,6 @@ public class adminController {
 		HttpSession session = request.getSession();
 		NguoiDungEntity adminSave = (NguoiDungEntity) session.getAttribute("USER");
 		admin.setUserName(adminSave.getUserName());
-		
 
 		String NGAYSINH = request.getParameter("ngaySinh");
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
@@ -199,7 +184,7 @@ public class adminController {
 			model.addAttribute("loiDiaChi", "Địa chỉ không được trống!!!");
 			loi = Boolean.FALSE;
 		}
-		
+
 		if (admin.getSdt().isEmpty()) {
 			model.addAttribute("loiSdt", "Hãy nhập sdt !!!");
 			loi = Boolean.FALSE;
@@ -217,7 +202,6 @@ public class adminController {
 			model.addAttribute("loiEmail", "Hãy nhập email đúng định dạng !!!");
 			loi = Boolean.FALSE;
 		}
-		
 
 		if (loi == Boolean.FALSE) {
 			model.addAttribute("admin", adminSave);
@@ -234,17 +218,17 @@ public class adminController {
 		nguoiDungService.updateUser(adminSave);
 
 		model.addAttribute("admin", adminSave);
-		model.addAttribute("successMessage","Cập nhật thông tin thành công");
+		model.addAttribute("successMessage", "Cập nhật thông tin thành công");
 
 		return "/admin/me";
 	}
-	
+
 	@RequestMapping("changePass")
 	public String changPass() {
 		return "/admin/changePass";
-		
+
 	}
-	
+
 	@RequestMapping(value = "changePass.htm", params = "save", method = RequestMethod.POST)
 	public String changePass(HttpServletRequest request, ModelMap model) {
 		Boolean loi = Boolean.TRUE;
@@ -258,7 +242,7 @@ public class adminController {
 			model.addAttribute("loiPass", "Hãy nhập mật khẩu cũ !!!");
 			loi = Boolean.FALSE;
 
-		} else if (!nguoiDungService.kiemTraMatKhau(pass,user.getPassWord())) {
+		} else if (!nguoiDungService.kiemTraMatKhau(pass, user.getPassWord())) {
 			model.addAttribute("loiPass", "Mật khẩu cũ không đúng !!!");
 			return "/admin/changePass";
 		}
@@ -290,15 +274,13 @@ public class adminController {
 
 		return "/admin/changePass";
 	}
-	
-	
-	
+
 	@RequestMapping("createAcc")
-	public String createAcc(HttpServletRequest request,ModelMap model) {
-	NguoiDungEntity admin=new NguoiDungEntity();
-	model.addAttribute("admin",admin);
-	return "admin/createAcc";
-}
+	public String createAcc(HttpServletRequest request, ModelMap model) {
+		NguoiDungEntity admin = new NguoiDungEntity();
+		model.addAttribute("admin", admin);
+		return "admin/createAcc";
+	}
 
 	@RequestMapping(value = "/form/addAcc", params = "add", method = RequestMethod.POST)
 	public String addAcc(HttpServletRequest request, ModelMap model, @ModelAttribute("admin") NguoiDungEntity admin,
@@ -325,7 +307,6 @@ public class adminController {
 			errors.rejectValue("userName", "user", "UserName không được dài quá 30 kí tự !!!");
 			loi = Boolean.FALSE;
 		}
-		
 
 		userCheck = nguoiDungService.findUserByNameAndEmail(admin.getUserName(), admin.getEmail());
 		if (userCheck != null) {
@@ -389,10 +370,11 @@ public class adminController {
 			loi = Boolean.FALSE;
 		}
 
-		if (loi == Boolean.FALSE)
-			{ model.addAttribute("errorMessage","Lỗi thêm Admin");
-			
-			return "/admin/createAcc";}
+		if (loi == Boolean.FALSE) {
+			model.addAttribute("errorMessage", "Lỗi thêm Admin");
+
+			return "/admin/createAcc";
+		}
 
 		String NGAYSINH = request.getParameter("ngaySinh");
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
@@ -402,65 +384,63 @@ public class adminController {
 		admin.setTrangThai(true);
 		admin.setQuyen(1);
 		nguoiDungService.addUser(admin);
-		model.addAttribute("successMessage","Thêm Admin mới thành công");
-	return "/admin/createAcc";
-}
-	
-	
-	@RequestMapping("on/{maNd}")
-	public String on(@PathVariable("maNd") int maNd,HttpServletRequest request,ModelMap model) {
-	HttpSession session0 = request.getSession();
-	NguoiDungEntity user = nguoiDungService.findUserById(maNd);
-	user.setTrangThai(true);
-	nguoiDungService.updateUser(user);
-	
-	if(user.getQuyen()==0)
-		return "redirect:/admin/customerAccount.htm";
-	
-	return "redirect:/admin/adminAccount.htm";
-}
-	@RequestMapping("off/{maNd}")
-	public String off(@PathVariable("maNd") int maNd,HttpServletRequest request,ModelMap model) {
-	HttpSession session0 = request.getSession();
-	NguoiDungEntity user = nguoiDungService.findUserById(maNd);
-	user.setTrangThai(false);
-	nguoiDungService.updateUser(user);
-	if(user.getQuyen()==0)
-		return "redirect:/admin/customerAccount.htm";
-	
-	return "redirect:/admin/adminAccount.htm";
-}
-	
-	
-	@RequestMapping("customerAccount")
-	public String cusAccount(HttpServletRequest request,ModelMap model) {
-		HttpSession session0 = request.getSession();
-	List<NguoiDungEntity> cusList= nguoiDungService.getAllUserByRole(0);
-	
-	Collections.sort(cusList, new Comparator<NguoiDungEntity>() {
-	    @Override
-	    public int compare(NguoiDungEntity nguoi1, NguoiDungEntity nguoi2) {
-	        boolean trangThai1 = nguoi1.isTrangThai();
-	        boolean trangThai2 = nguoi2.isTrangThai();
+		model.addAttribute("successMessage", "Thêm Admin mới thành công");
+		return "/admin/createAcc";
+	}
 
-	        // Sắp xếp theo thứ tự giảm dần (true trước, false sau)
-	        return Boolean.compare(trangThai2, trangThai1);
-	    }
-	});
-	
-	
-	model.addAttribute("userList",cusList);
+	@RequestMapping("on/{maNd}")
+	public String on(@PathVariable("maNd") int maNd, HttpServletRequest request, ModelMap model) {
+		HttpSession session0 = request.getSession();
+		NguoiDungEntity user = nguoiDungService.findUserById(maNd);
+		user.setTrangThai(true);
+		nguoiDungService.updateUser(user);
+
+		if (user.getQuyen() == 0)
+			return "redirect:/admin/customerAccount.htm";
+
+		return "redirect:/admin/adminAccount.htm";
+	}
+
+	@RequestMapping("off/{maNd}")
+	public String off(@PathVariable("maNd") int maNd, HttpServletRequest request, ModelMap model) {
+		HttpSession session0 = request.getSession();
+		NguoiDungEntity user = nguoiDungService.findUserById(maNd);
+		user.setTrangThai(false);
+		nguoiDungService.updateUser(user);
+		if (user.getQuyen() == 0)
+			return "redirect:/admin/customerAccount.htm";
+
+		return "redirect:/admin/adminAccount.htm";
+	}
+
+	@RequestMapping("customerAccount")
+	public String cusAccount(HttpServletRequest request, ModelMap model) {
+		HttpSession session0 = request.getSession();
+		List<NguoiDungEntity> cusList = nguoiDungService.getAllUserByRole(0);
+
+		Collections.sort(cusList, new Comparator<NguoiDungEntity>() {
+			@Override
+			public int compare(NguoiDungEntity nguoi1, NguoiDungEntity nguoi2) {
+				boolean trangThai1 = nguoi1.isTrangThai();
+				boolean trangThai2 = nguoi2.isTrangThai();
+
+				// Sắp xếp theo thứ tự giảm dần (true trước, false sau)
+				return Boolean.compare(trangThai2, trangThai1);
+			}
+		});
+
+		model.addAttribute("userList", cusList);
 		return "admin/customerAccount";
 	}
-	
+
 	@RequestMapping("me")
-		public String me(HttpServletRequest request,ModelMap model) {
+	public String me(HttpServletRequest request, ModelMap model) {
 		HttpSession session0 = request.getSession();
 		NguoiDungEntity admin = (NguoiDungEntity) session0.getAttribute("USER");
-		model.addAttribute("admin",admin);
+		model.addAttribute("admin", admin);
 		return "admin/me";
 	}
-	
+
 	public boolean isValidAndOver18(Date ngaySinh) {
 		LocalDate dob = ngaySinh.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate today = LocalDate.now();
@@ -476,6 +456,5 @@ public class adminController {
 		}
 		return String.join(" ", words);
 	}
-	
-}
 
+}

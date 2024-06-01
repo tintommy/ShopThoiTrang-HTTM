@@ -10,13 +10,21 @@ import org.springframework.stereotype.Service;
 import ptithcm.entity.DonHangEntity;
 import ptithcm.service.DonHangService;
 
-@Transactional
+@Service
 public class TotalSuccessOrder implements StatisticsInterface {
 	 
-		@Autowired
+	
 	    private DonHangService donHangService;
 
 	     long totalRevenue;
+	     
+	     public TotalSuccessOrder() {
+			// TODO Auto-generated constructor stub
+		}
+	     
+	     public TotalSuccessOrder(DonHangService donHangService) {
+			this.donHangService=donHangService;
+		}
 
 	    @Override
 	    public Object collectStatistics() {

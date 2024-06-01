@@ -10,13 +10,20 @@ import org.springframework.stereotype.Service;
 
 import ptithcm.service.DonHangService;
 
-@Transactional
+@Service
 public class MonthlyRevenue implements StatisticsInterface {
 
-	@Autowired
 	private DonHangService donHangService;
 
 	private List<Long> monthlyRevenues;
+
+	public MonthlyRevenue() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public MonthlyRevenue(DonHangService donHangService) {
+		this.donHangService = donHangService;
+	}
 
 	@Override
 	public Object collectStatistics() {
@@ -25,7 +32,7 @@ public class MonthlyRevenue implements StatisticsInterface {
 			long totalRevenue = donHangService.tinhTongDoanhThuTheoThang(i);
 			monthlyRevenues.add(totalRevenue);
 		}
-		
+
 		return monthlyRevenues;
 
 	}

@@ -10,13 +10,21 @@ import org.springframework.stereotype.Service;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.service.nguoiDungService;
 
-@Transactional
+@Service
 public class UserStatistics implements StatisticsInterface {
 
-	@Autowired
 	private nguoiDungService nguoiDungService;
 
 	private int tongSoNguoiDung;
+
+	public UserStatistics() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public UserStatistics(ptithcm.service.nguoiDungService nguoiDungService) {
+		super();
+		this.nguoiDungService = nguoiDungService;
+	}
 
 	@Override
 	public Object collectStatistics() {
@@ -25,5 +33,4 @@ public class UserStatistics implements StatisticsInterface {
 		return tongSoNguoiDung;
 	}
 
-	
 }
