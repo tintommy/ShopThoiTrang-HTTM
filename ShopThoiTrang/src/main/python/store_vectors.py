@@ -41,7 +41,7 @@ def extract_vector(model, image_path):
 # Dinh nghia thu muc data
 
 # data_folder = "dataset"
-data_folder = "D:\\eclipse\\ShopThoiTrang\\src\\main\\webapp\\assets\\img\\product"
+data_folder = "C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\webapp\\assets\\img\\product"
 
 # Khoi tao model
 model = get_extract_model()

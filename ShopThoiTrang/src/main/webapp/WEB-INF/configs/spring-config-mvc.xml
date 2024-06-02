@@ -34,7 +34,10 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver" />
 
 	<!-- Cấu hình package chứa các controller -->
-	<context:component-scan
-		base-package="ptithcm.controller,ptithcm.bean,ptithcm.dao,ptithcm.service,ptithcm.intercepter,ptithcm.DesignPattern" />
+	<!-- <context:component-scan
+		base-package="ptithcm.controller,ptithcm.bean,ptithcm.dao,ptithcm.service,ptithcm.intercepter" /> -->
+		
+		<context:component-scan base-package="ptithcm" />
+		
 
 </beans>

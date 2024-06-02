@@ -1,4 +1,4 @@
-package ptithcm.DesignPattern.Strategy.Statistics;
+package ptithcm.designpattern.Strategy.Statistics;
 
 public interface StatisticsInterface {
 	Object collectStatistics();

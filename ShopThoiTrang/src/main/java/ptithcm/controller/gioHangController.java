@@ -2,6 +2,7 @@ package ptithcm.controller;
 
 import java.util.List;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -24,134 +25,136 @@ import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.service.gioHangService;
 
-@Transactional
-@Controller
+import ptithcm.designpattern.FacadePattern.GioHangFacade;
 
-public class gioHangController {
-	@Autowired
-	SessionFactory factory;
-
-	@Autowired
-	gioHangService gioHangService;
-
-	
-	@RequestMapping("gioHang")
-	public String gioHang(HttpServletRequest request, ModelMap model) {
-
-		HttpSession session0 = request.getSession();
-
-		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-
-		if (user == null) {
-			model.addAttribute("user", new NguoiDungEntity());
-
-			return "/user/login";
-		}
-
-	
-		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
-
-		model.addAttribute("gioHangList", gioHangList);
-		model.addAttribute("user", user);
-		return "/gioHang/gioHang";
-	}
-	
-	
-	@RequestMapping(value = "/gioHang/{maGh}", params = "update", method = RequestMethod.POST)
-	public String update(@PathVariable("maGh") int maGh, HttpServletRequest request, ModelMap model) {
-		System.out.println("gbhjnh");
-		HttpSession session0 = request.getSession();
-		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-
-		int soLuong = Integer.parseInt(request.getParameter("soLuong"));
-System.out.println(soLuong);
-		gioHangService.updateSoLuong(soLuong, maGh);
-
-	
-
-		return "redirect:/gioHang.htm";
-	}
-
-	@RequestMapping(value = "/gioHang/{maGh}", params = "xoa", method = RequestMethod.POST)
-	public String xoa(@PathVariable("maGh") int maGh, HttpServletRequest request, ModelMap model) {
-		HttpSession session0 = request.getSession();
-		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-
-		gioHangService.deleteGioHang(maGh);
-		
-		return "redirect:/gioHang.htm";
-
-	}
-
-//	@RequestMapping(value = "/themVaoGio/{maSP}", params = "them", method = RequestMethod.POST)
-//	public String them(@PathVariable("maSP") String maSP, HttpServletRequest request, ModelMap model) {
+//@Transactional
+//@Controller
+//
+//public class gioHangController {
+//	@Autowired
+//	SessionFactory factory;
+//
+//	@Autowired
+//	gioHangService gioHangService;
+//
+//	
+//	@RequestMapping("gioHang")
+//	public String gioHang(HttpServletRequest request, ModelMap model) {
 //
 //		HttpSession session0 = request.getSession();
+//
 //		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
-//	
-//		SanPhamEntity sanPham = laySanPhamTheoMa(maSP);
-//		
-//		if(user==null)
-//		{
+//
+//		if (user == null) {
 //			model.addAttribute("user", new NguoiDungEntity());
-//		
-//			session0.setAttribute("SANPHAM", maSP);
-//			
+//
 //			return "/user/login";
 //		}
-//		
-//			
-//		GioHangEntity gioHang = gioHangService.layGioHangTheoMaNdVaSanPham(user.getMaNd(), maSP);
+//
+//	
+//		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
+//
+//		model.addAttribute("gioHangList", gioHangList);
+//		model.addAttribute("user", user);
+//		return "/gioHang/gioHang";
+//	}
+//	
+//	
+//	@RequestMapping(value = "/gioHang/{maGh}", params = "update", method = RequestMethod.POST)
+//	public String update(@PathVariable("maGh") int maGh, HttpServletRequest request, ModelMap model) {
+//		System.out.println("gbhjnh");
+//		HttpSession session0 = request.getSession();
+//		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
+//
 //		int soLuong = Integer.parseInt(request.getParameter("soLuong"));
+//System.out.println(soLuong);
+//		gioHangService.updateSoLuong(soLuong, maGh);
 //
-//		if (gioHang == null) {
-//			gioHang = new GioHangEntity();
+//	
 //
-//			gioHang.setNguoiDung(user);
-//			gioHang.setSanPham(sanPham);
-//			gioHang.setSoLuong(soLuong);
+//		return "redirect:/gioHang.htm";
+//	}
 //
-//			gioHangService.addGioHang(gioHang);
+//	@RequestMapping(value = "/gioHang/{maGh}", params = "xoa", method = RequestMethod.POST)
+//	public String xoa(@PathVariable("maGh") int maGh, HttpServletRequest request, ModelMap model) {
+//		HttpSession session0 = request.getSession();
+//		NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
 //
-//			String mes = "Thêm " + String.valueOf(soLuong) + " sản phẩm vào giỏ hàng thành công !";
-//			model.addAttribute("messenger", mes);
-//		}
-//
-//		else {
-//			gioHang.setSoLuong(gioHang.getSoLuong() + soLuong); //nếu sản phẩm đã có trong giỏ hàng 
-//																// thì sẽ cộng thêm số lượng vào
-//
-//			gioHangService.updateGioHang(gioHang);
-//			String mes = "Thêm " + String.valueOf(soLuong) + " sản phẩm vào giỏ hàng thành công !";
-//
-//			model.addAttribute("messenger", mes);
-//		}
-//
-//		model.addAttribute("sanPham", sanPham);
-//		List<SanPhamEntity> sanPhamCungLoai = laySanPhamCungLoai(sanPham.getLoaiSanPham(), maSP);
-//		model.addAttribute("sanPhamCungLoai", sanPhamCungLoai);
-//		return "/sanPham/sanPham";
+//		gioHangService.deleteGioHang(maGh);
+//		
+//		return "redirect:/gioHang.htm";
 //
 //	}
+//
+//
+//	public SanPhamEntity laySanPhamTheoMa(String maSp) {
+//		Session session = factory.getCurrentSession();
+//		String hql = "FROM SanPhamEntity WHERE id = :maSp";
+//		Query query = session.createQuery(hql);
+//		query.setParameter("maSp", maSp);
+//		SanPhamEntity sp = (SanPhamEntity) query.uniqueResult();
+//		Hibernate.initialize(sp.getHinhAnh());
+//		return sp;
+//	}
+//
+//	public List<SanPhamEntity> laySanPhamCungLoai(LoaiSanPhamEntity loaiSanPham, String maSp) {
+//		Session session = factory.getCurrentSession();
+//		String hql = "FROM SanPhamEntity WHERE loaiSanPham = :loaiSanPham AND id != :maSp";
+//		Query query = session.createQuery(hql);
+//		query.setParameter("loaiSanPham", loaiSanPham);
+//		query.setParameter("maSp", maSp);
+//		query.setMaxResults(3);
+//		List<SanPhamEntity> sanPhamCungLoai = query.list();
+//		return sanPhamCungLoai;
+//	}
+//}
 
-	public SanPhamEntity laySanPhamTheoMa(String maSp) {
-		Session session = factory.getCurrentSession();
-		String hql = "FROM SanPhamEntity WHERE id = :maSp";
-		Query query = session.createQuery(hql);
-		query.setParameter("maSp", maSp);
-		SanPhamEntity sp = (SanPhamEntity) query.uniqueResult();
-		Hibernate.initialize(sp.getHinhAnh());
-		return sp;
-	}
 
-	public List<SanPhamEntity> laySanPhamCungLoai(LoaiSanPhamEntity loaiSanPham, String maSp) {
-		Session session = factory.getCurrentSession();
-		String hql = "FROM SanPhamEntity WHERE loaiSanPham = :loaiSanPham AND id != :maSp";
-		Query query = session.createQuery(hql);
-		query.setParameter("loaiSanPham", loaiSanPham);
-		query.setParameter("maSp", maSp);
-		query.setMaxResults(3);
-		List<SanPhamEntity> sanPhamCungLoai = query.list();
-		return sanPhamCungLoai;
-	}
+
+
+
+
+@Transactional
+@Controller
+public class gioHangController {
+
+    @Autowired
+    private GioHangFacade gioHangFacade;
+
+    @RequestMapping("gioHang")
+    public String gioHang(HttpServletRequest request, ModelMap model) {
+        HttpSession session0 = request.getSession();
+        NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
+
+        if (user == null) {
+            model.addAttribute("user", new NguoiDungEntity());
+            return "/user/login";
+        }
+
+        List<GioHangEntity> gioHangList = gioHangFacade.layGioHangCuaUser(user.getMaNd());
+        model.addAttribute("gioHangList", gioHangList);
+        model.addAttribute("user", user);
+        return "/gioHang/gioHang";
+    }
+
+    @RequestMapping(value = "/gioHang/{maGh}", params = "update", method = RequestMethod.POST)
+    public String update(@PathVariable("maGh") int maGh, HttpServletRequest request, ModelMap model) {
+        HttpSession session0 = request.getSession();
+        NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
+
+        int soLuong = Integer.parseInt(request.getParameter("soLuong"));
+        gioHangFacade.updateSoLuong(soLuong, maGh);
+
+        return "redirect:/gioHang.htm";
+    }
+
+    @RequestMapping(value = "/gioHang/{maGh}", params = "xoa", method = RequestMethod.POST)
+    public String xoa(@PathVariable("maGh") int maGh, HttpServletRequest request, ModelMap model) {
+        HttpSession session0 = request.getSession();
+        NguoiDungEntity user = (NguoiDungEntity) session0.getAttribute("USER");
+
+        gioHangFacade.deleteGioHang(maGh);
+        return "redirect:/gioHang.htm";
+    }
+
 }

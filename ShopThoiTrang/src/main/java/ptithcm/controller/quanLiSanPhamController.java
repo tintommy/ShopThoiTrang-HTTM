@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -50,8 +51,8 @@ public class quanLiSanPhamController {
 	
 //	@Autowired
 //	ServletContext context;
-	String filePath = "D:\\eclipse\\ShopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
-	String imgXoaPath="D:\\eclipse\\ShopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
+	String filePath = "C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\product\\"; // Đường dẫn tới thư mục lưu trữ tệp tin hình ảnh
+	String imgXoaPath="C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\"; // để xóa hình
 	
 	@RequestMapping(value="admin/product", method = RequestMethod.GET)
 	public String product(ModelMap model, HttpServletRequest request) {
@@ -81,8 +82,7 @@ public class quanLiSanPhamController {
 
 		try {
 		    ProcessBuilder builder = new ProcessBuilder(
-		        "cmd.exe", "/c", "D: & cd D:\\eclipse\\ShopThoiTrang\\src\\main\\python & python store_vectors.py"
-		    );
+		        "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python store_vectors.py");
 		    builder.redirectErrorStream(true);
 		    Process p = builder.start();
 		    BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -194,6 +194,7 @@ public class quanLiSanPhamController {
 	}
 	
 	@RequestMapping(value = "/admin/product/edit/{masp}", method = RequestMethod.GET)
+	@ResponseBody
 	public String viewEditProduct(@PathVariable("masp") String masp, ModelMap model, HttpServletRequest request) {		
 	    SanPhamEntity sanPham = sanPhamService.laySanPham(masp);
 	    List<KieuSanPhamEntity> listkieu = kieuService.layKieu();

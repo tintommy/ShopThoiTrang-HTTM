@@ -25,6 +25,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.designpattern.FacadePattern.SanPhamFacade;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.entity.CTDonHangEntity;
@@ -35,98 +36,154 @@ import ptithcm.service.loaiSanPhamService;
 
 @Transactional
 @Controller
+//public class mainController {
+//
+//	@Autowired
+//	loaiSanPhamService loaiSanPhamService;
+//
+//	@Autowired
+//	SanPhamService sanPhamService;
+//	@Autowired
+//	DonHangService DonHangService;
+//
+//	@RequestMapping()
+//	public String main(HttpServletRequest request, ModelMap model) throws IOException {
+//
+//		List<LoaiSanPhamEntity> loaiSPNam = loaiSanPhamService.layLoaiTheoGioiTinh("nam");
+//		model.addAttribute("loaiSPNam", loaiSPNam);
+//		List<LoaiSanPhamEntity> loaiSPNu = loaiSanPhamService.layLoaiTheoGioiTinh("nữ");
+//		model.addAttribute("loaiSPNu", loaiSPNu);
+//	
+//		List<SanPhamEntity> listSpNam = sanPhamService.laySanPhamTheogioiTinh("nam");
+//		listSpNam = sanPhamService.locSanPhamTrung(listSpNam);
+//		model.addAttribute("listSpNam", listSpNam);
+//		List<SanPhamEntity> listSpNu = sanPhamService.laySanPhamTheogioiTinh("nữ");
+//		listSpNu = sanPhamService.locSanPhamTrung(listSpNu);
+//		model.addAttribute("listSpNu", listSpNu);
+//		model.addAttribute("user", new NguoiDungEntity());
+//		
+//		List<SanPhamEntity> listMoi = sanPhamService.laySanPhamMoi();
+//		listMoi = sanPhamService.locSanPhamTrung(listMoi);
+//		model.addAttribute("sanPhamMoi", listMoi);
+//
+//		List<CTDonHangEntity> listPhoBien = sanPhamService.laySanPhamPhoBien(12);
+////		for(int i=0; i<listPhoBien.size();i++)
+////		{
+////			System.out.print(listPhoBien.get(i).getMaSP());
+////		}
+//		System.out.println();
+//		listPhoBien = sapXepVaTinhTong(listPhoBien); 
+//		model.addAttribute("listPhoBien", listPhoBien);
+//		
+//		return "main";
+//	}
+//	
+//	public List<CTDonHangEntity> sapXepVaTinhTong(List<CTDonHangEntity> sanPhamList) {
+//		Map<String, Integer> tongSoLuongMap = new HashMap<>();
+//
+//        // Lọc và tính tổng số lượng cho từng sản phẩm cùng maSP
+//        for (CTDonHangEntity ctdh : sanPhamList) {
+//            SanPhamEntity sanPham = ctdh.getSanPham();
+//            int soLuong = ctdh.getSoLuong();
+//            
+//            // Kiểm tra xem sản phẩm đã tồn tại trong Map chưa
+//            if (tongSoLuongMap.containsKey(sanPham.getMaSP())) {
+//                int tongSoLuongHienTai = tongSoLuongMap.get(sanPham.getMaSP());
+//                tongSoLuongMap.put(sanPham.getMaSP(), tongSoLuongHienTai + soLuong);
+//            } else {
+//                tongSoLuongMap.put(sanPham.getMaSP(), soLuong);
+//            }
+//        }
+//
+//        // Tạo danh sách mới để chứa các đối tượng đã lọc
+//        List<CTDonHangEntity> sanPhamDaLoc = new ArrayList<>();
+//
+//        // Duyệt qua danh sách gốc và thêm các đối tượng đã lọc vào danh sách mới
+//        for (CTDonHangEntity ctdh : sanPhamList) {
+//            SanPhamEntity sanPham = ctdh.getSanPham();
+//            boolean checkSPTrung = false;
+//            for(int i  = 0 ; i < sanPhamDaLoc.size(); i++) {
+//            	if (sanPhamDaLoc.get(i).getMaSP() == sanPham.getMaSP()) {
+//            		checkSPTrung = true;
+//            	}
+//            }
+//            if(checkSPTrung ) {
+//            	continue;
+//            }
+//            int soLuong = tongSoLuongMap.get(sanPham.getMaSP());
+//
+//            // Tạo một đối tượng mới với tổng số lượng
+//            CTDonHangEntity ctdhMoi = new CTDonHangEntity();
+//            ctdhMoi.setSanPham(sanPham);
+//            ctdhMoi.setSoLuong(soLuong);
+//
+//            sanPhamDaLoc.add(ctdhMoi);
+//        }
+//        
+//        // Sử dụng Collections.sort để sắp xếp danh sách theo số lượng giảm dần
+//        Collections.sort(sanPhamDaLoc, (ctdh2, ctdh1) -> Integer.compare(ctdh1.getSoLuong(), ctdh2.getSoLuong()));
+//	    return sanPhamDaLoc;
+//	}
+//	
+//	@RequestMapping("khongCoQuyen")
+//	public String khongCoQuyen() {
+//		return "redirect:/user/login.htm";
+//	}
+//	
+//	
+////	@RequestMapping(value="/apisp",method = RequestMethod.GET)
+////	public ResponseEntity<List<SanPhamEntity>> getSP() {
+////	List<SanPhamEntity> listSP= sanPhamService.layAllSanPham();
+////	if (listSP.isEmpty()) {
+////        return new ResponseEntity<List<SanPhamEntity>>(HttpStatus.NO_CONTENT);//You many decide to return HttpStatus.NOT_FOUND
+////    }
+////	return new ResponseEntity<List<SanPhamEntity>>(listSP, HttpStatus.OK);
+////}
+//	
+////	@RequestMapping(value="",method = RequestMethod.GET)
+////	public List<SanPhamEntity> getSP() {
+////	List<SanPhamEntity> listSP= sanPhamService.layAllSanPham();
+////	return listSP;
+////}
+//
+//}
+
+
+
+
 public class mainController {
 
-	@Autowired
-	loaiSanPhamService loaiSanPhamService;
+    @Autowired
+    private SanPhamFacade sanPhamFacade;
 
-	@Autowired
-	SanPhamService sanPhamService;
-	@Autowired
-	DonHangService DonHangService;
+    @RequestMapping()
+    public String main(HttpServletRequest request, ModelMap model) throws IOException {
 
-	@RequestMapping()
-	public String main(HttpServletRequest request, ModelMap model) throws IOException {
-
-		List<LoaiSanPhamEntity> loaiSPNam = loaiSanPhamService.layLoaiTheoGioiTinh("nam");
-		model.addAttribute("loaiSPNam", loaiSPNam);
-		List<LoaiSanPhamEntity> loaiSPNu = loaiSanPhamService.layLoaiTheoGioiTinh("nữ");
-		model.addAttribute("loaiSPNu", loaiSPNu);
-	
-		List<SanPhamEntity> listSpNam = sanPhamService.laySanPhamTheogioiTinh("nam");
-		listSpNam = sanPhamService.locSanPhamTrung(listSpNam);
-		model.addAttribute("listSpNam", listSpNam);
-		List<SanPhamEntity> listSpNu = sanPhamService.laySanPhamTheogioiTinh("nữ");
-		listSpNu = sanPhamService.locSanPhamTrung(listSpNu);
-		model.addAttribute("listSpNu", listSpNu);
-		model.addAttribute("user", new NguoiDungEntity());
-		
-		List<SanPhamEntity> listMoi = sanPhamService.laySanPhamMoi();
-		listMoi = sanPhamService.locSanPhamTrung(listMoi);
-		model.addAttribute("sanPhamMoi", listMoi);
-
-		List<CTDonHangEntity> listPhoBien = sanPhamService.laySanPhamPhoBien(12);
-		for(int i=0; i<listPhoBien.size();i++)
-		{
-			System.out.print(listPhoBien.get(i).getMaSP());
-		}
-		System.out.println();
-		listPhoBien = sapXepVaTinhTong(listPhoBien); 
-		model.addAttribute("listPhoBien", listPhoBien);
-		
-		return "main";
-	}
-	
-	public List<CTDonHangEntity> sapXepVaTinhTong(List<CTDonHangEntity> sanPhamList) {
-		Map<String, Integer> tongSoLuongMap = new HashMap<>();
-
-        // Lọc và tính tổng số lượng cho từng sản phẩm cùng maSP
-        for (CTDonHangEntity ctdh : sanPhamList) {
-            SanPhamEntity sanPham = ctdh.getSanPham();
-            int soLuong = ctdh.getSoLuong();
-            
-            // Kiểm tra xem sản phẩm đã tồn tại trong Map chưa
-            if (tongSoLuongMap.containsKey(sanPham.getMaSP())) {
-                int tongSoLuongHienTai = tongSoLuongMap.get(sanPham.getMaSP());
-                tongSoLuongMap.put(sanPham.getMaSP(), tongSoLuongHienTai + soLuong);
-            } else {
-                tongSoLuongMap.put(sanPham.getMaSP(), soLuong);
-            }
-        }
-
-        // Tạo danh sách mới để chứa các đối tượng đã lọc
-        List<CTDonHangEntity> sanPhamDaLoc = new ArrayList<>();
-
-        // Duyệt qua danh sách gốc và thêm các đối tượng đã lọc vào danh sách mới
-        for (CTDonHangEntity ctdh : sanPhamList) {
-            SanPhamEntity sanPham = ctdh.getSanPham();
-            boolean checkSPTrung = false;
-            for(int i  = 0 ; i < sanPhamDaLoc.size(); i++) {
-            	if (sanPhamDaLoc.get(i).getMaSP() == sanPham.getMaSP()) {
-            		checkSPTrung = true;
-            	}
-            }
-            if(checkSPTrung ) {
-            	continue;
-            }
-            int soLuong = tongSoLuongMap.get(sanPham.getMaSP());
-
-            // Tạo một đối tượng mới với tổng số lượng
-            CTDonHangEntity ctdhMoi = new CTDonHangEntity();
-            ctdhMoi.setSanPham(sanPham);
-            ctdhMoi.setSoLuong(soLuong);
-
-            sanPhamDaLoc.add(ctdhMoi);
-        }
+        List<LoaiSanPhamEntity> loaiSPNam = sanPhamFacade.getLoaiSanPhamByGender("nam");
+        model.addAttribute("loaiSPNam", loaiSPNam);
         
-        // Sử dụng Collections.sort để sắp xếp danh sách theo số lượng giảm dần
-        Collections.sort(sanPhamDaLoc, (ctdh2, ctdh1) -> Integer.compare(ctdh1.getSoLuong(), ctdh2.getSoLuong()));
-	    return sanPhamDaLoc;
-	}
-	
-	@RequestMapping("khongCoQuyen")
-	public String khongCoQuyen() {
-		return "redirect:/user/login.htm";
-	}
+        List<LoaiSanPhamEntity> loaiSPNu = sanPhamFacade.getLoaiSanPhamByGender("nữ");
+        model.addAttribute("loaiSPNu", loaiSPNu);
 
+        List<SanPhamEntity> listSpNam = sanPhamFacade.getSanPhamByGender("nam");
+        model.addAttribute("listSpNam", listSpNam);
+        
+        List<SanPhamEntity> listSpNu = sanPhamFacade.getSanPhamByGender("nữ");
+        model.addAttribute("listSpNu", listSpNu);
+        
+        model.addAttribute("user", new NguoiDungEntity());
+
+        List<SanPhamEntity> listMoi = sanPhamFacade.getNewSanPham();
+        model.addAttribute("sanPhamMoi", listMoi);
+
+        List<CTDonHangEntity> listPhoBien = sanPhamFacade.getPopularSanPham(12);
+        model.addAttribute("listPhoBien", listPhoBien);
+
+        return "main";
+    }
+    
+    @RequestMapping("khongCoQuyen")
+    public String khongCoQuyen() {
+        return "redirect:/user/login.htm";
+    }
 }

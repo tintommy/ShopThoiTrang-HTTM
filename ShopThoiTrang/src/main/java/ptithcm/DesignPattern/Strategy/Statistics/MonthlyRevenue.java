@@ -1,4 +1,4 @@
-package ptithcm.DesignPattern.Strategy.Statistics;
+package ptithcm.designpattern.Strategy.Statistics;
 
 import java.util.ArrayList;
 import java.util.List;
