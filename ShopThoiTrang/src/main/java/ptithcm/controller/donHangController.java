@@ -28,6 +28,9 @@ import ptithcm.service.SanPhamService;
 import ptithcm.service.gioHangService;
 
 import ptithcm.designpattern.FacadePattern.DonHangFacade;
+import ptithcm.designpattern.State.CancelledState;
+import ptithcm.designpattern.State.CompletedState;
+import ptithcm.designpattern.State.OrderContext;
 
 //@Controller
 //
@@ -306,7 +309,8 @@ public class donHangController {
     @RequestMapping("daNhanHang/{maDh}")
     public String daNhanHang(@PathVariable("maDh") int maDh) {
         DonHangEntity donHang = donHangFacade.timDonHangTheoMa(maDh);
-        donHang.setTrangThai(3);
+        OrderContext context = new OrderContext();
+	     donHang.changeState(context, new CompletedState()); // Chuyển trạng thái đơn hàng sang "Đã nhận"
         donHangFacade.updateDonHang(donHang);
 
         return "redirect:/lich-su-mua-hang.htm";
@@ -315,7 +319,8 @@ public class donHangController {
     @RequestMapping("huyDonHang/{maDh}")
     public String huyDonHang(@PathVariable("maDh") int maDh) {
         DonHangEntity donHang = donHangFacade.timDonHangTheoMa(maDh);
-        donHang.setTrangThai(0);
+        OrderContext context = new OrderContext();
+        donHang.changeState(context, new CancelledState());
         donHangFacade.updateDonHang(donHang);
 
         List<CTDonHangEntity> ctDonHangList = donHangFacade.timCTDonHangTheoMaDh(maDh);
