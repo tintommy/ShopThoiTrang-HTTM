@@ -37,6 +37,7 @@ import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.bean.Mailer;
 import ptithcm.dao.nguoiDungDao;
+import ptithcm.designpattern.SingletonPattern.ConstraintSingleton;
 import ptithcm.service.nguoiDungService;
 
 @Transactional
@@ -148,24 +149,16 @@ public class userController {
 		Boolean loi = Boolean.TRUE;
 		String rePassword = request.getParameter("re-passWord");
 		NguoiDungEntity userCheck;
+		//Kiểm tra email
+		if(!ConstraintSingleton.getInstance().checkEmail(user.getEmail(), errors, "email", "user")) {
+			loi = Boolean.FALSE;
+		}
 
-		if (user.getEmail().isEmpty()) {
-			errors.rejectValue("email", "user", "Hãy nhập email !!!");
-			loi = Boolean.FALSE;
-		} else if (!user.getEmail().endsWith("@gmail.com")) {
-			errors.rejectValue("email", "user", "Hãy nhập email đúng định dạng !!!");
+		// Kiểm tra username
+		if(!ConstraintSingleton.getInstance().checkUsername(user.getUserName(), errors, "userName", "user")) {
 			loi = Boolean.FALSE;
 		}
-		if (user.getUserName().isEmpty()) {
-			errors.rejectValue("userName", "user", "Hãy nhập username !!!");
-			loi = Boolean.FALSE;
-		} else if (user.getUserName().contains(" ")) {
-			errors.rejectValue("userName", "user", "UserName không được chứa khoảng trắng !!!");
-			loi = Boolean.FALSE;
-		} else if (user.getUserName().length() > 30) {
-			errors.rejectValue("userName", "user", "UserName không được dài quá 30 kí tự !!!");
-			loi = Boolean.FALSE;
-		}
+
 		
 
 		userCheck = userService.findUserByNameAndEmail(user.getUserName(), user.getEmail());
@@ -180,55 +173,28 @@ public class userController {
 			}
 
 		}
-
-		if (user.getPassWord().isEmpty()) {
-			errors.rejectValue("passWord", "user", "Hãy nhập mật khẩu !!!");
-			loi = Boolean.FALSE;
-		} else if (user.getPassWord().length() < 8) {
-			errors.rejectValue("passWord", "user", "Password tối thiểu 8 kí tự !!!");
-			loi = Boolean.FALSE;
-		} else if (user.getPassWord().contains(" ")) {
-			errors.rejectValue("passWord", "user", "Password không được chứa khoảng trắng !!!");
-			loi = Boolean.FALSE;
-		} else if (rePassword.isEmpty()) {
-			errors.rejectValue("passWord", "user", "Hãy nhập lại mật khẩu !!!");
-			loi = Boolean.FALSE;
-		} else if (!rePassword.equals(user.getPassWord())) {
-			errors.rejectValue("passWord", "user", "Xác nhận mật khẩu không đúng !!!");
+		// Kiểm tra password 
+		if(!ConstraintSingleton.getInstance().checkPasword(user.getPassWord(), rePassword, errors, "passWord", "user")) {
 			loi = Boolean.FALSE;
 		}
-		if (user.getHoTen().isEmpty()) {
-			errors.rejectValue("hoTen", "user", "Hãy nhập họ tên !!!");
+		// Kiểm tra họ tên
+		if(!ConstraintSingleton.getInstance().checkHoTen(user.getHoTen(), errors, "hoTen", "user")) {
 			loi = Boolean.FALSE;
-		} else if (user.getHoTen().length() > 50) {
-			errors.rejectValue("hoTen", "user", "Họ tên quá dài !!!");
+		}
+		
+		// Kiểm tra ngày sinh
+		if(!ConstraintSingleton.getInstance().checkNgaySinh(user.getNgaySinh(), errors, "ngaySinh", "user")) {
 			loi = Boolean.FALSE;
-		} else if (!user.getHoTen().matches("[\\p{L} ]+")) {
-			errors.rejectValue("hoTen", "user", "Họ tên không được chứa số !!!");
+		}
+		// Kiểm tra số điện thoại
+		if(!ConstraintSingleton.getInstance().checkPhoneNumber(user.getSdt(), errors, "sdt", "user")) {
+			loi = Boolean.FALSE;
+		}
+		// Kiểm tra địa chỉ
+		if(!ConstraintSingleton.getInstance().checkDiaChi(user.getDiaChi(), errors, "diaChi", "user")) {
 			loi = Boolean.FALSE;
 		}
 
-		if (user.getNgaySinh() == null) {
-			errors.rejectValue("ngaySinh", "user", "Hãy nhập ngày sinh !!!");
-			loi = Boolean.FALSE;
-		} else if (!isValidAndOver18(user.getNgaySinh())) {
-			errors.rejectValue("ngaySinh", "user", "Bạn cần lớn hơn 18 tuổi để tạo tài khoản !!!");
-			loi = Boolean.FALSE;
-		}
-		if (user.getSdt().isEmpty()) {
-			errors.rejectValue("sdt", "user", "Hãy nhập sdt !!!");
-			loi = Boolean.FALSE;
-		} else if (!user.getSdt().matches("[0-9]+")) {
-			errors.rejectValue("sdt", "user", "SDT không hợp lệ !!!");
-			loi = Boolean.FALSE;
-		} else if (user.getSdt().length() != 10 && user.getSdt().length() != 11) {
-			errors.rejectValue("sdt", "user", "SDT không hợp lệ !!!");
-			loi = Boolean.FALSE;
-		}
-		if (user.getDiaChi().isEmpty()) {
-			errors.rejectValue("diaChi", "user", "Hãy nhập địa chỉ !!!");
-			loi = Boolean.FALSE;
-		}
 
 		if (loi == Boolean.FALSE)
 			return "/user/signup";
@@ -237,7 +203,7 @@ public class userController {
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
 		user.setPassWord(userService.maHoaMatKhau(user.getPassWord()));
 		user.setNgaySinh(ns);
-		user.setHoTen(capitalizeString(user.getHoTen()));
+		user.setHoTen(ConstraintSingleton.getInstance().capitalizeString(user.getHoTen()));
 		user.setTrangThai(true);
 		user.setQuyen(0);
 		HttpSession session = request.getSession();
@@ -353,19 +319,14 @@ public class userController {
 		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USERFORGOT");
 		String pass = request.getParameter("password");
 		String confirmPass = request.getParameter("confirmPass");
-
-		if (pass.isEmpty()) {
-			model.addAttribute("messenger", "Mật khẩu không được trống !!!");
-			return "/user/newpass";
+		Boolean loi = Boolean.TRUE;
+		//Kiểm tra password 
+		if(!ConstraintSingleton.getInstance().checkNewPassword(pass, confirmPass, model, "messenger", "messenger")) {
+			loi = Boolean.FALSE;
 		}
-		if (!pass.equals(confirmPass)) {
-			model.addAttribute("messenger", "Xác nhận mật khẩu không khớp !!!");
+		if (loi == Boolean.FALSE)
 			return "/user/newpass";
-		}
-		if (pass.length() < 8) {
-			model.addAttribute("messenger", "Mật khẩu phải hơn 8 kí tự !!!");
-			return "/user/newpass";
-		}
+		
 		if (pass.equals(confirmPass)) {
 
 			user.setPassWord(userService.maHoaMatKhau(pass));
@@ -401,32 +362,20 @@ public class userController {
 
 		String NGAYSINH = request.getParameter("ngaySinh");
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
-		if (user.getHoTen().isEmpty()) {
-			model.addAttribute("loiHoTen", "Họ tên không được để trống !!!");
-
-			loi = Boolean.FALSE;
-
-		} else if (user.getHoTen().length() > 50)
-
-		{
-			model.addAttribute("loiHoTen", "Họ tên quá dài !!!");
-			loi = Boolean.FALSE;
-		} else if (!user.getHoTen().matches("[\\p{L} ]+")) {
-			model.addAttribute("loiHoTen", "Họ tên không được chứa số !!!");
+		// Kiểm tra họ tên
+		if(!ConstraintSingleton.getInstance().checkHoTen(user.getHoTen(), model, "loiHoTen")) {
 			loi = Boolean.FALSE;
 		}
 
-		if (user.getNgaySinh() == null) {
-			model.addAttribute("loiNgaySinh", "Hãy nhập ngày sinh !!!");
-			loi = Boolean.FALSE;
-		} else if (!isValidAndOver18(user.getNgaySinh())) {
-			model.addAttribute("loiNgaySinh", "Bạn cần lớn hơn 18 tuổi để tạo tài khoản !!!");
+		// Kiểm tra ngày sinh
+		if(!ConstraintSingleton.getInstance().checkNgaySinh(user.getNgaySinh(), model, "loiNgaySinh")) {
 			loi = Boolean.FALSE;
 		}
-		if (user.getDiaChi().isEmpty()) {
-			model.addAttribute("loiDiaChi", "Địa chỉ không được trống!!!");
+		// Kiểm tra địa chỉ
+		if(!ConstraintSingleton.getInstance().checkDiaChi(user.getDiaChi(), model, "loiDiaChi")) {
 			loi = Boolean.FALSE;
 		}
+		
 
 		if (loi == Boolean.FALSE) {
 			model.addAttribute("user", userSave);
@@ -454,40 +403,35 @@ public class userController {
 		String pass = request.getParameter("password");
 		String newPass = request.getParameter("newPassword");
 		String reNewPass = request.getParameter("reNewPassword");
-
+		
+		
+		// Kiểm tra password cũ
 		if (pass.isEmpty()) {
 			model.addAttribute("loiPassword", "Hãy nhập mật khẩu cũ !!!");
 			loi = Boolean.FALSE;
 
 		} else if (!userService.kiemTraMatKhau(pass,user.getPassWord())) {
 			model.addAttribute("loiPassword", "Mật khẩu cũ không đúng !!!");
+			model.addAttribute("user", user);
 			return "/user/user-info";
 		}
-
-		if (newPass.isEmpty()) {
-			model.addAttribute("loiNewPassword", "Hãy nhập mật khẩu mới !!!");
-			loi = Boolean.FALSE;
-		} else if (newPass.length() < 8) {
-			model.addAttribute("loiNewPassword", "Mật khẩu tối thiểu 8 kí tự !!!");
-			loi = Boolean.FALSE;
-		} else if (newPass.contains(" ")) {
-			model.addAttribute("loiNewPassword", "Mật khẩu không được chứa khoảng trắng !!!");
-			loi = Boolean.FALSE;
-		} else if (reNewPass.isEmpty()) {
-			model.addAttribute("loiRePassword", "Hãy nhập lại mật khẩu !!!");
-			loi = Boolean.FALSE;
-		} else if (!reNewPass.equals(newPass)) {
-			model.addAttribute("loiRePassword", "Xác nhận mật khẩu không đúng !!!");
+		
+		// Kiểm tra password mới 
+		if(!ConstraintSingleton.getInstance().checkNewPassword(newPass, reNewPass, model, "loiNewPassword", "loiRePassword")) {
 			loi = Boolean.FALSE;
 		}
+		
 
-		if (loi == Boolean.TRUE) {
-			user.setPassWord(userService.maHoaMatKhau(newPass));
+		
+		if (loi == Boolean.FALSE) {
+            model.addAttribute("user", user);
+            return "/user/user-info";
+        }
 
-			userService.updateUser(user);
-			model.addAttribute("thanhCong", "Đổi mật khẩu thành công !!!");
+		user.setPassWord(userService.maHoaMatKhau(newPass));
 
-		}
+		userService.updateUser(user);
+		model.addAttribute("thanhCong", "Đổi mật khẩu thành công !!!");
 		
 	
 
@@ -515,21 +459,9 @@ public class userController {
 		return list;
 	}
 
-	public boolean isValidAndOver18(Date ngaySinh) {
-		LocalDate dob = ngaySinh.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDate today = LocalDate.now();
-		int age = Period.between(dob, today).getYears();
-		Date currentDate = new Date();
-		return !ngaySinh.after(currentDate) && age >= 18;
-	}
 
-	public static String capitalizeString(String str) {
-		String[] words = str.split("\\s+");
-		for (int i = 0; i < words.length; i++) {
-			words[i] = words[i].substring(0, 1).toUpperCase() + words[i].substring(1);
-		}
-		return String.join(" ", words);
-	}
+
+
 
 	public String taoOTP() {
 		String alphabelt = "0123456789qwertyuiopasdfghjkzxcvbnmQWERTYUOPLKJHGFDSAZXCVBNM";
