@@ -37,6 +37,7 @@ import ptithcm.entity.NguoiDungEntity;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.bean.Mailer;
 import ptithcm.dao.nguoiDungDao;
+import ptithcm.designpattern.FacadePattern.NguoiDungFacade;
 import ptithcm.designpattern.SingletonPattern.ConstraintSingleton;
 import ptithcm.service.nguoiDungService;
 
@@ -51,7 +52,7 @@ public class userController {
 	Mailer mailer;
 
 	@Autowired
-	nguoiDungService userService;
+    private NguoiDungFacade nguoiDungFacade;
 
 	@RequestMapping("user/login")
 	public String login(ModelMap model) {
@@ -110,7 +111,7 @@ public class userController {
 			return "/user/login";
 		}
 
-		NguoiDungEntity check = userService.findUserByNameAndEmail(user.getUserName(), user.getUserName());
+		NguoiDungEntity check = nguoiDungFacade.findUserByNameAndEmail(user.getUserName(), user.getUserName());
 
 		if (check == null) {
 
@@ -118,7 +119,7 @@ public class userController {
 			loi = Boolean.FALSE;
 			
 		} else if ((user.getUserName().equals(check.getUserName()) || user.getUserName().equals(check.getEmail()))
-				&& !userService.kiemTraMatKhau(user.getPassWord(), check.getPassWord())) {
+				&& !nguoiDungFacade.kiemTraMatKhau(user.getPassWord(), check.getPassWord())) {
 			errors.rejectValue("passWord", "user", "Sai mật khẩu !!!");
 			loi = Boolean.FALSE;
 		}		
@@ -161,7 +162,7 @@ public class userController {
 
 		
 
-		userCheck = userService.findUserByNameAndEmail(user.getUserName(), user.getEmail());
+		userCheck = nguoiDungFacade.findUserByNameAndEmail(user.getUserName(), user.getEmail());
 		if (userCheck != null) {
 			if (userCheck.getEmail().equals(user.getEmail())) {
 				errors.rejectValue("email", "user", "Email đã được sử dụng !!!");
@@ -201,14 +202,14 @@ public class userController {
 
 		String NGAYSINH = request.getParameter("ngaySinh");
 		java.sql.Date ns = java.sql.Date.valueOf(NGAYSINH);
-		user.setPassWord(userService.maHoaMatKhau(user.getPassWord()));
+		user.setPassWord(nguoiDungFacade.maHoaMatKhau(user.getPassWord()));
 		user.setNgaySinh(ns);
 		user.setHoTen(ConstraintSingleton.getInstance().capitalizeString(user.getHoTen()));
 		user.setTrangThai(true);
 		user.setQuyen(0);
 		HttpSession session = request.getSession();
 		session.setAttribute("USERSIGNUP", user);
-		String otp = taoOTP();
+		String otp = nguoiDungFacade.taoOTP();
 		session.setAttribute("OTP", otp);
 		mailer.sendMailAsync("SHOPTHOITRANG", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp); 
 		return "/user/verify";
@@ -223,14 +224,14 @@ public class userController {
 			model.addAttribute("messenger", "Hãy nhập Username/Email của bạn !!!");
 			return "/user/forgotpass";
 		}
-		NguoiDungEntity user = userService.findUserByNameAndEmail(userName, userName);
+		NguoiDungEntity user = nguoiDungFacade.findUserByNameAndEmail(userName, userName);
 		if (user == null) {
 			model.addAttribute("messenger", "Không tìm thấy tài khoản !!!");
 			return "/user/forgotpass";
 		}
 		HttpSession session = request.getSession();
 		session.setAttribute("USERFORGOT", user);
-		String otp = taoOTP();
+		String otp = nguoiDungFacade.taoOTP();
 		session.setAttribute("OTP", otp);
 		mailer.sendMailAsync("DAILYSHOP", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp);
 		model.addAttribute("email","****"+user.getEmail().substring(user.getEmail().length()-13));
@@ -252,7 +253,7 @@ public class userController {
 
 		if (otp.equals(temp)) {
 			NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USERSIGNUP"); 
-			userService.addUser(user);
+			nguoiDungFacade.addUser(user);
 			model.addAttribute("user", new NguoiDungEntity());  //nếu nhập đúng OTP thì sẽ chuyển đến trang login
 			return "/user/login";
 		}
@@ -289,7 +290,7 @@ public class userController {
 	@RequestMapping(value = "form/verify", params = "again", method = RequestMethod.POST)
 	public String guiLaiMa(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
-		String otp = taoOTP();
+		String otp = nguoiDungFacade.taoOTP();
 		session.setAttribute("OTP", otp);
 		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USERSIGNUP");
 //		sendMail("THEGIOIDIENMAY", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp);
@@ -302,7 +303,7 @@ public class userController {
 	@RequestMapping(value = "form/verify2", params = "again", method = RequestMethod.POST)
 	public String guiLaiMa2(HttpServletRequest request, ModelMap model) {
 		HttpSession session = request.getSession();
-		String otp = taoOTP();
+		String otp = nguoiDungFacade.taoOTP();
 		session.setAttribute("OTP", otp);
 		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USERFORGOT");
 //		sendMail("THEGIOIDIENMAY", user.getEmail(), "OTP", "Mã OTP của bạn là: " + otp);
@@ -329,9 +330,9 @@ public class userController {
 		
 		if (pass.equals(confirmPass)) {
 
-			user.setPassWord(userService.maHoaMatKhau(pass));
+			user.setPassWord(nguoiDungFacade.maHoaMatKhau(pass));
 
-			userService.updateUser(user);
+			nguoiDungFacade.updateUser(user);
 
 			model.addAttribute("user", new NguoiDungEntity());
 			return "/user/login";
@@ -387,7 +388,7 @@ public class userController {
 		userSave.setDiaChi(user.getDiaChi());
 		session.setAttribute("USER", userSave);
 
-		userService.updateUser(userSave);
+		nguoiDungFacade.updateUser(userSave);
 
 		model.addAttribute("user", userSave);
 		model.addAttribute("successMessage","Cập nhật thông tin thành công");
@@ -410,7 +411,7 @@ public class userController {
 			model.addAttribute("loiPassword", "Hãy nhập mật khẩu cũ !!!");
 			loi = Boolean.FALSE;
 
-		} else if (!userService.kiemTraMatKhau(pass,user.getPassWord())) {
+		} else if (!nguoiDungFacade.kiemTraMatKhau(pass,user.getPassWord())) {
 			model.addAttribute("loiPassword", "Mật khẩu cũ không đúng !!!");
 			model.addAttribute("user", user);
 			return "/user/user-info";
@@ -428,9 +429,9 @@ public class userController {
             return "/user/user-info";
         }
 
-		user.setPassWord(userService.maHoaMatKhau(newPass));
+		user.setPassWord(nguoiDungFacade.maHoaMatKhau(newPass));
 
-		userService.updateUser(user);
+		nguoiDungFacade.updateUser(user);
 		model.addAttribute("thanhCong", "Đổi mật khẩu thành công !!!");
 		
 	
@@ -450,30 +451,6 @@ public class userController {
 
 	}
 
-	public List<SanPhamEntity> laySanPhamTheoLoai(String loai) {
-		Session session = factory.getCurrentSession();
-		String hql = "FROM SanPhamEntity sp WHERE sp.loaiSanPham.maLoai = :loai ";
-		Query query = session.createQuery(hql).setParameter("loai", loai);
-		query.setMaxResults(6);
-		List<SanPhamEntity> list = query.list();
-		return list;
-	}
-
-
-
-
-
-	public String taoOTP() {
-		String alphabelt = "0123456789qwertyuiopasdfghjkzxcvbnmQWERTYUOPLKJHGFDSAZXCVBNM";
-
-		String otp = "";
-		Random random = new Random();
-		for (int i = 0; i < 6; i++) {
-			otp += alphabelt.charAt(random.nextInt(60));
-		}
-
-		return otp;
-	}
 
 
 }

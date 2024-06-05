@@ -1,6 +1,7 @@
 package ptithcm.controller;
 
 import java.util.Date;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,161 +27,309 @@ import ptithcm.service.DonHangService;
 import ptithcm.service.SanPhamService;
 import ptithcm.service.gioHangService;
 
-@Controller
+import ptithcm.designpattern.FacadePattern.DonHangFacade;
+import ptithcm.designpattern.State.CancelledState;
+import ptithcm.designpattern.State.CompletedState;
+import ptithcm.designpattern.State.OrderContext;
 
+//@Controller
+//
+//public class donHangController {
+//
+//	@Autowired
+//	DonHangService DonHangService;
+//	@Autowired
+//	gioHangService gioHangService;
+//	@Autowired
+//	CTDonHangService ctDonHangService;
+//	@Autowired
+//	SanPhamService sanPhamService;
+//	@Autowired
+//	DanhGiaService danhGiaService;
+//	@RequestMapping("donHang")
+//	public String donHang(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+//
+//		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
+//		model.addAttribute("gioHangList", gioHangList);
+//
+//		return "/donHang/donHang";
+//
+//	}
+//
+//	@RequestMapping("donHang/newInfo")
+//	public String donHang1(HttpServletRequest request, ModelMap model) {
+//		HttpSession session = request.getSession();
+//		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+//
+//		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
+//		model.addAttribute("gioHangList", gioHangList);
+//		System.out.print("test");
+//		return "/donHang/donHang";
+//
+//	}
+//	@RequestMapping(value = "donHang/newInfo", method = RequestMethod.POST)
+//	public String newInfo(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		NguoiDungEntity newInfo = new NguoiDungEntity();
+//		String ten = request.getParameter("ten");
+//		String sdt = request.getParameter("sdt");
+//		String diaChi = request.getParameter("diaChi");
+//		newInfo.setHoTen(ten);
+//		newInfo.setSdt(sdt);
+//		newInfo.setDiaChi(diaChi);
+//		session.setAttribute("NEWINFO", newInfo);
+//System.out.print("newinfo");
+//		return "redirect:/donHang.htm";
+//	}
+//
+//	@RequestMapping(value = "donHang/datHang", method = RequestMethod.POST, params = "datHang")
+//	public String datHang(HttpServletRequest request, HttpSession session) {
+//
+//		  NguoiDungEntity newInfo = (NguoiDungEntity) session.getAttribute("NEWINFO"); // lấy địa chỉ mới
+//		  NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+//		  List<GioHangEntity> gioHangList =
+//		  gioHangService.layGioHangCuaUser(user.getMaNd()); 
+//		  int tongTien =Integer.parseInt(request.getParameter("tongTien")); 
+//		  DonHangEntity donHang =new DonHangEntity(); 
+//		  Date currentDate = new Date();
+//		  donHang.setNgayTao(currentDate); 
+//		  donHang.setTongTien(tongTien);
+//		  donHang.setTrangThai(1); 
+//		  if (newInfo == null) {
+//		  donHang.setHoTen(user.getHoTen()); 
+//		  donHang.setSdt(user.getSdt());
+//		  donHang.setDiaChi(user.getDiaChi());
+//		  
+//		  donHang.setNguoiDung(user);
+//		  
+//		  } else { 
+//			  donHang.setHoTen(newInfo.getHoTen());
+//		  donHang.setSdt(newInfo.getSdt()); 
+//		  donHang.setDiaChi(newInfo.getDiaChi());
+//		  donHang.setNguoiDung(user); } 
+//		  DonHangService.luuDonHang(donHang);
+//		  
+//		  GioHangEntity gh = new GioHangEntity();
+//		  SanPhamEntity sp=new SanPhamEntity();
+//		  
+//		  for (int i = 0; i < gioHangList.size(); i++) 
+//		  { gh = gioHangList.get(i);
+//		  CTDonHangEntity ctdh = new CTDonHangEntity(); 
+//		  ctdh.setDonHang(donHang);
+//		  ctdh.setSanPham(gh.getSanPham());
+//		  ctdh.setDonGia(gh.getSanPham().getDonGia());
+//		  ctdh.setSoLuong(gh.getSoLuong()); 
+//		  ctdh.setTrangThaiDanhGia(false); 
+//		  ctDonHangService.luuCtdh(ctdh);
+//		  
+//		  sp=sanPhamService.laySanPham(gh.getSanPham().getMaSP());
+//		  sp.setSoLuong(sp.getSoLuong()-gh.getSoLuong());
+//		  sanPhamService.updateSanPham(sp);  
+//		  gioHangService.deleteGioHang(gh.getMaGh());
+//		  
+//		  }
+//
+//		return "/donHang/thanhCong";
+//
+//	}
+//
+//	@RequestMapping("diaChiMacDinh")
+//	public String macDinh(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		session.removeAttribute("NEWINFO");
+//		return "redirect:/donHang.htm";
+//	}
+//	@RequestMapping("chiTietDonHang/{maDh}")
+//	public String ctDonHang(@PathVariable("maDh")int maDh, ModelMap model, HttpSession session )
+//	{
+//		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+//		if (user == null) {
+//			model.addAttribute("user", new NguoiDungEntity());
+//
+//			return "/user/login";
+//		}
+//		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
+//		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
+//		model.addAttribute("donHang",donHang);
+//		model.addAttribute("ctDonHangList",ctDonHangList);
+//		return "donHang/chiTietDonHang";
+//	}
+//	
+//	
+//	
+//	@RequestMapping("daNhanHang/{maDh}")
+//	public String daNhanHang(@PathVariable("maDh")int maDh )
+//	{
+//		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
+//		donHang.setTrangThai(3);
+//		DonHangService.updateDonHang(donHang);
+//		
+//		return "redirect:/lich-su-mua-hang.htm";
+//	}
+//	
+//	@RequestMapping("huyDonHang/{maDh}")
+//	public String huyDonHang(@PathVariable("maDh")int maDh )
+//	{
+//		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
+//		donHang.setTrangThai(0);
+//		DonHangService.updateDonHang(donHang);
+//		
+//		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
+//		 SanPhamEntity sp=new SanPhamEntity();
+//		 for (int i=0; i<ctDonHangList.size();i++)
+//		 {
+//			 sp=sanPhamService.laySanPham(ctDonHangList.get(i).getSanPham().getMaSP());
+//			 sp.setSoLuong(sp.getSoLuong()+ctDonHangList.get(i).getSoLuong());
+//			 sanPhamService.updateSanPham(sp);
+//		 }
+//		
+//		return "redirect:/lich-su-mua-hang.htm";
+//	}
+//	
+//
+//}
+
+
+
+
+
+
+
+
+@Controller
 public class donHangController {
 
-	@Autowired
-	DonHangService DonHangService;
-	@Autowired
-	gioHangService gioHangService;
-	@Autowired
-	CTDonHangService ctDonHangService;
-	@Autowired
-	SanPhamService sanPhamService;
-	@Autowired
-	DanhGiaService danhGiaService;
-	@RequestMapping("donHang")
-	public String donHang(HttpServletRequest request, ModelMap model) {
-		HttpSession session = request.getSession();
-		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+    @Autowired
+    private DonHangFacade donHangFacade;
 
-		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
-		model.addAttribute("gioHangList", gioHangList);
+    @RequestMapping("donHang")
+    public String donHang(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
 
-		return "/donHang/donHang";
+        List<GioHangEntity> gioHangList = donHangFacade.layGioHangCuaUser(user.getMaNd());
+        model.addAttribute("gioHangList", gioHangList);
 
-	}
+        return "/donHang/donHang";
+    }
 
-	@RequestMapping("donHang/newInfo")
-	public String donHang1(HttpServletRequest request, ModelMap model) {
-		HttpSession session = request.getSession();
-		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+    @RequestMapping("donHang/newInfo")
+    public String donHang1(HttpServletRequest request, ModelMap model) {
+        HttpSession session = request.getSession();
+        NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
 
-		List<GioHangEntity> gioHangList = gioHangService.layGioHangCuaUser(user.getMaNd());
-		model.addAttribute("gioHangList", gioHangList);
-		System.out.print("test");
-		return "/donHang/donHang";
+        List<GioHangEntity> gioHangList = donHangFacade.layGioHangCuaUser(user.getMaNd());
+        model.addAttribute("gioHangList", gioHangList);
+        System.out.print("test");
+        return "/donHang/donHang";
+    }
 
-	}
-	@RequestMapping(value = "donHang/newInfo", method = RequestMethod.POST)
-	public String newInfo(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		NguoiDungEntity newInfo = new NguoiDungEntity();
-		String ten = request.getParameter("ten");
-		String sdt = request.getParameter("sdt");
-		String diaChi = request.getParameter("diaChi");
-		newInfo.setHoTen(ten);
-		newInfo.setSdt(sdt);
-		newInfo.setDiaChi(diaChi);
-		session.setAttribute("NEWINFO", newInfo);
-System.out.print("newinfo");
-		return "redirect:/donHang.htm";
-	}
+    @RequestMapping(value = "donHang/newInfo", method = RequestMethod.POST)
+    public String newInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        NguoiDungEntity newInfo = new NguoiDungEntity();
+        String ten = request.getParameter("ten");
+        String sdt = request.getParameter("sdt");
+        String diaChi = request.getParameter("diaChi");
+        newInfo.setHoTen(ten);
+        newInfo.setSdt(sdt);
+        newInfo.setDiaChi(diaChi);
+        session.setAttribute("NEWINFO", newInfo);
+        System.out.print("newinfo");
+        return "redirect:/donHang.htm";
+    }
 
-	@RequestMapping(value = "donHang/datHang", method = RequestMethod.POST, params = "datHang")
-	public String datHang(HttpServletRequest request, HttpSession session) {
+    @RequestMapping(value = "donHang/datHang", method = RequestMethod.POST, params = "datHang")
+    public String datHang(HttpServletRequest request, HttpSession session) {
+        NguoiDungEntity newInfo = (NguoiDungEntity) session.getAttribute("NEWINFO");
+        NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+        List<GioHangEntity> gioHangList = donHangFacade.layGioHangCuaUser(user.getMaNd());
+        int tongTien = Integer.parseInt(request.getParameter("tongTien"));
+        DonHangEntity donHang = new DonHangEntity();
+        Date currentDate = new Date();
+        donHang.setNgayTao(currentDate);
+        donHang.setTongTien(tongTien);
+        donHang.setTrangThai(1);
 
-		  NguoiDungEntity newInfo = (NguoiDungEntity) session.getAttribute("NEWINFO"); // lấy địa chỉ mới
-		  NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
-		  List<GioHangEntity> gioHangList =
-		  gioHangService.layGioHangCuaUser(user.getMaNd()); 
-		  int tongTien =Integer.parseInt(request.getParameter("tongTien")); 
-		  DonHangEntity donHang =new DonHangEntity(); 
-		  Date currentDate = new Date();
-		  donHang.setNgayTao(currentDate); 
-		  donHang.setTongTien(tongTien);
-		  donHang.setTrangThai(1); 
-		  if (newInfo == null) {
-		  donHang.setHoTen(user.getHoTen()); 
-		  donHang.setSdt(user.getSdt());
-		  donHang.setDiaChi(user.getDiaChi());
-		  
-		  donHang.setNguoiDung(user);
-		  
-		  } else { 
-			  donHang.setHoTen(newInfo.getHoTen());
-		  donHang.setSdt(newInfo.getSdt()); 
-		  donHang.setDiaChi(newInfo.getDiaChi());
-		  donHang.setNguoiDung(user); } 
-		  DonHangService.luuDonHang(donHang);
-		  
-		  GioHangEntity gh = new GioHangEntity();
-		  SanPhamEntity sp=new SanPhamEntity();
-		  
-		  for (int i = 0; i < gioHangList.size(); i++) 
-		  { gh = gioHangList.get(i);
-		  CTDonHangEntity ctdh = new CTDonHangEntity(); 
-		  ctdh.setDonHang(donHang);
-		  ctdh.setSanPham(gh.getSanPham());
-		  ctdh.setDonGia(gh.getSanPham().getDonGia());
-		  ctdh.setSoLuong(gh.getSoLuong()); 
-		  ctdh.setTrangThaiDanhGia(false); 
-		  ctDonHangService.luuCtdh(ctdh);
-		  
-		  sp=sanPhamService.laySanPham(gh.getSanPham().getMaSP());
-		  sp.setSoLuong(sp.getSoLuong()-gh.getSoLuong());
-		  sanPhamService.updateSanPham(sp);  
-		  gioHangService.deleteGioHang(gh.getMaGh());
-		  
-		  }
+        if (newInfo == null) {
+            donHang.setHoTen(user.getHoTen());
+            donHang.setSdt(user.getSdt());
+            donHang.setDiaChi(user.getDiaChi());
+        } else {
+            donHang.setHoTen(newInfo.getHoTen());
+            donHang.setSdt(newInfo.getSdt());
+            donHang.setDiaChi(newInfo.getDiaChi());
+        }
+        donHang.setNguoiDung(user);
+        donHangFacade.luuDonHang(donHang);
 
-		return "/donHang/thanhCong";
+        for (GioHangEntity gh : gioHangList) {
+            CTDonHangEntity ctdh = new CTDonHangEntity();
+            ctdh.setDonHang(donHang);
+            ctdh.setSanPham(gh.getSanPham());
+            ctdh.setDonGia(gh.getSanPham().getDonGia());
+            ctdh.setSoLuong(gh.getSoLuong());
+            ctdh.setTrangThaiDanhGia(false);
+            donHangFacade.luuCTDonHang(ctdh);
 
-	}
+            SanPhamEntity sp = donHangFacade.laySanPham(gh.getSanPham().getMaSP());
+            sp.setSoLuong(sp.getSoLuong() - gh.getSoLuong());
+            donHangFacade.updateSanPham(sp);
 
-	@RequestMapping("diaChiMacDinh")
-	public String macDinh(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		session.removeAttribute("NEWINFO");
-		return "redirect:/donHang.htm";
-	}
-	@RequestMapping("chiTietDonHang/{maDh}")
-	public String ctDonHang(@PathVariable("maDh")int maDh, ModelMap model, HttpSession session )
-	{
-		NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
-		if (user == null) {
-			model.addAttribute("user", new NguoiDungEntity());
+            donHangFacade.deleteGioHang(gh.getMaGh());
+        }
 
-			return "/user/login";
-		}
-		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
-		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
-		model.addAttribute("donHang",donHang);
-		model.addAttribute("ctDonHangList",ctDonHangList);
-		return "donHang/chiTietDonHang";
-	}
-	
-	
-	
-	@RequestMapping("daNhanHang/{maDh}")
-	public String daNhanHang(@PathVariable("maDh")int maDh )
-	{
-		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
-		donHang.setTrangThai(3);
-		DonHangService.updateDonHang(donHang);
-		
-		return "redirect:/lich-su-mua-hang.htm";
-	}
-	
-	@RequestMapping("huyDonHang/{maDh}")
-	public String huyDonHang(@PathVariable("maDh")int maDh )
-	{
-		DonHangEntity donHang=DonHangService.timDonHangTheoMa(maDh);
-		donHang.setTrangThai(0);
-		DonHangService.updateDonHang(donHang);
-		
-		List<CTDonHangEntity> ctDonHangList=ctDonHangService.timctdhTheoMaDh(maDh);
-		 SanPhamEntity sp=new SanPhamEntity();
-		 for (int i=0; i<ctDonHangList.size();i++)
-		 {
-			 sp=sanPhamService.laySanPham(ctDonHangList.get(i).getSanPham().getMaSP());
-			 sp.setSoLuong(sp.getSoLuong()+ctDonHangList.get(i).getSoLuong());
-			 sanPhamService.updateSanPham(sp);
-		 }
-		
-		return "redirect:/lich-su-mua-hang.htm";
-	}
-	
+        return "/donHang/thanhCong";
+    }
 
+    @RequestMapping("diaChiMacDinh")
+    public String macDinh(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        session.removeAttribute("NEWINFO");
+        return "redirect:/donHang.htm";
+    }
+
+    @RequestMapping("chiTietDonHang/{maDh}")
+    public String ctDonHang(@PathVariable("maDh") int maDh, ModelMap model, HttpSession session) {
+        NguoiDungEntity user = (NguoiDungEntity) session.getAttribute("USER");
+        if (user == null) {
+            model.addAttribute("user", new NguoiDungEntity());
+            return "/user/login";
+        }
+
+        DonHangEntity donHang = donHangFacade.timDonHangTheoMa(maDh);
+        List<CTDonHangEntity> ctDonHangList = donHangFacade.timCTDonHangTheoMaDh(maDh);
+        model.addAttribute("donHang", donHang);
+        model.addAttribute("ctDonHangList", ctDonHangList);
+        return "donHang/chiTietDonHang";
+    }
+
+    @RequestMapping("daNhanHang/{maDh}")
+    public String daNhanHang(@PathVariable("maDh") int maDh) {
+        DonHangEntity donHang = donHangFacade.timDonHangTheoMa(maDh);
+        OrderContext context = new OrderContext();
+	     donHang.changeState(context, new CompletedState()); // Chuyển trạng thái đơn hàng sang "Đã nhận"
+        donHangFacade.updateDonHang(donHang);
+
+        return "redirect:/lich-su-mua-hang.htm";
+    }
+
+    @RequestMapping("huyDonHang/{maDh}")
+    public String huyDonHang(@PathVariable("maDh") int maDh) {
+        DonHangEntity donHang = donHangFacade.timDonHangTheoMa(maDh);
+        OrderContext context = new OrderContext();
+        donHang.changeState(context, new CancelledState());
+        donHangFacade.updateDonHang(donHang);
+
+        List<CTDonHangEntity> ctDonHangList = donHangFacade.timCTDonHangTheoMaDh(maDh);
+        for (CTDonHangEntity ctdh : ctDonHangList) {
+            SanPhamEntity sp = donHangFacade.laySanPham(ctdh.getSanPham().getMaSP());
+            sp.setSoLuong(sp.getSoLuong() + ctdh.getSoLuong());
+            donHangFacade.updateSanPham(sp);
+        }
+
+        return "redirect:/lich-su-mua-hang.htm";
+    }
 }

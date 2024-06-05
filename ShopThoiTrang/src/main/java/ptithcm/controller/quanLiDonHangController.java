@@ -15,6 +15,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ptithcm.designpattern.State.CancelledState;
+import ptithcm.designpattern.State.DeliveringState;
+import ptithcm.designpattern.State.OrderContext;
 import ptithcm.entity.DonHangEntity;
 import ptithcm.entity.NguoiDungEntity;
 import ptithcm.service.DonHangService;
@@ -47,7 +50,8 @@ public class quanLiDonHangController {
 
 	    if (trangThai == 1) { // Nếu trạng thái là "Chờ xác nhận"
 	        DonHangEntity donHang = donHangService.timDonHangTheoMa(maDonHang);
-	        donHang.setTrangThai(2); // Chuyển trạng thái đơn hàng sang "Đang giao"
+	        OrderContext context = new OrderContext();
+	        donHang.changeState(context, new DeliveringState()); // Chuyển trạng thái đơn hàng sang "Đang giao"
 	        donHangService.updateDonHang(donHang);
 	    }
 
@@ -61,7 +65,8 @@ public class quanLiDonHangController {
 
 	    if (trangThai == 1) { // Nếu trạng thái là "Chờ xác nhận"
 	        DonHangEntity donHang = donHangService.timDonHangTheoMa(maDonHang);
-	        donHang.setTrangThai(0); // Chuyển trạng thái đơn hàng sang "Đang giao"
+	        OrderContext context = new OrderContext();
+	        donHang.changeState(context, new CancelledState()); // Chuyển trạng thái đơn hàng sang "Đã hủy"
 	        donHangService.updateDonHang(donHang);
 	    }
 

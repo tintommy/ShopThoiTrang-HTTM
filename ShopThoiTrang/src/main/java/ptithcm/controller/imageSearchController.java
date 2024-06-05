@@ -18,8 +18,84 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import ptithcm.designpattern.FacadePattern.DeXuatFacade;
 import ptithcm.entity.SanPhamEntity;
 import ptithcm.service.SanPhamService;
+
+//@Transactional
+//@Controller
+//@RequestMapping()
+//public class imageSearchController {
+//	
+//	@Autowired
+//	SanPhamService sanPhamService;
+//	
+//	@RequestMapping("/imageSearch")
+//	public String imageSearch(HttpServletRequest request, ModelMap model) {
+//		return "deXuat/imageSearch";
+//	}
+//	
+////	String filePath = "C:\\Users\\Administrator\\Documents\\shopThoiTrang\\src\\main\\webapp\\assets\\img\\imgSearch\\";
+//	String filePath = "D:\\imgSearch\\";
+//	
+//	@RequestMapping(value="/imageSearch", params = "btnSearchImg", method = RequestMethod.POST)
+//	public String imageSearch(HttpServletRequest request, @RequestParam("avatar") MultipartFile avatar, ModelMap model) throws IOException {
+//		
+//		String avatarFileName = avatar.getOriginalFilename();
+//	    String avatarFilePath = filePath + avatarFileName;
+//	    File avatarFile = new File(avatarFilePath);
+//	    avatar.transferTo(avatarFile);
+//		
+//		  String param = avatarFilePath;
+//		  ProcessBuilder builder = new ProcessBuilder(
+//	                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python search_image.py \"" + param + "\"");
+//	        builder.redirectErrorStream(true);
+//	        Process p = builder.start();
+//	        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//	        	System.out.println("test anh");
+//	         
+//	     // Đọc đầu ra từ quy trình Python và lưu vào danh sách
+//	        List<String> imageNames = new ArrayList<>();
+//	        String line;
+//	        while ((line = r.readLine()) != null) {
+//	        	System.out.println(line);
+//	            // Kiểm tra xem dòng có chứa tên tệp ảnh không
+//	            if (line.startsWith("name: ")) {
+//	            	String imageName = line.replace("name: ", "");
+//	                imageNames.add(imageName);
+//	            }
+//	        }
+//	        
+//	        if (imageNames.isEmpty()) {
+//	            // Nếu danh sách imageNames rỗng, truyền thông báo vào model
+//	            model.addAttribute("message", "Không có sản phẩm cần tìm.");
+//	        } else {
+//	            // Nếu danh sách không rỗng, tiến hành tìm sản phẩm và truyền vào model
+//	            List<SanPhamEntity> products = sanPhamService.laySanPhamTheoListMaSP(imageNames);
+//	            model.addAttribute("products", products);
+//	            model.addAttribute("messageTrue", "Có thể bạn muốn tìm ");
+//	        }
+//	        xoaTepTinHinhAnh(avatarFileName);	        
+//	        
+//		return "deXuat/imageSearch";
+//	}
+//	
+//	public void xoaTepTinHinhAnh(String tenTep) {
+//	    String imgPath = filePath + tenTep; // Đường dẫn tới thư mục chứa hình ảnh
+//	    File tepTin = new File(imgPath);
+//	    
+//	    if (tepTin.exists()) {
+//	        tepTin.delete(); // Xóa tệp tin hình ảnh từ server
+//	    }
+//	}
+//}
+
+
+
+
+
+
+
 
 @Transactional
 @Controller
@@ -27,7 +103,7 @@ import ptithcm.service.SanPhamService;
 public class imageSearchController {
 	
 	@Autowired
-	SanPhamService sanPhamService;
+	DeXuatFacade deXuatFacade;
 	
 	@RequestMapping("/imageSearch")
 	public String imageSearch(HttpServletRequest request, ModelMap model) {
@@ -47,7 +123,7 @@ public class imageSearchController {
 		
 		  String param = avatarFilePath;
 		  ProcessBuilder builder = new ProcessBuilder(
-	                "cmd.exe", "/c", "D: & cd D:\\eclipse\\ShopThoiTrang\\src\\main\\python & python search_image.py \"" + param + "\"");
+	                "cmd.exe", "/c", "cd C:\\Users\\Administrator\\Documents\\ShopThoiTrang\\src\\main\\python & python search_image.py \"" + param + "\"");
 	        builder.redirectErrorStream(true);
 	        Process p = builder.start();
 	        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -70,21 +146,13 @@ public class imageSearchController {
 	            model.addAttribute("message", "Không có sản phẩm cần tìm.");
 	        } else {
 	            // Nếu danh sách không rỗng, tiến hành tìm sản phẩm và truyền vào model
-	            List<SanPhamEntity> products = sanPhamService.laySanPhamTheoListMaSP(imageNames);
+	            List<SanPhamEntity> products = deXuatFacade.laySanPhamTheoListMaSP(imageNames);
 	            model.addAttribute("products", products);
 	            model.addAttribute("messageTrue", "Có thể bạn muốn tìm ");
 	        }
-	        xoaTepTinHinhAnh(avatarFileName);	        
+	        deXuatFacade.xoaTepTinHinhAnh(avatarFileName);	        
 	        
 		return "deXuat/imageSearch";
 	}
 	
-	public void xoaTepTinHinhAnh(String tenTep) {
-	    String imgPath = filePath + tenTep; // Đường dẫn tới thư mục chứa hình ảnh
-	    File tepTin = new File(imgPath);
-	    
-	    if (tepTin.exists()) {
-	        tepTin.delete(); // Xóa tệp tin hình ảnh từ server
-	    }
-	}
 }

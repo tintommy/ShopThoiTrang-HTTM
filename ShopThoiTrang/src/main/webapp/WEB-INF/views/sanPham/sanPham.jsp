@@ -251,7 +251,7 @@
 
 									<h4 class="inDam">ĐÁNH GIÁ SẢN PHẨM</h4>
 									<div class="aa-product-review-area">
-										<div class="product-rating-stars">
+										<%-- <div class="product-rating-stars">
 											<c:if test="${sanPham.soSaoTB == 0}">
 												<span class="soSaotb"><i>Chưa có đánh giá<i></span>
 											</c:if>
@@ -261,7 +261,7 @@
 												<span class="soSaotb"><i>Đánh giá trung bình:
 														${sanPham.soSaoTB}/5 <i class="fas fa-star"></i><i></span>
 											</c:if>
-										</div>
+										</div> --%>
 
 										<ul class="aa-review-nav">
 											<c:forEach items="${danhGiaList}" var="danhGia">

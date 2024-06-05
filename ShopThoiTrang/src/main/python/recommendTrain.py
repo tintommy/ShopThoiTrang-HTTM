@@ -35,8 +35,6 @@ X = ratings_utility_matrix.T
 SVD = TruncatedSVD(n_components=10)
 decomposed_matrix = SVD.fit_transform(X)
 
-correlation_matrix = np.corrcoef(decomposed_matrix)
-
 
 # Tạo ma trận tương quan
 correlation_matrix = np.corrcoef(decomposed_matrix)
